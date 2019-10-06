@@ -23,7 +23,7 @@ class BaseCrawler
     def update_schedules!(name, schedules)
       return unless hako = MusicBar.find_by(title: name)
       schedules.each do |schedule|
-        hako.schedules.find(date: schedule.date).update schedule
+        hako.schedules.find(date: schedule.date).update! schedule
       end
     end
   
