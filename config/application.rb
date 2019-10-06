@@ -31,5 +31,8 @@ module Gigphil
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+     # クローラーの追加
+     config.eager_load_paths << '#{Rails.root}/app/crawlers'
   end
 end
