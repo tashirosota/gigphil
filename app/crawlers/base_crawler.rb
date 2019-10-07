@@ -6,10 +6,10 @@ require 'open-uri'
 
 class BaseCrawler
   class << self
-    def save_crawling_result(url:)
-      doc = nokogiri(url)
+    def save_crawling_result(url:, parser:)
+      doc = parser.call(url)
       events = yield(doc)
-      new_schedule, exist_schedule = divide_by_new_and_existing events
+      new_schedule, exist_schedule = divide_by_new_and_existing(events)
       return # TODO: following lines are to be implemented
       update_schedules! schedules.name exist_schedule
       insert_schedules! schedules.name, new_schedule
@@ -25,11 +25,11 @@ class BaseCrawler
       @now ||= Time.zone.now
     end
 
-    def nokogiri(url)
-      Nokogiri::HTML(open(url))
+    def nokogiri
+      proc { |url| Nokogiri::HTML(open(url)) }
     end
 
-    def divide_by_new_and_existing(schedules)
+    def divide_by_new_and_existing(events)
       [new_schedule, exist_schedule]
     end
 

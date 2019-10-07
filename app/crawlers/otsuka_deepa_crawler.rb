@@ -1,6 +1,6 @@
 class OtsukaDeepaCrawler < BaseCrawler
   def self.execute!
-    save_crawling_result(url: url) do |doc|
+    save_crawling_result(url: url, parser: nokogiri) do |doc|
       format(doc: doc)
     end
   end
