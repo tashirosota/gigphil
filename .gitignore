@@ -30,3 +30,7 @@
 yarn-debug.log*
 .yarn-integrity
 /vendor
+
+# Ignore vim swap/undo file
+.*.sw[a-z]
+*.un~
