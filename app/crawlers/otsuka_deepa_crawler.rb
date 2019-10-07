@@ -11,26 +11,18 @@ class OtsukaDeepaCrawler < BaseCrawler
     "http://otsukadeepa.jp/schedule/calendar/#{year}/#{month}/"
   end
 
-  # Returns instances of OpenStruct
   def self.format(doc:)
-    doc.css(".scheduleList li").each_with_object([]) do |center_cont, events|
-      pp '========'
-      pp center_cont
-      # TODO: 改善の余地あり
+    doc.css(".scheduleList li").each_with_object([]) do |li_element, events|
       event = OpenStruct.new(
-        title: nil,
-        date: nil,
+        title: li_element.css('h1').text,
+        date: li_element.css('.day').text,
         adv: nil,
         door: nil,
         open: nil,
         start: nil,
-        act: nil,
-        info: nil
+        act: trim_meta_chars(li_element.css('.act').text.gsub(/\[ACT\]|Photographer：/, '')).split(/\s?\/\s?/),
+        info: li_element.css('.btnStyle01').first.attributes['href'].value,
       )
-      event.title = "#{center_cont.content.split(/(])/)[0]}#{center_cont.content.split(/(])/)[1]}"
-      only_info_and_act = center_cont.content.gsub(event.title, '').split(/(OPEN)/)
-      event.act = only_info_and_act[0]
-      event.info = "#{only_info_and_act[1]}#{only_info_and_act[2]}"
       events << event
     end
   end

@@ -44,6 +44,10 @@ class BaseCrawler
       return unless hako = MusicBar.find_by(title: name)
       hako.schedule.create_all! schedules
     end
+
+    def trim_meta_chars(char)
+      char.gsub(/\t+|\n+|\r+/, '')
+    end
   end
 end
 
