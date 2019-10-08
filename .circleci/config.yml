@@ -7,8 +7,8 @@ jobs:
       - image: circleci/ruby:2.6.4
         environment:
           RAILS_ENV: test
-          DB_USER: gigphil_test
-          DB_PASSWORD: ""
+          PGHOST: 127.0.0.1
+          PGUSER: postgres
       # mysql
       - image: circleci/postgres:11.3
         environment:

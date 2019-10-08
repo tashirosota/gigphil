@@ -58,8 +58,9 @@ development:
 test:
   <<: *default
   database: gigphil_test
-  username: <%= ENV['DB_USER'] %>
-  password: <%= ENV['DB_PASSWORD'] %>
+  username: <%= ENV['PGUSER'] %>
+  password: 
+  host: <%= ENV['PGHOST'] %>
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -85,4 +86,3 @@ production:
   database: gigphil_production
   username: <%= ENV['DB_USER'] %>
   password: <%= ENV['DB_PASSWORD'] %>
-  host: localhost
