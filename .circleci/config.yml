@@ -8,13 +8,9 @@ jobs:
         environment:
           RAILS_ENV: test
           PGHOST: 127.0.0.1
-          PGUSER: postgres
+          PGUSER: root
       # mysql
       - image: circleci/postgres:11.3
-        environment:
-          POSTGRES_USER: gigphil
-          POSTGRES_DB: gigphil_test
-          POSTGRES_PASSWORD: ""
 
     steps:
       - checkout
