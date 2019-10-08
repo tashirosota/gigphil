@@ -11,6 +11,9 @@ jobs:
           PGUSER: root
       # mysql
       - image: circleci/postgres:11.3
+        environment:
+          POSTGRES_USER: root
+          POSTGRES_DB: circle-test
 
     steps:
       - checkout
