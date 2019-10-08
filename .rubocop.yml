@@ -1,0 +1,99 @@
+#プロジェクトの途中から始めた場合は下記を有効に
+AllCops:
+  TargetRubyVersion: 2.4
+  Include:
+    - '**/Rakefile'
+    - '**/config.ru'
+  Exclude:
+    - 'public/**/*'
+    - 'tmp/**/*'
+    - 'log/**/*'
+    - 'bin/**/*'
+    - 'db/**/*'
+    - 'vendor/**/*'
+    - 'config/**/*'
+
+Rails:
+  Enabled: true
+
+# update_all使います
+Rails/SkipsModelValidations:
+  Enabled: false
+
+Naming/FileName:
+  Exclude:
+    - 'Gemfile'
+
+# 日本語でコメントできるようにします
+Style/AsciiComments:
+  Enabled: false
+
+# frozen commentは必須ではありません
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+# ドキュメントに関するチェックをしません
+Style/Documentation:
+  Enabled: false
+
+# blockコメントを許可します
+Style/BlockComments:
+  Enabled: false
+
+# クラスの書き方はネストでもコンパクトでも良いです
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+# and/orを使えるようにします
+Style/AndOr:
+  EnforcedStyle: conditionals
+
+# begin/end/whileを使えるようにします
+Lint/Loop:
+  Enabled: false
+
+# ifの条件内などで変数への代入を許可します
+Lint/AssignmentInCondition:
+  Enabled: false
+
+# 引数の最後がHashの時、{}はあってもなくてもいいです。
+BracesAroundHashParameters:
+  Enabled: false
+
+# ガード節利用を必須にしない
+Style/GuardClause:
+  Enabled: false
+
+# !!は利用可能
+Style/DoubleNegation:
+  Enabled: false
+
+Style/Lambda:
+  Enabled: false
+
+# %リテラルは()を使う
+Style/PercentLiteralDelimiters:
+  PreferredDelimiters:
+    '%w': ()
+    '%W': ()
+    '%i': ()
+    '%I': ()
+    
+Rails/UnknownEnv:
+  Environments:
+    - production
+    - development
+    - test
+    - staging
+
+Rails/SkipsModelValidations:
+  Enabled: false
+
+Rails/HasManyOrHasOneDependent:
+  Enabled: false
+
+Naming/PredicateName:
+  Enabled: false
+
+
+
