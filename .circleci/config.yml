@@ -11,6 +11,9 @@ jobs:
           DB_PASSWORD: ""
       # mysql
       - image: circleci/postgres:11.3
+          POSTGRES_USER: gigphil
+          POSTGRES_DB: gigphil_test
+          POSTGRES_PASSWORD: ""
 
     steps:
       - checkout
