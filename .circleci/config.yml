@@ -31,7 +31,7 @@ jobs:
           paths:
             - vendor/bundle
       # Wait for DB
-      - run: dockerize -wait tcp://localhost:3306 -timeout 1m
+      - run: dockerize -wait tcp://localhost:5432 -timeout 1m
       # Database setup
       - run: bundle exec rails db:create db:schema:load --trace
       - run: bundle exec rails db:migrate
