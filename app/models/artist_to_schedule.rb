@@ -10,4 +10,6 @@
 #
 
 class ArtistToSchedule < ApplicationRecord
+  belongs_to :artist, class_name: '::Artist'
+  belongs_to :schedule, class_name: '::Schedule'
 end

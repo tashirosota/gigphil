@@ -10,4 +10,6 @@
 #
 
 class UserToSchedule < ApplicationRecord
+  belongs_to :user, class_name: '::User'
+  belongs_to :schedule, class_name: '::Schedule'
 end

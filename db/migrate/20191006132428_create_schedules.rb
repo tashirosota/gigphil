@@ -7,7 +7,7 @@ class CreateSchedules < ActiveRecord::Migration[6.0]
       t.datetime :start
       t.integer :adv
       t.integer :door
-      t.text :info, null: false
+      t.text :info
       t.timestamps
     end
   end

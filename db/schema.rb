@@ -46,7 +46,7 @@ ActiveRecord::Schema.define(version: 2019_10_06_135544) do
     t.datetime "start"
     t.integer "adv"
     t.integer "door"
-    t.text "info", null: false
+    t.text "info"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["event_date"], name: "index_schedules_on_event_date"
