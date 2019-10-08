@@ -85,3 +85,4 @@ production:
   database: gigphil_production
   username: <%= ENV['DB_USER'] %>
   password: <%= ENV['DB_PASSWORD'] %>
+  host: localhost
