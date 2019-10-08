@@ -33,7 +33,7 @@ jobs:
       # Wait for DB
       - run: dockerize -wait tcp://localhost:5432 -timeout 1m
       # Database setup
-      - run: bundle exec rails db:create db:schema:load --trace
+      - run: bundle exec rails db:create
       - run: bundle exec rails db:migrate
       # Run Rubocop
       - run: bundle exec rubocop
