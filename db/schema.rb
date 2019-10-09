@@ -33,7 +33,8 @@ ActiveRecord::Schema.define(version: 2019_10_06_135544) do
 
   create_table "music_bars", force: :cascade do |t|
     t.string "name", null: false
-    t.string "place"
+    t.string "place", null: false
+    t.string "hp", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["name"], name: "index_music_bars_on_name"
