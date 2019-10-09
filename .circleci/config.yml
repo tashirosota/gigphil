@@ -1,0 +1,48 @@
+version: 2.1
+jobs:
+  build:
+    # parallelism: 1
+    working_directory: ~/app
+    docker:
+      - image: circleci/ruby:2.6.4
+        environment:
+          RAILS_ENV: test
+          PGHOST: 127.0.0.1
+          PGUSER: root
+      # mysql
+      - image: circleci/postgres:11.3
+        environment:
+          POSTGRES_USER: root
+          POSTGRES_DB: circle-test
+
+    steps:
+      - checkout
+      # Which version of bundler?
+      - run:
+          name: Which bundler?
+          command: bundle -v
+      # Restore bundle cache
+      - restore_cache:
+          keys:
+            - rails-peep-bundle-{{ checksum "Gemfile.lock" }}
+            - rails-peep-bundle-
+      # Bundle Install
+      - run: bundle check || bundle install --jobs 4 --retry 3
+      # Store bundle cache
+      - save_cache:
+          key: rails-peep-bundle-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+      # Wait for DB
+      - run: dockerize -wait tcp://localhost:5432 -timeout 1m
+      # Database setup
+      - run: bundle exec rails db:create
+      - run: bundle exec rails db:migrate
+      # Run Rubocop
+      - run: bundle exec rubocop
+      # Run Brakeman
+      # - run: bundle exec brakeman -A -w3 -z
+      # # Run RSpec
+      # - run: bundle exec rspec
+      - store_test_results:
+          path: test_results
