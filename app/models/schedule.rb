@@ -24,4 +24,5 @@ class Schedule < ApplicationRecord
 
   validates :adv, numericality: { only_integer: true, greater_than_equal_to: 0, allow_blank: true }
   validates :door, numericality: { only_integer: true, greater_than_equal_to: 0, allow_blank: true }
+  validates :event_date, presence: true
 end

@@ -13,7 +13,7 @@ class BaseCrawler
       music_bar = events[:music_bar]
       schedules = events[:schedules]
       ActiveRecord::Base.transaction do
-        schedules.map do |event|
+        schedules.each do |event|
           find_or_create_schedule_by(bar: music_bar, event: event)
         end
       end
