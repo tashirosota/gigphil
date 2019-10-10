@@ -21,6 +21,7 @@ class Schedule < ApplicationRecord
   has_many :user_to_schedule, class_name: '::UserToSchedule', dependent: :destroy
   has_many :users, through: :user_to_schedule
 
+  validates :title, presence: true, uniqueness: true
   validates :adv, numericality: { only_integer: true, greater_than_equal_to: 0, allow_blank: true }
   validates :door, numericality: { only_integer: true, greater_than_equal_to: 0, allow_blank: true }
 end
