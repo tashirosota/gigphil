@@ -22,7 +22,7 @@ class OtsukaDeepaCrawler < BaseCrawler
     doc.css(".scheduleList li").each_with_object([]) do |li_element, events|
       event = OpenStruct.new(
         title: li_element.css('h1').text,
-        date: li_element.css('.day').text.gsub(/\(.+\)/, ''),
+        date: Date.parse(li_element.css('.day').text.gsub(/\(.+\)/, '')),
         adv: nil,
         door: nil,
         open: nil,

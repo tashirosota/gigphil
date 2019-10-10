@@ -34,14 +34,14 @@ class BaseCrawler
     end
 
     def create_or_update_schedule_by!(bar:, event:)
-      event_date_duration = Date.parse(event.date).all_day
+      schedule = bar
+                .schedules
+                .find_or_initialize_by(event_date: event.date.all_day, title: event.title)
 
-      # FIXME: title カラムを追加したらevent_dateとtitleでfind_or_create_by!
-      schedule = bar.schedules.find_or_initialize_by(event_date: event_date_duration, info: event.title)
       schedule.update!(
-        event_date: try_parse_date(event.date).to_datetime,
-        open: try_parse_datetime(event.open),
-        start: try_parse_datetime(event.start),
+        event_date: event.date,
+        open: event.open,
+        start: event.start,
         adv: event.adv&.to_i,
         door: event.adv&.to_i,
       )
@@ -51,40 +51,32 @@ class BaseCrawler
     def trim_meta_chars(char)
       char.gsub(/\t+|\n+|\r+/, '')
     end
-
-    def try_parse_date(date_string)
-      date_string.nil? ? nil : Date.parse(date_string)
-    end
-
-    def try_parse_datetime(datetime_string)
-      datetime_string.nil? ? nil : DateTime.parse(datetime_string)
-    end
   end
 end
 
-# crawleringの返り値(OpenStruct)
+# NOTICE: クローリング結果を返す `subclass#format` の返り値 (OpenStruct)
 # {
 #   name: '大塚Deepa',
 #   schedules: [
 #     {
 #       title: String,
-#       date: String,
-#       adv: String?,
-#       door: String?,
-#       open: Time?,
-#       start: Time?,
+#       event_date: DateTime,
+#       adv: Integer (allow nil),
+#       door: Integer (allow nil),
+#       open: DateTime (allow nil),
+#       start: DateTime (allow nil),
 #       act: [String, String],
-#       info: String?
+#       info: String,
 #     },
 #     {
 #       title: String,
-#       date: String,
-#       adv: String?,
-#       door: String?,
-#       open: Time?,
-#       start: Time?,
+#       event_date: DateTime,
+#       adv: Integer (allow nil),
+#       door: Integer (allow nil),
+#       open: DateTime (allow nil),
+#       start: DateTime (allow nil),
 #       act: [String, String],
-#       info: String?
-#     }
+#       info: String,
+#     },
 #   ]
 # }
