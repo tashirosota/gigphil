@@ -4,6 +4,7 @@
 #
 #  id           :integer          not null, primary key
 #  music_bar_id :integer          not null
+#  title        :string           not null
 #  event_date   :datetime         not null
 #  open         :datetime
 #  start        :datetime

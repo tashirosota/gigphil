@@ -42,6 +42,7 @@ ActiveRecord::Schema.define(version: 2019_10_06_135544) do
 
   create_table "schedules", force: :cascade do |t|
     t.bigint "music_bar_id", null: false
+    t.string "title", null: false
     t.datetime "event_date", null: false
     t.datetime "open"
     t.datetime "start"
@@ -52,6 +53,7 @@ ActiveRecord::Schema.define(version: 2019_10_06_135544) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["event_date"], name: "index_schedules_on_event_date"
     t.index ["music_bar_id"], name: "index_schedules_on_music_bar_id"
+    t.index ["title"], name: "index_schedules_on_title"
   end
 
   create_table "user_to_schedules", force: :cascade do |t|
