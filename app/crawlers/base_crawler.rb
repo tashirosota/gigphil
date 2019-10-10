@@ -14,7 +14,7 @@ class BaseCrawler
       schedules = events[:schedules]
       ActiveRecord::Base.transaction do
         schedules.each do |event|
-          find_or_create_schedule_by(bar: music_bar, event: event)
+          create_or_update_schedule_by!(bar: music_bar, event: event)
         end
       end
     end
@@ -33,20 +33,18 @@ class BaseCrawler
       proc { |url| Nokogiri::HTML(open(url)) }
     end
 
-    def find_or_create_schedule_by(bar:, event:)
-      event_date = Date.parse(event.date).all_day
+    def create_or_update_schedule_by!(bar:, event:)
+      event_date_duration = Date.parse(event.date).all_day
 
       # FIXME: title カラムを追加したらevent_dateとtitleでfind_or_create_by!
-      bar.schedules.find_or_create_by!(event_date: event_date, info: event.title) do |schedule|
-        schedule.assign_attributes(
-          event_date: try_parse_date(event.date).to_datetime,
-          open: try_parse_datetime(event.open),
-          start: try_parse_datetime(event.start),
-          adv: event.adv&.to_i,
-          door: event.adv&.to_i,
-          info: event.title,
-        )
-      end
+      schedule = bar.schedules.find_or_initialize_by(event_date: event_date_duration, info: event.title)
+      schedule.update!(
+        event_date: try_parse_date(event.date).to_datetime,
+        open: try_parse_datetime(event.open),
+        start: try_parse_datetime(event.start),
+        adv: event.adv&.to_i,
+        door: event.adv&.to_i,
+      )
     end
 
     # TODO: 別classに切り出す?
