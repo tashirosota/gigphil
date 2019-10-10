@@ -1,4 +1,5 @@
-#プロジェクトの途中から始めた場合は下記を有効に
+require:
+  - rubocop-rails
 AllCops:
   TargetRubyVersion: 2.4
   Include:
@@ -56,10 +57,6 @@ Lint/Loop:
 Lint/AssignmentInCondition:
   Enabled: false
 
-# 引数の最後がHashの時、{}はあってもなくてもいいです。
-BracesAroundHashParameters:
-  Enabled: false
-
 # ガード節利用を必須にしない
 Style/GuardClause:
   Enabled: false
@@ -86,14 +83,6 @@ Rails/UnknownEnv:
     - test
     - staging
 
-Rails/SkipsModelValidations:
-  Enabled: false
-
-Rails/HasManyOrHasOneDependent:
-  Enabled: false
-
-Naming/PredicateName:
-  Enabled: false
 
 
 
