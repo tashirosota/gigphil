@@ -11,7 +11,7 @@
 #
 
 class User < ApplicationRecord
-  has_many :user_to_schedule, class_name: '::UserToSchedule', dependent: :destroy
+  has_many :user_to_schedules, class_name: '::UserToSchedule', dependent: :destroy
   has_many :schedules, through: :user_to_schedule
 
   validates :access_token_hash, format: { with: /\A[0-9a-f]{64}\z/ }, uniqueness: true
@@ -49,11 +49,13 @@ class User < ApplicationRecord
       loop do
         user.attributes = {
           access_token: SecureRandom.base58(24),
-          refresh_token: SecureRandom.base58(24)
+          refresh_token: SecureRandom.base58(24),
+          token_expires_at: TIME_TOKEN_LIVES.since
         }
         break if user.valid?
       end
       user.save!
+      user
     end
 
     def authenticate(token)
