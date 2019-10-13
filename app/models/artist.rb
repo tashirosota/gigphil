@@ -10,7 +10,7 @@
 
 class Artist < ApplicationRecord
   has_many :artist_to_schedule, class_name: '::ArtistToSchedule', dependent: :destroy
-  has_many :shcedules, through: :artist_to_schedule
+  has_many :schedules, through: :artist_to_schedule
 
   validates :name, presence: true, uniqueness: true
 end

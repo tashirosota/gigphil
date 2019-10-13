@@ -11,6 +11,8 @@
 #
 
 class MusicBar < ApplicationRecord
+  has_many :schedules, dependent: :destroy
+
   validates :name, presence: true, uniqueness: true
   validates :place, presence: true
   validates :hp, presence: true, format: /\A#{URI::regexp(%w(http https))}\z/
