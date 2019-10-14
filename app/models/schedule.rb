@@ -18,9 +18,9 @@
 class Schedule < ApplicationRecord
   belongs_to :music_bar
 
-  has_many :artist_to_schedule, class_name: '::ArtistToSchedule', dependent: :destroy
+  has_many :artist_to_schedules, class_name: '::ArtistToSchedule', dependent: :destroy
   has_many :artists, through: :artist_to_schedule
-  has_many :user_to_schedule, class_name: '::UserToSchedule', dependent: :destroy
+  has_many :user_to_schedules, class_name: '::UserToSchedule', dependent: :destroy
   has_many :users, through: :user_to_schedule
 
   validates :title, presence: true, uniqueness: { scope: %i[music_bar_id event_date] }
