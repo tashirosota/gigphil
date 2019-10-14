@@ -7,8 +7,10 @@ class OtsukaDeepaCrawler < BaseCrawler
   end
 
   def execute!
-    @term.times do |time|
-      save_crawling_result(url: request_url(time), parser: nokogiri) do |doc|
+    @term.times do |i|
+      month = (now.month + i).to_s.rjust(2, '0')
+      request_url = @bar.hp + CALENDAR_PATH + '/' + current_year + '/' + month
+      save_crawling_result(url: request_url, parser: nokogiri) do |doc|
         format(doc: doc)
       end
     end
