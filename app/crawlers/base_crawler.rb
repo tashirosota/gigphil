@@ -1,55 +1,67 @@
-# [usage]
-# class ExampleCrawler << BaseCrawler
-# ExampleCrawler.execute!
-
 require 'open-uri'
-
 class BaseCrawler
-  class << self
-    def save_crawling_result(url:, parser:)
-      doc = parser.call(url)
-      events = yield(doc)
+  def initialize(term)
+    @term = term
+  end
 
-      music_bar = events[:music_bar]
-      schedules = events[:schedules]
-      ActiveRecord::Base.transaction do
-        schedules.each do |event|
-          create_or_update_schedule_by!(bar: music_bar, event: event)
-        end
-      end
+  def self.execute!
+    new(2).execute!
+  end
+
+  def save_crawling_result(url:, parser:)
+    doc = parser.call(url)
+    schedules = yield(doc)
+
+    ActiveRecord::Base.transaction do
+      schedules.each { |schedule| update_all_assosiation_by!(result_schedule: schedule) }
     end
+  end
 
-    def execute!
-      raise NotImplementedError, 'Implement .execute! to the subclass'
-    end
+  def execute!
+    raise NotImplementedError, 'Implement .execute! to the subclass'
+  end
 
-    private
+  private
 
-    def now
-      @now ||= Time.zone.now
-    end
+  def nokogiri
+    proc { |url| Nokogiri::HTML(open url) }
+  end
 
-    def nokogiri
-      proc { |url| Nokogiri::HTML(open(url)) }
-    end
+  # TODO: 別classに切り出す?
+  def trim_meta_chars(char)
+    char.gsub(/\t+|\n+|\r+/, '')
+  end
 
-    def create_or_update_schedule_by!(bar:, event:)
-      schedule = bar
-                .schedules
-                .find_or_initialize_by(event_date: event.date.all_day, title: event.title)
+  def now
+    @now ||= Time.zone.now
+  end
 
-      schedule.update!(
-        event_date: event.date,
-        open: event.open,
-        start: event.start,
-        adv: event.adv&.to_i,
-        door: event.adv&.to_i,
-      )
-    end
+  def current_year
+    now.year.to_s
+  end
 
-    # TODO: 別classに切り出す?
-    def trim_meta_chars(char)
-      char.gsub(/\t+|\n+|\r+/, '')
+  def current_month
+    now.month.to_s.rjust(2, '0')
+  end
+
+  # fatだけどserviceとか導入するのもあれなので、ここで受け入れる
+  def update_all_assosiation_by!(result_schedule:)
+    target_schedule = @bar.schedules.find_or_initialize_by(event_date: result_schedule.date.all_day, title: result_schedule.title)
+    
+    target_schedule.update!(
+      event_date: result_schedule.date,
+      open: result_schedule.open,
+      start: result_schedule.start,
+      adv: result_schedule.adv&.to_i,
+      door: result_schedule.door&.to_i,
+    )
+
+    # artist名が空のケースがあるので除外
+    result_schedule.act.each do |artist_name| 
+      return false if artist_name.blank?
+      artist = Artist.find_or_initialize_by(name: artist_name)
+      artist.save!
+      artist.artist_to_schedules.create!(schedule: target_schedule)
     end
   end
 end
