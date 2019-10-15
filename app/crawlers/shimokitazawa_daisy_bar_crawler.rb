@@ -1,4 +1,4 @@
-class OtsukaDeepaCrawler < BaseCrawler
+class ShimokitazawaDaisyBarCrawler < BaseCrawler
   CALENDAR_PATH = '/events/event/on'.freeze
 
   def initialize(term)
@@ -19,6 +19,18 @@ class OtsukaDeepaCrawler < BaseCrawler
   private
 
   def format(doc:)
-    # TODO
+    doc.css('.single-article').each_with_object([]) do |li_element, events|
+      event = OpenStruct.new(
+        title: li_element.css('.h4.strong').text,
+        date: Date.parse(li_element.css('.single-date').text.gsub(/\(.+\) /, '')),
+        adv: nil,
+        door: nil,
+        open: nil,
+        start: nil,
+        act: li_element.css('.artist.strong').text.split('／'),
+        info: li_element.css('.liveinfo').text
+      )
+      events << event
+    end
   end
 end
