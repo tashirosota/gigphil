@@ -13,7 +13,9 @@ class BaseCrawler
     schedules = yield(doc)
 
     ActiveRecord::Base.transaction do
-      schedules.each { |schedule| update_all_assosiation_by!(result_schedule: schedule) }
+      schedules.each do |schedule|
+        update_all_assosiation_by!(result_schedule: schedule)
+      end
     end
   end
 
@@ -24,7 +26,7 @@ class BaseCrawler
   private
 
   def nokogiri
-    proc { |url| Nokogiri::HTML(open(url)) }
+    proc { |url| Nokogiri::HTML(URI.parse(url).open) }
   end
 
   # TODO: 別classに切り出す?
@@ -46,7 +48,10 @@ class BaseCrawler
 
   # fatだけどserviceとか導入するのもあれなので、ここで受け入れる
   def update_all_assosiation_by!(result_schedule:)
-    target_schedule = @bar.schedules.find_or_initialize_by(event_date: result_schedule.date.all_day, title: result_schedule.title)
+    target_schedule = @bar.schedules.find_or_initialize_by(
+      event_date: result_schedule.date.all_day,
+      title: result_schedule.title
+    )
 
     target_schedule.update!(
       event_date: result_schedule.date,
@@ -65,6 +70,8 @@ class BaseCrawler
       artist.artist_to_schedules.create!(schedule: target_schedule)
     end
   end
+
+
 end
 
 # NOTICE: クローリング結果を返す `subclass#format` の返り値 (OpenStruct)
