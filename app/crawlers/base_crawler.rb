@@ -13,7 +13,9 @@ class BaseCrawler
     schedules = yield(doc)
 
     ActiveRecord::Base.transaction do
-      schedules.each { |schedule| update_all_assosiation_by!(result_schedule: schedule) }
+      schedules.each do |schedule|
+        update_all_assosiation_by!(result_schedule: schedule)
+      end
     end
   end
 
@@ -24,7 +26,7 @@ class BaseCrawler
   private
 
   def nokogiri
-    proc { |url| Nokogiri::HTML(open url) }
+    proc { |url| Nokogiri::HTML(URI.parse(url).open) }
   end
 
   # TODO: 別classに切り出す?
@@ -45,25 +47,31 @@ class BaseCrawler
   end
 
   # fatだけどserviceとか導入するのもあれなので、ここで受け入れる
+  # rubocop:disable all
   def update_all_assosiation_by!(result_schedule:)
-    target_schedule = @bar.schedules.find_or_initialize_by(event_date: result_schedule.date.all_day, title: result_schedule.title)
-    
+    target_schedule = @bar.schedules.find_or_initialize_by(
+      event_date: result_schedule.date.all_day,
+      title: result_schedule.title
+    )
+
     target_schedule.update!(
       event_date: result_schedule.date,
       open: result_schedule.open,
       start: result_schedule.start,
       adv: result_schedule.adv&.to_i,
-      door: result_schedule.door&.to_i,
+      door: result_schedule.door&.to_i
     )
 
     # artist名が空のケースがあるので除外
-    result_schedule.act.each do |artist_name| 
+    result_schedule.act.each do |artist_name|
       return false if artist_name.blank?
+
       artist = Artist.find_or_initialize_by(name: artist_name)
       artist.save!
       artist.artist_to_schedules.create!(schedule: target_schedule)
     end
   end
+  # rubocop:enable all
 end
 
 # NOTICE: クローリング結果を返す `subclass#format` の返り値 (OpenStruct)

@@ -1,10 +1,7 @@
 require:
   - rubocop-rails
 AllCops:
-  TargetRubyVersion: 2.4
-  Include:
-    - '**/Rakefile'
-    - '**/config.ru'
+  TargetRubyVersion: 2.6
   Exclude:
     - 'public/**/*'
     - 'tmp/**/*'
@@ -13,6 +10,8 @@ AllCops:
     - 'db/**/*'
     - 'vendor/**/*'
     - 'config/**/*'
+    - 'node_modules/**/*'
+    - 'Gemfile'
 
 Rails:
   Enabled: true
@@ -67,6 +66,15 @@ Style/DoubleNegation:
 
 Style/Lambda:
   Enabled: false
+
+Metrics/LineLength:
+  Max: 100
+
+Metrics/AbcSize:
+  Max: 18
+
+Metrics/MethodLength:
+  Max: 15
 
 # %リテラルは()を使う
 Style/PercentLiteralDelimiters:
