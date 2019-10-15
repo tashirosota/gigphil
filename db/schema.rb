@@ -44,10 +44,6 @@ ActiveRecord::Schema.define(version: 2019_10_06_135544) do
     t.bigint "music_bar_id", null: false
     t.string "title", null: false
     t.datetime "event_date", null: false
-    t.datetime "open"
-    t.datetime "start"
-    t.integer "adv"
-    t.integer "door"
     t.text "info"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

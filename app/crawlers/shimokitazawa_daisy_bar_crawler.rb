@@ -18,16 +18,11 @@ class ShimokitazawaDaisyBarCrawler < BaseCrawler
 
   private
 
-  # rubocop:disable all
   def format(doc:)
     doc.css('.single-article').each_with_object([]) do |li_element, events|
       event = OpenStruct.new(
         title: li_element.css('.h4.strong').text,
         date: Date.parse(li_element.css('.single-date').text.gsub(/\(.+\) /, '')),
-        adv: nil,
-        door: nil,
-        open: nil,
-        start: nil,
         act: li_element.css('.artist.strong')
                        .text
                        .gsub(/【ONE MAN】|【TWO MAN】|　…and more!!/, '')
@@ -37,5 +32,4 @@ class ShimokitazawaDaisyBarCrawler < BaseCrawler
       events << event
     end
   end
-  # rubocop:enable all
 end

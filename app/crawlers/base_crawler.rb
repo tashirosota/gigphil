@@ -53,10 +53,6 @@ class BaseCrawler
 
     target_schedule.update!(
       event_date: result_schedule.date,
-      open: result_schedule.open,
-      start: result_schedule.start,
-      adv: result_schedule.adv&.to_i,
-      door: result_schedule.door&.to_i,
       info: result_schedule.info
     )
 
@@ -79,20 +75,12 @@ end
 #     {
 #       title: String,
 #       event_date: DateTime,
-#       adv: Integer (allow nil),
-#       door: Integer (allow nil),
-#       open: DateTime (allow nil),
-#       start: DateTime (allow nil),
 #       act: [String, String],
 #       info: String,
 #     },
 #     {
 #       title: String,
 #       event_date: DateTime,
-#       adv: Integer (allow nil),
-#       door: Integer (allow nil),
-#       open: DateTime (allow nil),
-#       start: DateTime (allow nil),
 #       act: [String, String],
 #       info: String,
 #     },

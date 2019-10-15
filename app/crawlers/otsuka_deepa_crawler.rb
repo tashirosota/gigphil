@@ -31,10 +31,6 @@ class OtsukaDeepaCrawler < BaseCrawler
       event = OpenStruct.new(
         title: title,
         date: Date.parse(li_element.css('.day').text.gsub(/\(.+\)/, '')),
-        adv: nil,
-        door: nil,
-        open: nil,
-        start: nil,
         act: trim_meta_chars(li_element.css('.act').text.gsub(/\[ACT\]|Photographer：/, '')).split(%r{\s?/\s?}),
         info: li_element.css('.btnStyle01').first.attributes['href'].value
       )
