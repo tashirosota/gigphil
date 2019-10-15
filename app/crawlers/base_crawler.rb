@@ -47,6 +47,7 @@ class BaseCrawler
   end
 
   # fatだけどserviceとか導入するのもあれなので、ここで受け入れる
+  # rubocop:disable all
   def update_all_assosiation_by!(result_schedule:)
     target_schedule = @bar.schedules.find_or_initialize_by(
       event_date: result_schedule.date.all_day,
@@ -70,8 +71,7 @@ class BaseCrawler
       artist.artist_to_schedules.create!(schedule: target_schedule)
     end
   end
-
-
+  # rubocop:enable all
 end
 
 # NOTICE: クローリング結果を返す `subclass#format` の返り値 (OpenStruct)

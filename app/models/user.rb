@@ -37,7 +37,6 @@ class User < ApplicationRecord
       loop do
         user.access_token = SecureRandom.base58(24)
         user.token_expires_at = TIME_TOKEN_LIVES.since
-
         break if user.valid?
       end
       user.save!
@@ -45,7 +44,6 @@ class User < ApplicationRecord
 
     def create_with_tokens
       user = new
-
       loop do
         user.attributes = {
           access_token: SecureRandom.base58(24),
@@ -60,7 +58,11 @@ class User < ApplicationRecord
 
     def authenticate(token)
       hsh = hash_for(token)
-      find_by('access_token_hash = ? and token_expires_at > ?', hsh, Time.zone.now)
+      find_by(
+        'access_token_hash = ? and token_expires_at > ?',
+        hsh,
+        Time.zone.now
+      )
     end
 
     def hash_for(str)

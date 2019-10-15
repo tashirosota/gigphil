@@ -7,9 +7,8 @@ class OtsukaDeepaCrawler < BaseCrawler
   end
 
   def execute!
-    @term.times do |i|
-      month = (now.month + i).to_s.rjust(2, '0')
-      save_crawling_result(url: request_url, parser: nokogiri) do |doc|
+    @term.times do |time|
+      save_crawling_result(url: request_url(time), parser: nokogiri) do |doc|
         format(doc: doc)
       end
     end
@@ -17,11 +16,12 @@ class OtsukaDeepaCrawler < BaseCrawler
 
   private
 
-  def request_url
+  def request_url(time)
+    month = (now.month + time).to_s.rjust(2, '0')
     @bar.hp + CALENDAR_PATH + '/' + current_year + '/' + month
   end
 
-  # rubocop disable:all
+  # rubocop:disable all
   def format(doc:)
     doc.css('.scheduleList li').each_with_object([]) do |li_element, events|
       event = OpenStruct.new(
@@ -37,5 +37,5 @@ class OtsukaDeepaCrawler < BaseCrawler
       events << event
     end
   end
-  # rubocop enable:all
+  # rubocop:enable all
 end

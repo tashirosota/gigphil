@@ -67,6 +67,15 @@ Style/DoubleNegation:
 Style/Lambda:
   Enabled: false
 
+Metrics/LineLength:
+  Max: 100
+
+Metrics/AbcSize:
+  Max: 18
+
+Metrics/MethodLength:
+  Max: 15
+
 # %リテラルは()を使う
 Style/PercentLiteralDelimiters:
   PreferredDelimiters:
