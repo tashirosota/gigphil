@@ -56,7 +56,8 @@ class BaseCrawler
       open: result_schedule.open,
       start: result_schedule.start,
       adv: result_schedule.adv&.to_i,
-      door: result_schedule.door&.to_i
+      door: result_schedule.door&.to_i,
+      info: result_schedule.info
     )
 
     # artist名が空のケースがあるので除外
