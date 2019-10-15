@@ -24,10 +24,6 @@ class ShimokitazawaDaisyBarCrawler < BaseCrawler
       event = OpenStruct.new(
         title: li_element.css('.h4.strong').text,
         date: Date.parse(li_element.css('.single-date').text.gsub(/\(.+\) /, '')),
-        adv: nil,
-        door: nil,
-        open: nil,
-        start: nil,
         act: li_element.css('.artist.strong')
                        .text
                        .gsub(/【ONE MAN】|【TWO MAN】|　…and more!!/, '')

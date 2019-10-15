@@ -26,10 +26,6 @@ bars.each do |bar|
     event = bar.schedules.new(
       title: Faker::Book.title,
       event_date: date,
-      open: Faker::Time.between(from: Time.zone.now + 2.month, to: Time.zone.now + 1.year), 
-      start: Faker::Time.between(from: Time.zone.now + 2.month, to: Time.zone.now + 1.year),
-      adv: Faker::Number.number(digits: 4),
-      door: Faker::Number.number(digits: 4),
       info: Faker::Beer.name
     )
     loop do
