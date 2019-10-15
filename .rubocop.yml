@@ -12,7 +12,7 @@ AllCops:
     - 'config/**/*'
     - 'node_modules/**/*'
     - 'Gemfile'
-
+    
 Rails:
   Enabled: true
 

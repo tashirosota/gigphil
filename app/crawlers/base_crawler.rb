@@ -49,17 +49,15 @@ class BaseCrawler
   # fatだけどserviceとか導入するのもあれなので、ここで受け入れる
   # rubocop:disable all
   def update_all_assosiation_by!(result_schedule:)
-    target_schedule = @bar.schedules.find_or_initialize_by(
-      event_date: result_schedule.date.all_day,
-      title: result_schedule.title
-    )
+    target_schedule = @bar.schedules.find_or_initialize_by(event_date: result_schedule.date.all_day, title: result_schedule.title)
 
     target_schedule.update!(
       event_date: result_schedule.date,
       open: result_schedule.open,
       start: result_schedule.start,
       adv: result_schedule.adv&.to_i,
-      door: result_schedule.door&.to_i
+      door: result_schedule.door&.to_i,
+      info: result_schedule.info
     )
 
     # artist名が空のケースがあるので除外
