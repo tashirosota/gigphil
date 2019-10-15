@@ -18,7 +18,6 @@ class ShimokitazawaDaisyBarCrawler < BaseCrawler
 
   private
 
-  # rubocop:disable all
   def format(doc:)
     doc.css('.single-article').each_with_object([]) do |li_element, events|
       event = OpenStruct.new(
@@ -33,5 +32,4 @@ class ShimokitazawaDaisyBarCrawler < BaseCrawler
       events << event
     end
   end
-  # rubocop:enable all
 end
