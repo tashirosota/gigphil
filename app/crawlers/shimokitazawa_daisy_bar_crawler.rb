@@ -27,7 +27,7 @@ class ShimokitazawaDaisyBarCrawler < BaseCrawler
         door: nil,
         open: nil,
         start: nil,
-        act: li_element.css('.artist.strong').text.split('／'),
+        act: li_element.css('.artist.strong').text.gsub(/【ONE MAN】|【TWO MAN】|　…and more!!/,'').split('／'),
         info: li_element.css('.liveinfo').text
       )
       events << event
