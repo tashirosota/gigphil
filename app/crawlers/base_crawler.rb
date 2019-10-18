@@ -38,11 +38,11 @@ class BaseCrawler
     @now ||= Time.zone.now
   end
 
-  def current_year
+  def current_year_str
     now.year.to_s
   end
 
-  def current_month
+  def current_month_str
     now.month.to_s.rjust(2, '0')
   end
 
@@ -59,7 +59,6 @@ class BaseCrawler
     # artist名が空のケースがあるので除外
     result_schedule.act.each do |artist_name|
       return false if artist_name.blank?
-
       artist = Artist.find_or_initialize_by(name: artist_name)
       artist.save!
       artist.artist_to_schedules.create!(schedule: target_schedule)
