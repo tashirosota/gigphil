@@ -1,0 +1,22 @@
+.top
+.text-center
+  h1.text-white
+    | Live Searcher
+  br
+  .text-white 検索項目を入力して下さい。
+  br
+  .row.justify-content-md-center
+    .col-md-6.col-12
+      = form_with url: result_path, method: :get, local: true do |f|
+        = f.select :id, MusicBar.all.map {|o| [o.name, o.id]} , {}, class: 'form-control'
+        br
+        .form-row
+          .col
+            = f.date_select :year, {discard_month: true, discard_day: true}, class: 'form-control'
+          .col
+            = f.date_select :month, {use_month_numbers: true, discard_year: true, discard_day: true}, class: 'form-control'
+        br
+        = f.submit '探す', class: "button btn btn-lg btn-light btn-block"
+  br
+  br
+  = mail_to('g4160hc@gmail.com', name = 'お問い合わせはこちら')

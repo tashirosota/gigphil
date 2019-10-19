@@ -1,0 +1,21 @@
+.row
+  .col-4.col-md-2
+    = link_to "<< 戻る", searcher_path, class: "button btn btn-light btn-block"
+    br
+- if @events.present?
+  .text-center
+    h2.text-white
+      = "#{@music_bar.name}#{@year}年#{@month}のschedule"
+      hr
+    .row.justify-content-md-center
+      .col-md-6.col-12
+        .text-white
+          - @events.each do |live|
+            p = live.event_date
+            p = live.title
+            p = live.act
+            p = live.info
+            hr
+- else
+  .text-center
+    h2.text-white Schedule取得に失敗しました。

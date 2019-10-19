@@ -1,0 +1,24 @@
+doctype html
+html
+  head
+    title
+      | Gigphil
+    meta content=("text/html; charset=UTF-8") http-equiv="Content-Type" 
+    meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport" /
+    meta name="google-site-verification" content="q-UK5zul2P7Wf5dmtg4YvaZAZXiriVdQMrZYTON5Ve0"
+    meta[name="大塚Deepa,吉祥寺WARP,新宿Marble,ライブハウス,下北沢Three" content="keywords"]
+    meta[name='description' content='Gigphilは東京近辺のライブハウススケジュールを一括で検索出来るWEB Applicationです！']
+    meta[name="twitter:card" content="summary"]
+    meta[name="twitter:site" content="@chao____"]
+    meta[property="og:url" content="https://live-searcher-01.herokuapp.com"]
+    meta[property="og:title" content="Gigphil - あの日のライブを探そう！"]
+    meta property="og:description" content="Live Searcherは東京のライブハウススケジュールを一括で検索出来るWEB Applicationです！アプリはまっててね！"
+
+    = csrf_meta_tags
+    = csp_meta_tag
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+    = analytics_init if Rails.env.production?
+  body
+    .container-fluid
+      = yield
