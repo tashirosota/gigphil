@@ -82,7 +82,7 @@ test:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
 production:
-  <<: *default
-  database: gigphil_production
-  username: <%= ENV['DB_USER'] %>
-  password: <%= ENV['DB_PASSWORD'] %>
+  encoding: utf8
+  adapter: postgresql
+  pool: 5
+  url: <%= ENV["DATABASE_URL"] %>
