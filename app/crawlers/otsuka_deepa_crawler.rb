@@ -9,7 +9,7 @@ class OtsukaDeepaCrawler < BaseCrawler
   def execute!
     @term.times do |i|
       month = (now.month + i).to_s.rjust(2, '0')
-      request_url = @bar.hp + CALENDAR_PATH + '/' + current_year + '/' + month
+      request_url = @bar.hp + CALENDAR_PATH + '/' + current_year_str + '/' + month
       save_crawling_result(url: request_url, parser: nokogiri) do |doc|
         format(doc: doc)
       end
@@ -20,7 +20,7 @@ class OtsukaDeepaCrawler < BaseCrawler
 
   def request_url(time)
     month = (now.month + time).to_s.rjust(2, '0')
-    @bar.hp + CALENDAR_PATH + '/' + current_year + '/' + month
+    @bar.hp + CALENDAR_PATH + '/' + current_year_str + '/' + month
   end
 
   # rubocop:disable all
