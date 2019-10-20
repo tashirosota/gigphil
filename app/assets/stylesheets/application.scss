@@ -15,7 +15,7 @@
  */
 
 /*Bootstrap Sass*/
-// @import "bootstrap";
+@import "bootstrap";
 
 // Extra small devices (portrait phones, less than 576px)
 // No media query since this is the default in Bootstrap
@@ -39,6 +39,10 @@
 
 html,
 
+.top{
+  margin-top: 20px;
+}
+
 p {
   font-family: "k-gothic";
   src: font-url('k-gothic.ttf') format('truetype');
@@ -58,39 +62,27 @@ body {
   justify-content: center;
   padding-top: 20px;
   padding-bottom: 40px;
-  background-color: #87aac5;
+  background-color: #676c6f;
 }
 
-.form-signin {
-  width: 100%;
-  max-width: 330px;
-  padding: 15px;
-  margin: 0 auto;
-}
-.form-signin .checkbox {
-  font-weight: 400;
-}
-.form-signin .form-control {
-  position: relative;
-  box-sizing: border-box;
-  height: auto;
-  padding: 10px;
-  font-size: 16px;
-}
-.form-signin .form-control:focus {
-  z-index: 2;
-}
-.form-signin input[type="email"] {
-  margin-bottom: -1px;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
-}
-.form-signin input[type="password"] {
-  margin-bottom: 10px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-}
-
-.top{
-  margin-top: 120px;
+input[type="checkbox"]{
+  & + span{
+    position: relative;
+    display: inline-block;
+    $size: 20px;
+    width: $size;
+    height: $size;
+    border-radius: 3px;
+    border: solid 1px #ccc;
+  }
+  &:checked + span{
+    &:after{
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      content: "\f121";
+      font-family: "Ionicons";
+    }
+  }
 }

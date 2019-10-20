@@ -1,22 +1,54 @@
 .top
 .text-center
-  h1.text-white
-    | Live Searcher
+  h1.text-white Gigphil
   br
-  .text-white 検索項目を入力して下さい。
+  h5.text-white 検索項目を入力して下さい。
   br
   .row.justify-content-md-center
     .col-md-6.col-12
       = form_with url: result_path, method: :get, local: true do |f|
-        = f.select :id, MusicBar.all.map {|o| [o.name, o.id]} , {}, class: 'form-control'
+        = f.select :musicbar_id, [['全て', nil]] + MusicBar.all.map {|o| [o.name, o.id]}, {selected: nil}, class: 'form-control'
         br
+        .form-check 
+          = f.check_box :is_date_search, class: 'form-check-input'
+          = f.label '日にちは絞らない', class: 'form-check-label text-white'
         .form-row
           .col
             = f.date_select :year, {discard_month: true, discard_day: true}, class: 'form-control'
           .col
             = f.date_select :month, {use_month_numbers: true, discard_year: true, discard_day: true}, class: 'form-control'
+          .col
+            = f.date_select :day, {discard_year: true,}, class: 'form-control', include_blank: true 
+        br
+        = f.text_field :word, placeholder: 'バンド名', class: 'form-control'
         br
         = f.submit '探す', class: "button btn btn-lg btn-light btn-block"
   br
   br
-  = mail_to('g4160hc@gmail.com', name = 'お問い合わせはこちら')
+  h5.text-white - 掲載ライブハウス一覧 -
+  br
+  - MusicBar.all.pluck(:name).each do |name|
+    h6.text-white = name
+
+  br
+  = mail_to('g4160hc@gmail.com', name = 'お問い合わせはこちら', class: 'text-white')
+ 
+sass:
+  #_day_2i
+    display: none 
+  .form-check 
+    text-align: right;
+
+javascript:
+  $(document).ready(function() {  
+    $('#is_date_search').change(function() {
+        let is_checked = $('#is_date_search:checked').val();
+        if(is_checked){
+          $('#_day_3i').css('display','none');
+        } else {
+          $('#_day_3i').css('display','block');
+        }
+      })
+    }
+  );
+  

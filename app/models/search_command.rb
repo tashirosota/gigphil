@@ -8,8 +8,8 @@
 # 月日 * ワード
 # ワード
 class SearchCommand
-  def initialize(musicbar_id, date, word)
-    @musicbar_id, @date, @word = musicbar_id, date, word
+  def initialize(musicbar_id, year, month, day ,word)
+    @musicbar_id, @year, @month, @day ,@word = musicbar_id, year, month, day ,word
   end
 
   def execute!

@@ -1,5 +1,6 @@
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
+  GA.tracker = "UA-xxxxxx-x" # 本番の時に入れる
 
   # Code is not reloaded between requests.
   config.cache_classes = true
@@ -48,7 +49,7 @@ Rails.application.configure do
 
   # Use the lowest log level to ensure availability of diagnostic information
   # when problems arise.
-  config.log_level = :debug
+  config.log_level = :info
 
   # Prepend all log lines with the following tags.
   config.log_tags = [:request_id]
@@ -80,11 +81,12 @@ Rails.application.configure do
   # require 'syslog/logger'
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new 'app-name')
 
-  if ENV['RAILS_LOG_TO_STDOUT'].present?
+  # if ENV['RAILS_LOG_TO_STDOUT'].present?
+  #  一旦基本的に出力する 
     logger           = ActiveSupport::Logger.new(STDOUT)
     logger.formatter = config.log_formatter
     config.logger    = ActiveSupport::TaggedLogging.new(logger)
-  end
+  # end
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false

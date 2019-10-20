@@ -2,20 +2,30 @@
   .col-4.col-md-2
     = link_to "<< 戻る", searcher_path, class: "button btn btn-light btn-block"
     br
-- if @events.present?
-  .text-center
-    h2.text-white
-      = "#{@music_bar.name}#{@year}年#{@month}のschedule"
-      hr
-    .row.justify-content-md-center
-      .col-md-6.col-12
-        .text-white
-          - @events.each do |live|
-            p = live.event_date
-            p = live.title
-            p = live.act
-            p = live.info
-            hr
+- if @schedules.present?
+  .card-columns
+    - @schedules.each do |schedule|
+      .card.bg-light.mb-3 style="max-width: 22rem;"
+        .card-header = "#{schedule.event_date.strftime("%Y/%m/%d")}@#{schedule.music_bar.name}"
+        .card-body 
+          h5.card-title = schedule.title
+          p.card-text = schedule.info
+          p.card-text
+            - schedule.artists.each do |artist|
+              small.text-muted = artist.name + ' / '
+          = link_to 'HPで確認する', schedule.music_bar.hp, class: "button btn btn-secondary btn-block"
 - else
   .text-center
     h2.text-white Schedule取得に失敗しました。
+
+css: 
+  @media (min-width: 576px){
+    .card-columns {
+      -moz-column-count: 4;
+      column-count: 4;
+      -moz-column-gap: 1.25rem;
+      column-gap: 1.25rem;
+      orphans: 1;
+      widows: 1;
+    }
+  }
