@@ -1,6 +1,10 @@
 class SearchCommand
-  def initialize(musicbar_id, year, month, day ,word)
-    @musicbar_id, @year, @month, @day ,@word = musicbar_id, year, month, day, word
+  def initialize(musicbar_id, year, month, day, word)
+    @musicbar_id = musicbar_id
+    @year = year
+    @month = month
+    @day = day
+    @word = word
   end
 
   def execute!
@@ -22,14 +26,18 @@ class SearchCommand
   end
 
   def by_day(model)
-    @day ? model.where("TO_CHAR(event_date,'YYYY/MM/DD') = '#{format_date}'") : model.where("TO_CHAR(event_date,'YYYY/MM') = '#{format_month}'")
+    if @day
+      model.where("TO_CHAR(event_date,'YYYY/MM/DD') = '#{format_date}'")
+    else
+      model.where("TO_CHAR(event_date,'YYYY/MM') = '#{format_month}'")
+    end
   end
 
   def format_date
-    Date.new(@year, @month, @day).strftime("%Y/%m/%d")
+    Date.new(@year, @month, @day).strftime('%Y/%m/%d')
   end
 
   def format_month
-    format_month = Date.new(@year, @month).strftime("%Y/%m")
+    Date.new(@year, @month).strftime('%Y/%m')
   end
 end
