@@ -1,0 +1,88 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ */
+
+/*Bootstrap Sass*/
+@import "bootstrap";
+
+// Extra small devices (portrait phones, less than 576px)
+// No media query since this is the default in Bootstrap
+
+@font-face{
+  font-family: "k-gothic";
+  src: font-url('k-gothic.ttf') format('truetype');
+}
+
+@media (max-width: 520px) {
+
+}
+
+@media (max-width: 350px) {
+  h2{
+    font-size: 25px;
+  }
+}
+
+
+
+html,
+
+.top{
+  margin-top: 20px;
+}
+
+p {
+  font-family: "k-gothic";
+  src: font-url('k-gothic.ttf') format('truetype');
+}
+body {
+  font-family: "k-gothic";
+  src: font-url('k-gothic.ttf') format('truetype');
+  display: -ms-flexbox;
+  display: -webkit-box;
+  display: flex;
+  -ms-flex-align: center;
+  -ms-flex-pack: center;
+  width: 100%;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  padding-top: 20px;
+  padding-bottom: 40px;
+  background-color: #676c6f;
+}
+
+input[type="checkbox"]{
+  & + span{
+    position: relative;
+    display: inline-block;
+    $size: 20px;
+    width: $size;
+    height: $size;
+    border-radius: 3px;
+    border: solid 1px #ccc;
+  }
+  &:checked + span{
+    &:after{
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      content: "\f121";
+      font-family: "Ionicons";
+    }
+  }
+}

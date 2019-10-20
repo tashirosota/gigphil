@@ -1,4 +1,3 @@
-# rubocop:disable all
 namespace :musicbar do
   desc 'Create records for initial state'
   task create_initial_data: :environment do
@@ -15,4 +14,3 @@ namespace :musicbar do
     end
   end
 end
-# rubocop:enable all
