@@ -2,6 +2,8 @@
   .col-4.col-md-2
     = link_to "<< 戻る", searcher_path, class: "button btn btn-light btn-block"
     br
+.text-white = @search_content  
+br
 - if @schedules.present?
   .card-columns
     - @schedules.each do |schedule|
@@ -16,7 +18,7 @@
           = link_to 'HPで確認する', schedule.music_bar.hp, class: "button btn btn-secondary btn-block"
 - else
   .text-center
-    h2.text-white Schedule取得に失敗しました。
+    h2.text-white スケジュールが見つかりませんでした。
 
 css: 
   @media (min-width: 576px){

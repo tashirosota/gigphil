@@ -1,28 +1,35 @@
-# musicbar_id, date, word
-# [検索パターン]
-# ライブハウス * 月
-# ライブハウス * 月日
-# ライブハウス * 月 * ワード
-# ライブハウス * ワード
-# 月 * ワード
-# 月日 * ワード
-# ワード
 class SearchCommand
   def initialize(musicbar_id, year, month, day ,word)
-    @musicbar_id, @year, @month, @day ,@word = musicbar_id, year, month, day ,word
+    @musicbar_id, @year, @month, @day ,@word = musicbar_id, year, month, day, word
   end
 
   def execute!
-    # 愚直に条件分岐
+    by_musicbar_id by_day by_word init_model
   end
 
   private
 
-  def bar_and_month; end
-  def bar_and_date; end
-  def bar_and_month_and_word; end
-  def bar_and_word; end
-  def month_and_word; end
-  def date_and_word; end
-  def word; end
+  def init_model
+    Schedule.joins(:music_bar, :artists).order(event_date: :desc)
+  end
+
+  def by_word(model)
+    @word.present? ? model.where('artists.name LIKE :word', word: "%#{@word}%") : model
+  end
+
+  def by_musicbar_id(model)
+    @musicbar_id ? model.where('music_bars.id = :id', id: @musicbar_id) : model
+  end
+
+  def by_day(model)
+    @day ? model.where("TO_CHAR(event_date,'YYYY/MM/DD') = '#{format_date}'") : model.where("TO_CHAR(event_date,'YYYY/MM') = '#{format_month}'")
+  end
+
+  def format_date
+    Date.new(@year, @month, @day).strftime("%Y/%m/%d")
+  end
+
+  def format_month
+    format_month = Date.new(@year, @month).strftime("%Y/%m")
+  end
 end
