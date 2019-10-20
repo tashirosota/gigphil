@@ -24,15 +24,15 @@ jobs:
       # Restore bundle cache
       - restore_cache:
           keys:
-            - rails-peep-bundle-{{ checksum "Gemfile.lock" }}
-            - rails-peep-bundle-
+            - rails-gigphil-bundle-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock" }}
+            - rails-gigphil-bundle-
       # Bundle Install
       - run: bundle check || bundle install --jobs 4 --retry 3
       # yarn.lock install
       - run: yarn install
       # Store bundle cache
       - save_cache:
-          key: rails-peep-bundle-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock" }}
+          key: rails-gigphil-bundle-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock" }}
           paths:
             - vendor/bundle
             - node_modules
