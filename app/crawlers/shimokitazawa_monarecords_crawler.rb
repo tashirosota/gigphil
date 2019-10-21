@@ -18,6 +18,7 @@ class ShimokitazawaMonarecordsCrawler < BaseCrawler
 
   private
 
+  # rubocop:disable Metrics/AbcSize
   def format(doc:)
     doc.css('.live-menu-box').each_with_object([]) do |li_element, events|
       event = OpenStruct.new(
@@ -25,11 +26,12 @@ class ShimokitazawaMonarecordsCrawler < BaseCrawler
         date: Date.parse(li_element.css('.live-date').text),
         act: li_element.css('.live-monthly p')[1]
                        .text
-                       .gsub(/【出演】/,'')
+                       .gsub(/【出演】/, '')
                        .split(' / '),
         info: li_element.css('.live-monthly p')[2..].text.gsub(/[\r\n\t]/, '')
       )
       events << event
     end
   end
+  # rubocop:enable Metrics/AbcSize
 end

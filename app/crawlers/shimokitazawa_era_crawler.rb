@@ -1,5 +1,4 @@
 class ShimokitazawaEraCrawler < BaseCrawler
-
   def initialize(term)
     super term
     @bar = MusicBar.find_by!(name: '下北沢ERA')
@@ -17,11 +16,13 @@ class ShimokitazawaEraCrawler < BaseCrawler
 
   private
 
+  # rubocop:disable Metrics/AbcSize
   def format(doc:)
     doc.css('.schedule-day').each_with_object([]) do |li_element, events|
-      title = li_element.css('.event-title').text 
-      next if title == 'HALL RENTAL' || title == '【NIGHT TIME】HALL RENTAL'
+      title = li_element.css('.event-title').text
+      next if ['HALL RENTAL', '【NIGHT TIME】HALL RENTAL'].include?(title)
       next unless act_element = li_element.css('.schedule-announce p').first
+
       event = OpenStruct.new(
         title: title,
         date: Date.new(current_year_str.to_i, @month.to_i, li_element.css('.date').text.match(/\d+/).to_s.to_i),
@@ -34,4 +35,5 @@ class ShimokitazawaEraCrawler < BaseCrawler
       events << event
     end
   end
+  # rubocop:enable Metrics/AbcSize
 end

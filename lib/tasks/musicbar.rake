@@ -1,3 +1,4 @@
+# rubocop:disable all
 namespace :musicbar do
   desc 'Create records for initial state'
   task create_initial_data: :environment do
@@ -17,10 +18,10 @@ namespace :musicbar do
 
   task scraping_all: :environment do
     crawlers = [
-      OtsukaDeepaCrawler, 
-      ShimokitazawaBasementBarCrawler, 
-      ShimokitazawaDaisyBarCrawler, 
-      ShimokitazawaEraCrawler, 
+      OtsukaDeepaCrawler,
+      ShimokitazawaBasementBarCrawler,
+      ShimokitazawaDaisyBarCrawler,
+      ShimokitazawaEraCrawler,
       ShimokitazawaMonarecordsCrawler
     ]
     crawlers.each do |klass|
@@ -29,3 +30,4 @@ namespace :musicbar do
     end
   end
 end
+# rubocop:enable all
