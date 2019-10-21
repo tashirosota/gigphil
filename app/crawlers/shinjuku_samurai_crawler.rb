@@ -1,7 +1,7 @@
 class ShinjukuSamuraiCrawler < BaseCrawler
   def initialize(term)
     super term
-    @bar = MusicBar.find_by!(name: '新宿SAMURAI')
+    @bar = MusicBar.find_by!(name: '渋谷O-Crest')
   end
 
   def execute!
