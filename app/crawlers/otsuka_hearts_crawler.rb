@@ -3,7 +3,7 @@ class OtsukaHeartsCrawler < BaseCrawler
 
   def initialize(term)
     super term
-    @bar = MusicBar.find_by!(name: '大塚Haerts+')
+    @bar = MusicBar.find_by!(name: '大塚Hearts+')
   end
 
   def execute!
