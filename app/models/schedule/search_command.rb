@@ -1,4 +1,4 @@
-class SearchCommand
+class Schedule::SearchCommand
   def initialize(musicbar_id, year, month, day, word)
     @musicbar_id = musicbar_id
     @year = year
@@ -8,13 +8,17 @@ class SearchCommand
   end
 
   def execute!
-    by_musicbar_id by_day by_word init_model
+    # joins + includesが上手く働かないので
+    schedules = by_musicbar_id by_day by_word init_model
+    Schedule.includes(:music_bar, :artists).where(id: schedules.pluck(:id)).order(event_date: :asc)
   end
 
   private
 
   def init_model
-    Schedule.joins(:music_bar, :artists).order(event_date: :desc)
+    Schedule.joins(:music_bar, :artists)
+            .group('schedules.id')
+            .order(event_date: :asc)
   end
 
   def by_word(model)
