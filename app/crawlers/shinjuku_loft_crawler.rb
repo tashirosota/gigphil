@@ -1,9 +1,9 @@
-class ShimokitazawaShelterCrawler < BaseCrawler
-  CALENDAR_PATH = '/schedule/shelter/date'.freeze
+class ShinjukuLoftCrawler < BaseCrawler
+  CALENDAR_PATH = '/schedule/loft/date'.freeze
 
   def initialize(term)
     super term
-    @bar = MusicBar.find_by!(name: '下北沢SHELTER')
+    @bar = MusicBar.find_by!(name: '新宿LOFT')
   end
 
   def execute!
