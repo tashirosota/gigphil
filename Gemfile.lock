@@ -186,6 +186,7 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.10.0)
       ffi (~> 1.0)
+    rollbar (2.22.1)
     rubocop (0.75.1)
       jaro_winkler (~> 1.5.1)
       parallel (~> 1.10)
@@ -267,6 +268,7 @@ DEPENDENCIES
   pry
   puma (~> 3.11)
   rails (~> 6.0.0)
+  rollbar
   rubocop
   rubocop-rails
   sass-rails (~> 6)

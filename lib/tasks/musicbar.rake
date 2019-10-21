@@ -12,7 +12,8 @@ namespace :musicbar do
         { name: '下北沢ERA', place: '東京都世田谷区北沢2-34-5 プリマヴェール下北沢4F', hp: 'http://s-era.jp' },
         { name: '下北沢mona records', place: '東京都世田谷区北沢2-13-5 伊奈ビル2F&3F', hp: 'http://www.mona-records.com' },
         { name: '西永福JAM', place: '東京都杉並区永福3-34-14 B1F', hp: 'http://jam.rinky.info' },
-        { name: '下北沢SHELTER', place: '東京都世田谷区北沢2-6-10仙田ビルB1', hp: 'https://www.loft-prj.co.jp' }
+        { name: '下北沢SHELTER', place: '東京都世田谷区北沢2-6-10仙田ビルB1', hp: 'https://www.loft-prj.co.jp' },
+        { name: '下北沢MOSAiC', place: '東京都世田谷区北沢2-2-14モアイ茶沢1F.B1', hp: 'http://mu-seum.co.jp' }
 
       ].map { |hsh| ::MusicBar.create!(hsh) }
       puts 'Created MusicBar records. **It can be old and different from actual MusicBars. Please check.**'
@@ -27,7 +28,8 @@ namespace :musicbar do
       ShimokitazawaEraCrawler,
       ShimokitazawaMonarecordsCrawler,
       NishieifukuJamCrawler,
-      ShimokitazawaShelterCrawler
+      ShimokitazawaShelterCrawler,
+      ShimokitazawaMosaicCrawler
     ]
     crawlers.each do |klass|
       Rails.logger.info klass
