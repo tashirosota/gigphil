@@ -8,7 +8,9 @@ class Schedule::SearchCommand
   end
 
   def execute!
-    by_musicbar_id by_day by_word init_model
+    # joins + includesが上手く働かないので
+    schedules = by_musicbar_id by_day by_word init_model
+    Schedule.includes(:music_bar, :artists).where(id: schedules.pluck(:id)).order(event_date: :asc)
   end
 
   private
@@ -16,9 +18,7 @@ class Schedule::SearchCommand
   def init_model
     Schedule.joins(:music_bar, :artists)
             .group('schedules.id')
-            .select("schedules.id, schedules.event_date, schedules.info")
-            .includes(:music_bar, :artists)
-            .order(event_date: :desc)
+            .order(event_date: :asc)
   end
 
   def by_word(model)
