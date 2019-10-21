@@ -22,12 +22,13 @@ class ShimokitazawaMonarecordsCrawler < BaseCrawler
     doc.css('.live-menu-box').each_with_object([]) do |li_element, events|
       event = OpenStruct.new(
         title: li_element.css('.live-title-monthly').text,
-        date: Date.parse li_element.css('.live-date').text,
+        date: Date.parse(li_element.css('.live-date').text),
         act: li_element.css('.live-monthly p')[1]
                        .text
                        .gsub(/【出演】/,'')
                        .split(' / '),
         info: li_element.css('.live-monthly p')[2..].text.gsub(/[\r\n\t]/, '')
+      )
       events << event
     end
   end

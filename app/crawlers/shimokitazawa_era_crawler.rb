@@ -31,7 +31,6 @@ class ShimokitazawaEraCrawler < BaseCrawler
                         .map(&:strip),
         info: li_element.css('.schedule-note').text.gsub(/[\r\n\t]/, '')
       )
-      pp events
       events << event
     end
   end

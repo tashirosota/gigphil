@@ -14,4 +14,18 @@ namespace :musicbar do
       puts 'Created MusicBar records. **It can be old and different from actual MusicBars. Please check.**'
     end
   end
+
+  task scraping_all: :environment do
+    crawlers = [
+      OtsukaDeepaCrawler, 
+      ShimokitazawaBasementBarCrawler, 
+      ShimokitazawaDaisyBarCrawler, 
+      ShimokitazawaEraCrawler, 
+      ShimokitazawaMonarecordsCrawler
+    ]
+    crawlers.each do |klass|
+      Rails.logger.info klass
+      klass.execute!
+    end
+  end
 end
