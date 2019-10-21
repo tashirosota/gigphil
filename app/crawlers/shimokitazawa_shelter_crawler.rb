@@ -22,11 +22,13 @@ class ShimokitazawaShelterCrawler < BaseCrawler
   def format(doc:)
     doc.css('.timetable tr').each_with_object([]) do |li_element, events|
       day = li_element.css('.day').text.match(/\d+/).to_s.to_i
+      info = li_element.css('.time_text').text.gsub(/[\r\n\t]/, '')
+      ticket = li_element.css('.ticket').text.gsub(/[\r\n\t]/, '')
       event = OpenStruct.new(
         title: li_element.css('.event_box h3').text,
         date: Date.new(current_year_str.to_i, @month.to_i, day),
         act: li_element.css('.month_content').text.split("\n") - [''],
-        info: li_element.css('.time_text').text.gsub(/[\r\n\t]/, '') + li_element.css('.ticket').text.gsub(/[\r\n\t]/, '')
+        info: info + ticket
       )
       events << event
     end
