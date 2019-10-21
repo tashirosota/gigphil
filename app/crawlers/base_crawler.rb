@@ -49,6 +49,7 @@ class BaseCrawler
   # fatだけどserviceとか導入するのもあれなので、ここで受け入れる
   # rubocop:disable all
   def update_all_assosiation_by!(result_schedule:)
+    return false if result_schedule.title.blank?
     target_schedule = @bar.schedules.find_or_initialize_by(event_date: result_schedule.date.all_day, title: result_schedule.title)
 
     target_schedule.update!(
