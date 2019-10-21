@@ -24,14 +24,13 @@
         br
         = f.submit '探す', class: "button btn btn-lg btn-light btn-block"
   br
+  = mail_to('g4160hc@gmail.com', name = 'お問い合わせはこちら', class: 'text-white')
   br
   h5.text-white - 掲載ライブハウス一覧 -
   br
   - MusicBar.all.pluck(:name).each do |name|
     h6.text-white = name
-
-  br
-  = mail_to('g4160hc@gmail.com', name = 'お問い合わせはこちら', class: 'text-white')
+  .text-white ※Gigphilははライブハウス非公式アプリです。最終確認は各ライブハウスHPで行って下さい。
  
 sass:
   #_day_2i
