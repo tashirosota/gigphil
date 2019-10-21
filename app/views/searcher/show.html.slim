@@ -1,6 +1,6 @@
 .top
 .text-center
-  h1.text-white Gigphil(β)
+  = image_tag image_path('logo.png'), class: 'gigphil-logo'
   br
   h5.text-white 検索項目を入力して下さい。
   br
@@ -38,6 +38,13 @@ sass:
     display: none 
   .form-check 
     text-align: right;
+  .gigphil-logo
+    max-width: 400px;
+    margin-bottom: 20px;
+    @media (max-width: 576px)
+      max-width: 300px;
+
+
 
 javascript:
   $(document).ready(function() {  
