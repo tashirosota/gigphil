@@ -1,4 +1,4 @@
-class SearchCommand
+class Schedule::SearchCommand
   def initialize(musicbar_id, year, month, day, word)
     @musicbar_id = musicbar_id
     @year = year

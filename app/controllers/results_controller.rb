@@ -3,7 +3,7 @@ class ResultsController < ApplicationController
 
   def index
     set_search_content
-    @schedules = SearchCommand.new(@musicbar_id, @year, @month, @day, @word).execute!
+    @schedules = ::Schedule::SearchCommand.new(@musicbar_id, @year, @month, @day, @word).execute!
   end
 
   private
