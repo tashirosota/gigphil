@@ -16,7 +16,8 @@ class Schedule::SearchCommand
   private
 
   def init_model
-    Schedule.joins(:music_bar, :artists)
+    Schedule.joins(:music_bar)
+            .left_joins(:artists)
             .group('schedules.id')
             .order(event_date: :asc)
   end
