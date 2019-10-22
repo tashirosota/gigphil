@@ -5,7 +5,7 @@ class BaseCrawler
   end
 
   def self.execute!
-    new(2).execute!
+    new(3).execute!
   end
 
   def save_crawling_result(url:, parser:)

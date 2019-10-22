@@ -25,10 +25,10 @@ class NishieifukuJamCrawler < BaseCrawler
       event = OpenStruct.new(
         title: li_element.css('.event-title').text.gsub(/[\r\n\t]/, ''),
         date: Date.new(current_year_str.to_i, dates[0], dates[1]),
-        act: li_element.css('.event-info p')[1]
+        act: li_element.css('.event-info p')[0]
                        .text
                        .split(' / '),
-        info: li_element.css('.event-info p')[2..].text.gsub(/[\r\n\t]/, '')
+        info: li_element.css('.event-info p')[1..].text.gsub(/[\r\n\t]/, '')
       )
       events << event
     end
