@@ -1,8 +1,9 @@
 .top
 .text-center
-  = image_tag image_path('logo.png'), class: 'gigphil-logo'
+  h1
+    = image_tag image_path('logo.png'), class: 'gigphil-logo', alt: 'Gigphil | ライブ好きのための検索アプリ @'
   br
-  h5.text-white 検索項目を入力して下さい。
+  h2.text-white 検索項目を入力して下さい。
   br
   .row.justify-content-md-center
     .col-md-6.col-12
@@ -26,10 +27,11 @@
   br
   = mail_to('g4160hc@gmail.com', name = 'お問い合わせはこちら', class: 'text-white')
   br
-  h5.text-white - 掲載ライブハウス一覧 -
-  - MusicBar.all.order(name: :asc).pluck(:name).each do |name|
-    h6.text-white = name
-  .text-white ※Gigphilははライブハウス非公式アプリです。最終確認は各ライブハウスHPで行って下さい。
+  h2.text-white - 掲載ライブハウス一覧 -
+  ul
+    - MusicBar.all.order(name: :asc).pluck(:name).each do |name|
+      li.text-white = name
+    .text-white ※Gigphilははライブハウス非公式アプリです。最終確認は各ライブハウスHPで行って下さい。
  
 sass:
   #_day_2i
@@ -41,6 +43,11 @@ sass:
     margin-bottom: 20px;
     @media (max-width: 576px)
       max-width: 300px;
+  h2
+    @media (max-width: 576px)
+      font-size: 1.5rem;;
+  li
+    list-style: none;
 
 
 
