@@ -7,7 +7,7 @@
   .row.justify-content-md-center
     .col-md-6.col-12
       = form_with url: result_path, method: :get, local: true do |f|
-        = f.select :musicbar_id, [['ライブハウスを選んでね。（※選択しない場合すべてが対象となります。）', nil]] + MusicBar.all.order(name: :asc).map {|o| [o.name, o.id]}, {selected: nil}, class: 'form-control'
+        = f.select :musicbar_id, [['選択しない場合全ての箱が対象となります。', nil]] + MusicBar.all.order(name: :asc).map {|o| [o.name, o.id]}, {selected: nil}, class: 'form-control'
         br
         .form-check 
           = f.check_box :is_date_search, class: 'form-check-input'
