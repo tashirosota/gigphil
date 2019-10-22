@@ -29,9 +29,9 @@
   br
   h2.text-white - 掲載ライブハウス一覧 -
   ul
-    - MusicBar.all.order(name: :asc).pluck(:name).each do |name|
-      li.text-white = name
-    .text-white ※Gigphilははライブハウス非公式アプリです。最終確認は各ライブハウスHPで行って下さい。
+  - MusicBar.all.order(name: :asc).pluck(:name).each do |name|
+    li.text-white = name
+  .text-white ※Gigphilははライブハウス非公式アプリです。最終確認は各ライブハウスHPで行って下さい。
  
 sass:
   #_day_2i
