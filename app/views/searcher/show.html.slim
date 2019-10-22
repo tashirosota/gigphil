@@ -27,8 +27,7 @@
   = mail_to('g4160hc@gmail.com', name = 'お問い合わせはこちら', class: 'text-white')
   br
   h5.text-white - 掲載ライブハウス一覧 -
-  br
-  - MusicBar.all.pluck(:name).each do |name|
+  - MusicBar.all.order(name: :asc).pluck(:name).each do |name|
     h6.text-white = name
   .text-white ※Gigphilははライブハウス非公式アプリです。最終確認は各ライブハウスHPで行って下さい。
  

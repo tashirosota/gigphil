@@ -11,10 +11,9 @@ br
         .card-header = "#{schedule.event_date.strftime("%Y/%m/%d")}@#{schedule.music_bar.name}"
         .card-body 
           h5.card-title = schedule.title
-          p.card-text = schedule.info
+          p.card-text = schedule.artists.map(&:name).join(' / ')
           p.card-text
-            - schedule.artists.each do |artist|
-              small.text-muted = artist.name + ' / '
+            small.text-muted = schedule.info
           = link_to 'HPで確認する', schedule.music_bar.hp, class: "button btn btn-secondary btn-block"
 - else
   .text-center
