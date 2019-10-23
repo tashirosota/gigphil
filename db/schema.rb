@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_06_135544) do
+ActiveRecord::Schema.define(version: 2019_10_23_230814) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 2019_10_06_135544) do
     t.bigint "schedule_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["artist_id", "schedule_id"], name: "index_artist_to_schedules_on_artist_id_and_schedule_id", unique: true
     t.index ["artist_id"], name: "index_artist_to_schedules_on_artist_id"
     t.index ["schedule_id"], name: "index_artist_to_schedules_on_schedule_id"
   end
@@ -58,6 +59,7 @@ ActiveRecord::Schema.define(version: 2019_10_06_135544) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["schedule_id"], name: "index_user_to_schedules_on_schedule_id"
+    t.index ["user_id", "schedule_id"], name: "index_user_to_schedules_on_user_id_and_schedule_id", unique: true
     t.index ["user_id"], name: "index_user_to_schedules_on_user_id"
   end
 
