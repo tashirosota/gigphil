@@ -18,7 +18,8 @@ namespace :musicbar do
         { name: '新宿SAMURAI', place: '東京都新宿区歌舞伎町2-42-16 第2大滝ビルB1', hp: 'https://live-samurai.jp' },
         { name: '渋谷CRAWL', place: '東京都渋谷区東1-25-2 マルハシビルB1', hp: 'http://bighitcompany.com' },
         { name: '渋谷O-Crest', place: '東京都渋谷区道玄坂２丁目１４−８ 5f', hp: 'https://shibuya-o.com/whats-on/tsutaya-o-crest' },
-        { name: '新宿LOFT', place: '東京都新宿区歌舞伎町1-12-9 タテハナビルB2', hp: 'https://www.loft-prj.co.jp' }
+        { name: '新宿LOFT', place: '東京都新宿区歌舞伎町1-12-9 タテハナビルB2', hp: 'https://www.loft-prj.co.jp' },
+        { name: '吉祥寺Planet K', place: '東京都武蔵野市吉祥寺本町１−８−１０ 八番館ビルB1', hp: 'http://inter-planets.net' }
 
       ].map { |hsh| ::MusicBar.create!(hsh) }
       puts 'Created MusicBar records. **It can be old and different from actual MusicBars. Please check.**'
