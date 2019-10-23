@@ -21,7 +21,7 @@ class KichijojiPlanetkCrawler < BaseCrawler
   def format(doc:)
     doc.css('.ai1ec-date').each_with_object([]) do |li_element, events|
       title = li_element.css('.ai1ec-event-title').text.gsub(/[\r\n\t]/, '')
-      next if title == '詳細後日解禁'
+      next if title == '詳細後日解禁' || title == 'ホールレンタル'
 
       dates = li_element.css('.ai1ec-event-time').text.gsub(/[\r\n\t]/, '').split(/月|@/).map(&:to_i)
       descriptions = li_element.css('.ai1ec-event-description p')
