@@ -40,7 +40,8 @@ namespace :musicbar do
       ShinjukuSamuraiCrawler,
       ShibuyaCrawlCrawler,
       ShibuyaCrestCrawler,
-      ShinjukuLoftCrawler
+      ShinjukuLoftCrawler,
+      KichijojiPlanetkCrawler
     ]
     crawlers.each do |klass|
       Rails.logger.info klass
