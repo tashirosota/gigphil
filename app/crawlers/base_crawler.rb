@@ -62,7 +62,8 @@ class BaseCrawler
       return false if artist_name.blank?
       artist = Artist.find_or_initialize_by(name: artist_name)
       artist.save!
-      artist.artist_to_schedules.create!(schedule: target_schedule)
+      schedule = artist.artist_to_schedules.find_or_initialize_by(schedule: target_schedule)
+      schedule.save!
     end
   end
   # rubocop:enable all
