@@ -31,7 +31,7 @@ class KichijojiWarpCrawler < BaseCrawler
   def format(doc:)
     doc.css('.scheduleInner').each_with_object([]) do |li_element, events|
       title = li_element.css('.contents h3').text&.gsub(/[\r\n\t]/, '')
-      next if title.blank? || ['「 お休み 」', '「 HALL RENTAL 」'].inculde?(title)
+      next if title.blank? || ['「 お休み 」', '「 HALL RENTAL 」'].include?(title)
 
       act = li_element.css('.artist').text.gsub(/[\t\r]/, '').split("\n").select(&:present?)
       time = li_element.css('.time').text.gsub(/[\r\n\t]/, '')
