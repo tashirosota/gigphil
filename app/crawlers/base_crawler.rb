@@ -5,11 +5,12 @@ class BaseCrawler
   end
 
   def self.execute!
-    new(3).execute!
+    new(4).execute!
   end
 
   def save_crawling_result(url:, parser:)
-    doc = parser.call(url)
+    return unless doc = parser.call(url)
+
     schedules = yield(doc)
 
     ActiveRecord::Base.transaction do
@@ -26,7 +27,12 @@ class BaseCrawler
   private
 
   def nokogiri
-    proc { |url| Nokogiri::HTML(URI.parse(url).open) }
+    proc do |url|
+      Nokogiri::HTML(URI.parse(url).open)
+    rescue OpenURI::HTTPError
+      # NOT FOUNDが出たら回避
+      nil
+    end
   end
 
   # TODO: 別classに切り出す?
@@ -39,12 +45,22 @@ class BaseCrawler
   end
 
   def current_year_str
-    now.year.to_s
+    return now.year.to_s unless @month
+
+    year = now.month <= @month.to_i ? now.year : now.year + 1
+    year.to_s
   end
 
   def current_month_str
     now.month.to_s.rjust(2, '0')
   end
+
+  # rubocop:disable Naming/AccessorMethodName
+  def set_month_instanse(term)
+    month = current_month_str.to_i + term
+    @month = (month < 13 ? month : month - 12).to_s.rjust(2, '0')
+  end
+  # rubocop:enable Naming/AccessorMethodName
 
   # fatだけどserviceとか導入するのもあれなので、ここで受け入れる
   # rubocop:disable all

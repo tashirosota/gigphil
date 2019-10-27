@@ -6,3 +6,4 @@
 * PostgreSQL（psql(PostgreSQL) 11.5 で動作確認済み）をインストール
 * `bin/setup` を実行
   * `bundle install`, `yarn install`, `rails db:prepare` などを実行します
+  * `bundle exec rails db:drop db:create db:migrate musicbar:create_initial_data musicbar:scraping_all`

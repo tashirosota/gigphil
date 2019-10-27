@@ -10,11 +10,10 @@ class ShimokitazawaBasementBarCrawler < BaseCrawler
   def execute!
     @term.times do |i|
       daily_ary(i).each do |day|
-        month = (now.month + i).to_s.rjust(2, '0')
-        request_url = @bar.hp + CALENDAR_PATH + '/' + current_year_str + '/' + month + '/' + day
+        request_url = @bar.hp + CALENDAR_PATH + '/' + current_year_str + '/' + @month + '/' + day
         save_crawling_result(url: request_url, parser: nokogiri) do |doc|
           format(
-            date: Date.new(current_year_str.to_i, current_month_str.to_i + i, day.to_i),
+            date: Date.new(current_year_str.to_i, @month.to_i, day.to_i),
             doc: doc
           )
         end
@@ -43,7 +42,8 @@ class ShimokitazawaBasementBarCrawler < BaseCrawler
   end
 
   def daily_ary(term_count)
-    day_count = Date.new(current_year_str.to_i,  current_month_str.to_i + term_count, -1).day
+    set_month_instanse(term_count)
+    day_count = Date.new(current_year_str.to_i, @month.to_i, -1).day
     (1..day_count).map { |day| day.to_s.rjust(2, '0') }
   end
 end

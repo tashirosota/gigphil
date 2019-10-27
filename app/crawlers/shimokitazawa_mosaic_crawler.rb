@@ -9,8 +9,7 @@ class ShimokitazawaMosaicCrawler < BaseCrawler
   # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   def execute!
     @term.times do |i|
-      @month = (now.month + i).to_s.rjust(2, '0')
-      # 今月分は
+      set_month_instanse(i)
       request_url = if i.zero?
                       @bar.hp + CURRENT_MONTH_CALENDAR_PATH
                     else

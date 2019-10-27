@@ -8,7 +8,7 @@ class KichijojiWarpCrawler < BaseCrawler
 
   def execute!
     @term.times do |i|
-      @month = now.month + i
+      set_month_instanse(i)
       save_crawling_result(url: nil, parser: post_and_nokogiri) do |doc|
         format(doc: doc)
       end
@@ -39,7 +39,7 @@ class KichijojiWarpCrawler < BaseCrawler
       info = time + ' ' + price
       event = OpenStruct.new(
         title: title,
-        date: Date.new(current_year_str.to_i, @month, li_element.css('.day').text.to_i),
+        date: Date.new(current_year_str.to_i, @month.to_i, li_element.css('.day').text.to_i),
         act: act,
         info: info
       )
