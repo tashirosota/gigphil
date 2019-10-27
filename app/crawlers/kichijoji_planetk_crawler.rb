@@ -17,7 +17,7 @@ class KichijojiPlanetkCrawler < BaseCrawler
 
   private
 
-  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   def format(doc:)
     doc.css('.ai1ec-date').each_with_object([]) do |li_element, events|
       title = li_element.css('.ai1ec-event-title').text.gsub(/[\r\n\t]/, '')
@@ -27,6 +27,7 @@ class KichijojiPlanetkCrawler < BaseCrawler
       descriptions = li_element.css('.ai1ec-event-description p')
       act = descriptions.first.css('strong').map(&:text)
       info = descriptions[2..].map(&:text).join
+      @month = dates[0]
       event = OpenStruct.new(
         title: title,
         date: Date.new(current_year_str.to_i, dates[0], dates[1]),
@@ -36,5 +37,5 @@ class KichijojiPlanetkCrawler < BaseCrawler
       events << event
     end
   end
-  # rubocop:enable Metrics/AbcSize
+  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 end

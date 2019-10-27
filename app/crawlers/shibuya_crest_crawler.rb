@@ -7,7 +7,7 @@ class ShibuyaCrestCrawler < BaseCrawler
 
   def execute!
     @term.times do |i|
-      @month = (now.month + i).to_s.rjust(2, '0')
+      set_month_instanse(i)
       request_url = @bar.hp + "/?year-month=#{current_year_str}-#{@month}#schedule"
       save_crawling_result(url: request_url, parser: nokogiri) do |doc|
         format(doc: doc)
