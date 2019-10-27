@@ -42,7 +42,7 @@ class User < ApplicationRecord
       user.save!
     end
 
-    def create_with_tokens
+    def create_with_tokens!
       user = new
       loop do
         user.attributes = {
