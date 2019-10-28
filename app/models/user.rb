@@ -40,6 +40,7 @@ class User < ApplicationRecord
         break if user.valid?
       end
       user.save!
+      user
     end
 
     def create_with_tokens!
