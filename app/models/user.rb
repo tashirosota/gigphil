@@ -32,7 +32,7 @@ class User < ApplicationRecord
   class << self
     TIME_TOKEN_LIVES = 30.minutes
 
-    def refresh(ref_token)
+    def refresh!(ref_token)
       user = find_by!(refresh_token_hash: hash_for(ref_token))
       loop do
         user.access_token = SecureRandom.base58(24)
