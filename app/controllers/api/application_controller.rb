@@ -12,7 +12,7 @@ class Api::ApplicationController < ActionController::Base
 
   def can_authenticate?
     params[:token]
-    @current_user = User::authenticate(token)
+    @current_user = User.authenticate(token)
   end
 end
 
