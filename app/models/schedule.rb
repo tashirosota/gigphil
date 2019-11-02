@@ -21,4 +21,28 @@ class Schedule < ApplicationRecord
 
   validates :title, presence: true, uniqueness: { scope: %i(music_bar_id event_date) }
   validates :event_date, presence: true
+
+  scope :today, -> do
+    Schedule.includes(:music_bar, :artists)
+            .where(event_date: Time.zone.now.all_day)
+            .order(music_bar_id: :asc)
+  end
+
+  scope :tomorrow, -> do
+    Schedule.includes(:music_bar, :artists)
+            .where(event_date: (Time.zone.now + 1.day).all_day)
+            .order(music_bar_id: :asc)
+  end
+
+  # 以下serializer用
+
+  def artist_names
+    artists.map(&:name)
+  end
+
+  delegate :name, to: :music_bar, prefix: true
+
+  delegate :hp, to: :music_bar, prefix: true
+
+  delegate :place, to: :music_bar, prefix: true
 end
