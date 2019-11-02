@@ -36,5 +36,9 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
     resource :user, only: %i(create)
     put 'session', to: 'session#update'
+    namespace :home do
+      get 'today', to: 'today#index'
+      get 'tomorrow', to: 'tomorrow#index'
+    end
   end
 end
