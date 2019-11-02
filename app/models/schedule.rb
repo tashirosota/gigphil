@@ -36,13 +36,15 @@ class Schedule < ApplicationRecord
 
   # 以下serializer用
 
-  def artist_names
-    artists.map(&:name)
+  def music_bar_model
+    { 
+      name: music_bar.name,
+      hp: music_bar.hp,
+      place: music_bar.place,
+    }
   end
 
-  delegate :name, to: :music_bar, prefix: true
-
-  delegate :hp, to: :music_bar, prefix: true
-
-  delegate :place, to: :music_bar, prefix: true
+  def artist_names
+    artists.map { |artist| artist.name.gsub(/[\r\n\t]/, '') }
+  end
 end

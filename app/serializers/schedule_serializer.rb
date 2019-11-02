@@ -6,7 +6,5 @@ class ScheduleSerializer
     :event_date,
     :info,
     :artist_names,
-    :music_bar_name,
-    :music_bar_place,
-    :music_bar_hp
+    :music_bar_model
 end
