@@ -37,10 +37,10 @@ class Schedule < ApplicationRecord
   # 以下serializer用
 
   def music_bar_model
-    { 
+    {
       name: music_bar.name,
       hp: music_bar.hp,
-      place: music_bar.place,
+      place: music_bar.place
     }
   end
 
