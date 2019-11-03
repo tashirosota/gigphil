@@ -6,6 +6,8 @@
 #                                result GET    /result(.:format)                                                                        results#index
 #                              api_user POST   /api/user(.:format)                                                                      api/users#create {:format=>:json}
 #                           api_session PUT    /api/session(.:format)                                                                   api/session#update {:format=>:json}
+#                        api_home_today GET    /api/home/today(.:format)                                                                api/home/today#index {:format=>:json}
+#                     api_home_tomorrow GET    /api/home/tomorrow(.:format)                                                             api/home/tomorrow#index {:format=>:json}
 #         rails_mandrill_inbound_emails POST   /rails/action_mailbox/mandrill/inbound_emails(.:format)                                  action_mailbox/ingresses/mandrill/inbound_emails#create
 #         rails_postmark_inbound_emails POST   /rails/action_mailbox/postmark/inbound_emails(.:format)                                  action_mailbox/ingresses/postmark/inbound_emails#create
 #            rails_relay_inbound_emails POST   /rails/action_mailbox/relay/inbound_emails(.:format)                                     action_mailbox/ingresses/relay/inbound_emails#create
