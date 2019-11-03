@@ -24,7 +24,7 @@ class OtsukaDeepaCrawler < BaseCrawler
   # rubocop:disable all
   def format(doc:)
     doc.css('.scheduleList li').each_with_object([]) do |li_element, events|
-      title = li_element.css('h1').text 
+      title = li_element.css('h1').text
       next if title == 'HALL RENTAL' || title == 'BOOKING'
       event = OpenStruct.new(
         title: title,
