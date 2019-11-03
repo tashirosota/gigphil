@@ -20,7 +20,8 @@ namespace :musicbar do
         { name: '渋谷O-Crest', place: '東京都渋谷区道玄坂２丁目１４−８ 5f', hp: 'https://shibuya-o.com/whats-on/tsutaya-o-crest' },
         { name: '新宿LOFT', place: '東京都新宿区歌舞伎町1-12-9 タテハナビルB2', hp: 'https://www.loft-prj.co.jp' },
         { name: '吉祥寺Planet K', place: '東京都武蔵野市吉祥寺本町１−８−１０ 八番館ビルB1', hp: 'http://inter-planets.net' },
-        { name: '吉祥寺Warp', place: '東京都武蔵野市吉祥寺本町1-30-10', hp: 'http://warp.rinky.info' }
+        { name: '吉祥寺Warp', place: '東京都武蔵野市吉祥寺本町1-30-10', hp: 'http://warp.rinky.info' },
+        { name: '新宿NINE SPICES', place: '東京都新宿区歌舞伎町2-1-2 HANROKUビルB1', hp: 'http://9spices.rinky.info'}
 
       ].map { |hsh| ::MusicBar.create!(hsh) }
       puts 'Created MusicBar records. **It can be old and different from actual MusicBars. Please check.**'
@@ -43,7 +44,8 @@ namespace :musicbar do
       ShibuyaCrestCrawler,
       ShinjukuLoftCrawler,
       KichijojiPlanetkCrawler,
-      KichijojiWarpCrawler
+      KichijojiWarpCrawler,
+      ShinjukuNinespicesCrawler
     ]
     crawlers.each do |klass|
       Rails.logger.info klass
