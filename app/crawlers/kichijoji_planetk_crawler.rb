@@ -22,9 +22,9 @@ class KichijojiPlanetkCrawler < BaseCrawler
     doc.css('.ai1ec-date').each_with_object([]) do |li_element, events|
       title = li_element.css('.ai1ec-event-title').text.gsub(/[\r\n\t]/, '')
       next if %w(ホールレンタル 詳細後日解禁).include? title
-
       dates = li_element.css('.ai1ec-event-time').text.gsub(/[\r\n\t]/, '').split(/月|@/).map(&:to_i)
       descriptions = li_element.css('.ai1ec-event-description p')
+      next if descriptions.count < 2
       act = descriptions.first.css('strong').map(&:text)
       info = descriptions[2..].map(&:text).join
       @month = dates[0]
