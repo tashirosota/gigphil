@@ -7,6 +7,7 @@ class Api::ApplicationController < ActionController::Base
   private
 
   def authenticate!
+    return if Rails.env.development?
     raise AuthenticationError, 'The token is invalid' unless can_authenticate?
   end
 
