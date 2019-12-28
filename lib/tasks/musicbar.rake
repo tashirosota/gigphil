@@ -21,9 +21,11 @@ namespace :musicbar do
         { name: '新宿LOFT', place: '東京都新宿区歌舞伎町1-12-9 タテハナビルB2', hp: 'https://www.loft-prj.co.jp' },
         { name: '吉祥寺Planet K', place: '東京都武蔵野市吉祥寺本町１−８−１０ 八番館ビルB1', hp: 'http://inter-planets.net' },
         { name: '吉祥寺Warp', place: '東京都武蔵野市吉祥寺本町1-30-10', hp: 'http://warp.rinky.info' },
-        { name: '新宿NINE SPICES', place: '東京都新宿区歌舞伎町2-1-2 HANROKUビルB1', hp: 'http://9spices.rinky.info'}
+        { name: '新宿NINE SPICES', place: '東京都新宿区歌舞伎町2-1-2 HANROKUビルB1', hp: 'http://9spices.rinky.info'},
+        { name: '調布Cross', place: '東京都調布市小島町1-35-3 濱乃家ビルB1F', hp: 'https://cross.toos.co.jp/'},
+        { name: '下北沢HALF', place: '東京都世田谷区北沢2-18-5 NeビルB1F', hp: 'https://toos.co.jp/half/'}
 
-      ].map { |hsh| ::MusicBar.create!(hsh) }
+      ].each { |hsh| ::MusicBar.create!(hsh) }
       puts 'Created MusicBar records. **It can be old and different from actual MusicBars. Please check.**'
     end
   end
@@ -45,7 +47,9 @@ namespace :musicbar do
       ShinjukuLoftCrawler,
       KichijojiPlanetkCrawler,
       KichijojiWarpCrawler,
-      ShinjukuNinespicesCrawler
+      ShinjukuNinespicesCrawler,
+      ChofuCrossCrawler,
+      ShimokitazawaHalfCrawler
     ]
     crawlers.each do |klass|
       Rails.logger.info klass
