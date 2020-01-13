@@ -1,17 +1,61 @@
 import React from "react"
-import PropTypes from "prop-types"
-class TimeTable extends React.Component {
+import styled from 'styled-components'
+import swal from 'sweetalert';
+
+const defalutRecord = {
+  order: 1,
+  bandName: 'バンド名',
+  customPlayTime: null,
+  customSettingTime: null,
+  memo: null
+}
+export default class TimeTable extends React.Component {
+
+  constructor(props){
+    super(props)
+    this.state = {
+      eventDate: null,
+      title: null,
+      place: null,
+      meetingTime: null,
+      openTime: null,
+      rehearsalSettingTime: null,
+      rehearsalPlayTime: null,
+      productionSettingTime: null,
+      productionPlayTime: null,
+      rehearsals: defaultRecords(), 
+      concerts: defaultRecords()
+    }
+  }
+
+  defaultRecords(){
+    return [...Array(6)].map(
+      (_, index) => {
+        const record = Object.assign({}, defalutRecord)
+        record.order = index + 1
+        return record
+      }
+    )
+  }
+
   render () {
     return (
       <React.Fragment>
-        TimeTable
-        <h1>Test</h1>
+        <Title>{this.state.title}</Title>
+        <EventDate>{this.state.eventDate}</EventDate>
+        <Place>{this.state.place}</Place>
       </React.Fragment>
     );
   }
 }
 
-TimeTable.propTypes = {
-  greeting: PropTypes.string
-};
-export default TimeTable
+const Title = styled.h1`
+  
+`
+
+const EventDate = styled.h1`
+  
+`
+
+const Place = styled.h1`
+`
