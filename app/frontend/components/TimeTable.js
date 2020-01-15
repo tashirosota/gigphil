@@ -161,7 +161,8 @@ const Container = styled.div`
 
 const Logo = styled.img`
   max-width: 400px;
-  margin: auto;
+  height: auto;
+  margin: 0px auto;
   margin-bottom: 30px;
 `
 
