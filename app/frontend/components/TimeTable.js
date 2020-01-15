@@ -1,6 +1,7 @@
 import React from "react"
 import styled from 'styled-components'
 import swal from 'sweetalert';
+import html2canvas from 'html2canvas'
 
 var defalutRecord = {
   order: '',
@@ -39,6 +40,18 @@ export default class TimeTable extends React.Component {
     )
   }
 
+  export(){
+    html2canvas(document.querySelector("#timetable")).then(canvas => {
+      debugger
+      canvas.toBlob(blob => {
+        const a = document.createElement('a');
+        a.download = `timetable.png`;
+        a.href = window.URL.createObjectURL(blob);
+        a.click();
+      })
+  });
+  }
+
   render () {
     return (
       <React.Fragment>
@@ -46,26 +59,34 @@ export default class TimeTable extends React.Component {
           <Head>
             <Logo alt="Gigphil | ライブ好きのための検索アプリ @" src="/assets/logo.png"/>
           </Head>
-          <TTContainer>
-            <Title>
-              <Input placeholder='タイトル'>{this.state.title}</Input>
-            </Title>
-            <EventDate>
-              <Input placeholder='日付'>{this.state.eventDate}</Input>
-            </EventDate>          
-            <Place>
-              <Input placeholder='場所'>{this.state.place}</Input>
-            </Place>
-            <Memo>
-              <TextArea placeholder='備考'>{this.state.memo}</TextArea>
-            </Memo>
+          <TTContainer id={'timetable'}>
+            <HeadTable className='table table-bordered'>
+              <Tbody>
+                <Title>
+                  <Td style={{width: 80}}>タイトル</Td>
+                  <Td><Input  placeholder='タイトル'>{this.state.title}</Input></Td>
+                </Title>
+                <EventDate>
+                  <Td>日付</Td>
+                  <Td><Input placeholder='日付'>{this.state.eventDate}</Input></Td>
+                </EventDate>
+                <Place>
+                  <Td>場所</Td>
+                  <Td><Input placeholder='場所'>{this.state.place}</Input></Td>
+                </Place>
+                <Memo>
+                  <Td>備考</Td>
+                  <Td><TextArea  placeholder='備考'>{this.state.memo}</TextArea></Td>
+                </Memo>
+              </Tbody>
+            </HeadTable>
             <Rehearsal>
               <TimesContainer>
-                <DefaultPlayTime><Input placeholder='順番'/></DefaultPlayTime>
-                <DefaultSettingTime><Input placeholder='順番'/></DefaultSettingTime>
+                <DefaultPlayTime><Text>持ち時間:</Text><Input placeholder='順番' style={{width: 100}}/><Text>分</Text></DefaultPlayTime>
+                <DefaultSettingTime><Text>転換時間:</Text><Input placeholder='順番' style={{width: 100}}/><Text>分</Text></DefaultSettingTime>
                 <ButtonArea>
-                  <DeleteButton type="button" className='btn btn-secondary'>削除 </DeleteButton>
-                  <AddButton type="button" className='btn btn-secondary'>追加</AddButton>
+                  <DeleteButton type="button" className='btn btn-secondary btn-sm'>削除 </DeleteButton>
+                  <AddButton type="button" className='btn btn-secondary btn-sm'>追加</AddButton>
                 </ButtonArea>
               </TimesContainer>
               <Table className='table table-bordered'>
@@ -83,7 +104,7 @@ export default class TimeTable extends React.Component {
                 {
                   this.state.concerts.map((record, index) => {
                     return <Tr key={index}>
-                      <Td style={{width: 50}}><Input defaultValue={record.order}/></Td>
+                      <Td style={{width: 60}}><Input defaultValue={record.order}/></Td>
                       <Td><Input placeholder='バンド名' defaultValue={record.bandName}/></Td>
                       <Td style={{width: 200}}>時間</Td>
                       <Td style={{width: 100}}><Input placeholder='演奏' defaultValue={record.customPlayTime}/></Td>
@@ -97,17 +118,17 @@ export default class TimeTable extends React.Component {
               </Table>
             </Rehearsal>
             <TimesContainer>
-              <Meeting><Input placeholder='顔合わせ'/></Meeting>
-              <Open><Input placeholder='Open'/></Open>
-              <Start><Input placeholder='Start'/></Start>
+              <Meeting><div style={{width: 100}}>顔合わせ:</div><Input placeholder='顔合わせ'/></Meeting>
+              <Open><div style={{width: 100}}>OPEN:</div><Input placeholder='Open'/></Open>
+              <Start><div style={{width: 100}}>START:</div><Input placeholder='Start'/></Start>
             </TimesContainer>
             <Production>
               <TimesContainer>
-                <DefaultPlayTime><Input placeholder='順番'/></DefaultPlayTime>
-                <DefaultSettingTime><Input placeholder='順番'/></DefaultSettingTime>
+                <DefaultPlayTime><Text>持ち時間:</Text><Input placeholder='順番' style={{width: 100}}/><Text>分</Text></DefaultPlayTime>
+                <DefaultSettingTime><Text>転換時間:</Text><Input placeholder='順番' style={{width: 100}}/><Text>分</Text></DefaultSettingTime>
                 <ButtonArea>
-                  <DeleteButton type="button" className='btn btn-secondary'>削除 </DeleteButton>
-                  <AddButton type="button" className='btn btn-secondary'>追加</AddButton>
+                  <DeleteButton type="button" className='btn btn-secondary btn-sm'>削除 </DeleteButton>
+                  <AddButton type="button" className='btn btn-secondary btn-sm'>追加</AddButton>
                 </ButtonArea>
               </TimesContainer>           
               <Table className='table table-bordered'>
@@ -124,7 +145,7 @@ export default class TimeTable extends React.Component {
                 <Tbody>
                   {this.state.concerts.map((record, index) => {
                     return <Tr key={index}>
-                      <Td style={{width: 50}}><Input defaultValue={record.order}/></Td>
+                      <Td style={{width: 60}}><Input defaultValue={record.order}/></Td>
                       <Td><Input placeholder='バンド名' defaultValue={record.bandName}/></Td>
                       <Td style={{width: 200}}>時間</Td>
                       <Td style={{width: 100}}><Input placeholder='演奏' defaultValue={record.customPlayTime}/></Td>
@@ -137,7 +158,7 @@ export default class TimeTable extends React.Component {
               </Table>
             </Production>
           </TTContainer>
-          <SaveButtop type="button" className='btn btn-light btn-lg'>jpeg書き出し</SaveButtop>
+          <SaveButtop type="button" className='btn btn-light btn-lg' onClick={this.export}>png書き出し</SaveButtop>
         </Container>
       </React.Fragment>
     );
@@ -147,6 +168,13 @@ export default class TimeTable extends React.Component {
 const TTContainer = styled.div`
   background: white;
   padding: 30px 10px;
+  input {
+    border: none;
+
+  };
+  textarea {
+    border: none;
+  };
 `
 
 const Head = styled.div`
@@ -174,59 +202,72 @@ const Input = styled.input`
   }
 `
 
+const Text = styled.div`
+  width: 100px;
+  padding-top: 3px;
+`
+
 const TextArea =  styled.textarea`
   width: 100%;
   padding: 0px 10px
 `
 
-const Title = styled.div`
+const Title = styled.tr`
   
 `
 
-const EventDate = styled.div`
+const EventDate = styled.tr`
   
 `
 
-const Place = styled.div`
+const Place = styled.tr`
 `
 
-const Memo = styled.div`
+const Memo = styled.tr`
 `
 const TimesContainer = styled.div`
   display: flex;
-  margin: 5px 0px;
+  margin-top: 20px;
+  margin-bottom: 10px;
 `
 
 const Meeting = styled.div`
-
+  display: flex;
 `
 
 const Open = styled.div`
-
+  display: flex;
 `
 
 const Start = styled.div`
-
+  display: flex;
 `
 
 const DefaultPlayTime = styled.div`
-
+  display: flex;
+  
 `
 
 const DefaultSettingTime = styled.div`
-
+  display: flex;
+  border-bottom: 10px black
 `
 
 const Rehearsal = styled.div`
   display: block;
   width: 100%;
   height: 100%;
+  margin-bottom: 50px;
 `
 
 const Production = styled.div`
   display: block;
   width: 100%;
   height: 100%;
+`
+
+const HeadTable = styled.table`
+
 `
 
 const Table = styled.table`
@@ -242,7 +283,6 @@ const Tr = styled.tr`
 `
 
 const Th = styled.th`
-  padding: 0px!important;
   text-align: center;
 `
 
@@ -251,7 +291,7 @@ const Tbody = styled.tbody`
 `
 
 const Td = styled.td`
-  padding: 0px!important;
+  padding: 0px 5px !important;
 `
 
 const SaveButtop = styled.button`
