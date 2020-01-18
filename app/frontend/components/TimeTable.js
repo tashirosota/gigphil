@@ -11,31 +11,33 @@ var defalutRecord = {
   memo: '備考'
 }
 export default class TimeTable extends React.Component {
-
   constructor(props){
     super(props)
     this.state = {
-      eventDate: '2020-10-01',
-      title: 'タイトル',
-      place: '場所',
-      memo: '備考',
-      meetingTime: '17:30',
-      openTime: '18:00',
-      startTime: '18:30',
+      timeTable: {
+        eventDate: '2020-10-01',
+        title: 'タイトル',
+        place: '場所',
+        memo: '備考',
+        meetingTime: '17:30',
+        openTime: '18:00',
+        startTime: '18:30',
+        rehearsalSettingTime: 5,
+        rehearsalPlayTime: 20,
+        productionSettingTime: 10,
+        productionPlayTime: 30,
+        rehearsals: this.defaultRecords(), 
+        concerts: this.defaultRecords()
+      },
       playTimes: [15, 20, 25, 30, 35, 40, 45, 60, 100, 120],
-      settingTimes: [5, 10, 15, 20],
-      rehearsalSettingTime: 5,
-      rehearsalPlayTime: 20,
-      productionSettingTime: 10,
-      productionPlayTime: 30,
-      rehearsals: this.defaultRecords(), 
-      concerts: this.defaultRecords()
+      settingTimes: [5, 10, 15, 20]
     }
 
     this.removeProduction = this.removeProduction.bind(this)
     this.addProduction = this.addProduction.bind(this)
     this.removeRehearsal = this.removeRehearsal.bind(this)
     this.addRehearsal = this.addRehearsal.bind(this)
+    this.change = this.change.bind(this)
   }
 
   defaultRecords(){
@@ -60,13 +62,13 @@ export default class TimeTable extends React.Component {
   }
 
   removeProduction(){
-    let concerts = this.state.concerts
+    let concerts = this.state.timeTable.concerts
     concerts.pop()
     this.setState({concerts})
   }
 
   addProduction(){
-    let concerts = this.state.concerts
+    let concerts = this.state.timeTable.concerts
     const record = Object.assign({}, defalutRecord)
     record.order = concerts.length + 1
     concerts.push(record)
@@ -74,21 +76,32 @@ export default class TimeTable extends React.Component {
   }
 
   removeRehearsal(){
-    let rehearsals = this.state.rehearsals
+    let rehearsals = this.state.timeTable.rehearsals
     rehearsals.pop()
     this.setState({rehearsals})
   }
 
   addRehearsal(){
-    let rehearsals = this.state.rehearsals
+    let rehearsals = this.state.timeTable.rehearsals
     const record = Object.assign({}, defalutRecord)
     record.order = rehearsals.length + 1
     rehearsals.push(record)
     this.setState({rehearsals})
   }
 
+  change(e){
+    const { timeTable } = this.state
+    timeTable[e.target.name] = e.target.value
+    this.setState({timeTable})
+  }
+
+  calculateTT(){
+
+  }
+
 
   render () {
+    const { timeTable, playTimes, settingTimes } = this.state
     return (
       <React.Fragment>
         <Container>
@@ -101,19 +114,19 @@ export default class TimeTable extends React.Component {
                 <Tbody>
                   <Title>
                     <Td style={{width: 110}}>タイトル</Td>
-                    <Td><TextLeftInput name="title" value={this.state.title} onChange={ e => this.setState({title: e.target.value}) }/></Td>
+                    <Td><TextLeftInput name="title" value={timeTable.title} onChange={ this.change }/></Td>
                   </Title>
                   <EventDate>
                     <Td>日付</Td>
-                    <Td><TextLeftInput name="eventDate" type='date' value={this.state.eventDate} onChange={ e => this.setState({eventDate: e.target.value})}/></Td>
+                    <Td><TextLeftInput name="eventDate" type='date' value={timeTable.eventDate} onChange={ this.change }/></Td>
                   </EventDate>
                   <Place>
                     <Td>場所</Td>
-                    <Td><TextLeftInput name="place" value={this.state.place} onChange={ e => this.setState({place: e.target.value})}/></Td>
+                    <Td><TextLeftInput name="place" value={timeTable.place} onChange={ this.change }/></Td>
                   </Place>
                   <Memo>
                     <Td>備考</Td>
-                    <Td><TextArea name="memo" value={this.state.memo} onChange={ e => this.setState({memo: e.target.value})}/></Td>
+                    <Td><TextArea name="memo" value={timeTable.memo} onChange={ this.change }/></Td>
                   </Memo>
                 </Tbody>
               </HeadTable>
@@ -121,9 +134,9 @@ export default class TimeTable extends React.Component {
                 <TimesContainer>
                   <DefaultPlayTime>
                     <Text>持ち時間:</Text>
-                    <Select name='rehearsalPlayTime' value={this.state.rehearsalPlayTime} style={{width: 100}} onChange={ e => this.setState({rehearsalPlayTime: e.target.value})}>
+                    <Select name='rehearsalPlayTime' value={timeTable.rehearsalPlayTime} style={{width: 100}} onChange={ this.change }>
                       {
-                        this.state.playTimes.map((time, index) => {
+                        playTimes.map((time, index) => {
                         return <option key={index} value={time}>{time}</option>
                         })
                       }
@@ -132,9 +145,9 @@ export default class TimeTable extends React.Component {
                   </DefaultPlayTime>
                   <DefaultSettingTime>
                     <Text>転換時間:</Text>
-                    <Select name='rehearsalSettingTime' value={this.state.rehearsalSettingTime} style={{width: 100}} onChange={ e => this.setState({rehearsalSettingTime: e.target.value})}>
+                    <Select name='rehearsalSettingTime' value={timeTable.rehearsalSettingTime} style={{width: 100}} onChange={ this.change }>
                       {
-                        this.state.settingTimes.map((time, index) => {
+                        settingTimes.map((time, index) => {
                         return <option key={index} value={time}>{time}</option>
                         })
                       }
@@ -159,7 +172,7 @@ export default class TimeTable extends React.Component {
                   </Thead>
                   <Tbody>
                   {
-                    this.state.rehearsals.map((record, index) => {
+                    timeTable.rehearsals.map((record, index) => {
                       return <Tr key={index}>
                         <Td style={{width: 80}}>{record.order}</Td>
                         <Td><Input placeholder='バンド名' defaultValue={record.bandName}/></Td>
@@ -177,24 +190,24 @@ export default class TimeTable extends React.Component {
               <TimesContainer>
                 <Meeting>
                   <div style={{width: 100}}>顔合わせ:</div>
-                  <TimeInput placeholder='顔合わせ' type='time' value={this.state.startTime} onChange={ e => this.setState({title: e.startTime.value})}/>
+                  <TimeInput placeholder='顔合わせ' name='meetingTime' type='time' value={timeTable.meetingTime} onChange={ this.change }/>
                 </Meeting>
                 <Open>
                   <div style={{width: 80}}>OPEN:</div>
-                  <TimeInput placeholder='12:00' type='time' value={this.state.startTime} onChange={ e => this.setState({startTime: e.target.value})}/>
+                  <TimeInput placeholder='12:00' name='openTime' type='time' value={timeTable.openTime} onChange={ this.change }/>
                 </Open>
                 <Start>
                   <div style={{width: 80}}>START:</div>
-                  <TimeInput placeholder='Start' type='time' value={this.state.startTime} onChange={ e => this.setState({startTime: e.target.value})}/>
+                  <TimeInput placeholder='Start'  name='startTime'type='time' value={timeTable.startTime} onChange={ this.change }/>
                 </Start>
               </TimesContainer>
               <Production>
                 <TimesContainer>
                   <DefaultPlayTime>
                     <Text>持ち時間:</Text>
-                    <Select name='productionPlayTime' value={this.state.productionPlayTime} style={{width: 100}} onChange={ e => this.setState({productionPlayTime: e.target.value})}>
+                    <Select name='productionPlayTime' value={timeTable.productionPlayTime} style={{width: 100}} onChange={ this.change }>
                       {
-                        this.state.playTimes.map((time, index) => {
+                        playTimes.map((time, index) => {
                         return <option key={index} value={time}>{time}</option>
                         })
                       }
@@ -203,9 +216,9 @@ export default class TimeTable extends React.Component {
                   </DefaultPlayTime>
                   <DefaultSettingTime>
                     <Text>転換時間:</Text>
-                    <Select name='productionSettingTime' value={this.state.productionSettingTime} style={{width: 100}}  onChange={ e => this.setState({productionSettingTime: e.target.value})}>
+                    <Select name='productionSettingTime' value={timeTable.productionSettingTime} style={{width: 100}}  onChange={ this.change }>
                       {
-                        this.state.settingTimes.map((time, index) => {
+                        settingTimes.map((time, index) => {
                         return <option key={index} value={time}>{time}</option>
                         })
                       }
@@ -229,7 +242,7 @@ export default class TimeTable extends React.Component {
                     </Tr>
                   </Thead>
                   <Tbody>
-                    {this.state.concerts.map((record, index) => {
+                    {timeTable.concerts.map((record, index) => {
                       return <Tr key={index}>
                         <Td style={{width: 80}}>{record.order}</Td>
                         <Td><Input placeholder='バンド名' defaultValue={record.bandName}/></Td>
