@@ -15,19 +15,27 @@ export default class TimeTable extends React.Component {
   constructor(props){
     super(props)
     this.state = {
-      eventDate: null,
-      title: null,
-      place: null,
-      memo: null,
-      meetingTime: null,
-      openTime: null,
-      rehearsalSettingTime: null,
-      rehearsalPlayTime: null,
-      productionSettingTime: null,
-      productionPlayTime: null,
+      eventDate: '2020-10-01',
+      title: 'タイトル',
+      place: '場所',
+      memo: '備考',
+      meetingTime: '17:30',
+      openTime: '18:00',
+      startTime: '18:30',
+      playTimes: [15, 20, 25, 30, 35, 40, 45, 60, 100, 120],
+      settingTimes: [5, 10, 15, 20],
+      rehearsalSettingTime: 5,
+      rehearsalPlayTime: 20,
+      productionSettingTime: 10,
+      productionPlayTime: 30,
       rehearsals: this.defaultRecords(), 
       concerts: this.defaultRecords()
     }
+
+    this.removeProduction = this.removeProduction.bind(this)
+    this.addProduction = this.addProduction.bind(this)
+    this.removeRehearsal = this.removeRehearsal.bind(this)
+    this.addRehearsal = this.addRehearsal.bind(this)
   }
 
   defaultRecords(){
@@ -42,15 +50,43 @@ export default class TimeTable extends React.Component {
 
   export(){
     html2canvas(document.querySelector("#timetable")).then(canvas => {
-      debugger
       canvas.toBlob(blob => {
         const a = document.createElement('a');
-        a.download = `timetable.png`;
+        a.download = `timetable`;
         a.href = window.URL.createObjectURL(blob);
         a.click();
       })
-  });
+    });
   }
+
+  removeProduction(){
+    let concerts = this.state.concerts
+    concerts.pop()
+    this.setState({concerts})
+  }
+
+  addProduction(){
+    let concerts = this.state.concerts
+    const record = Object.assign({}, defalutRecord)
+    record.order = concerts.length + 1
+    concerts.push(record)
+    this.setState({concerts})
+  }
+
+  removeRehearsal(){
+    let rehearsals = this.state.rehearsals
+    rehearsals.pop()
+    this.setState({rehearsals})
+  }
+
+  addRehearsal(){
+    let rehearsals = this.state.rehearsals
+    const record = Object.assign({}, defalutRecord)
+    record.order = rehearsals.length + 1
+    rehearsals.push(record)
+    this.setState({rehearsals})
+  }
+
 
   render () {
     return (
@@ -59,111 +95,172 @@ export default class TimeTable extends React.Component {
           <Head>
             <Logo alt="Gigphil | ライブ好きのための検索アプリ @" src="/assets/logo.png"/>
           </Head>
-          <TTContainer id={'timetable'}>
-            <HeadTable className='table table-bordered'>
-              <Tbody>
-                <Title>
-                  <Td style={{width: 80}}>タイトル</Td>
-                  <Td><Input  placeholder='タイトル'>{this.state.title}</Input></Td>
-                </Title>
-                <EventDate>
-                  <Td>日付</Td>
-                  <Td><Input placeholder='日付'>{this.state.eventDate}</Input></Td>
-                </EventDate>
-                <Place>
-                  <Td>場所</Td>
-                  <Td><Input placeholder='場所'>{this.state.place}</Input></Td>
-                </Place>
-                <Memo>
-                  <Td>備考</Td>
-                  <Td><TextArea  placeholder='備考'>{this.state.memo}</TextArea></Td>
-                </Memo>
-              </Tbody>
-            </HeadTable>
-            <Rehearsal>
+          <div id={'timetable'}>
+            <TTContainer>
+              <HeadTable className='table table-bordered'>
+                <Tbody>
+                  <Title>
+                    <Td style={{width: 110}}>タイトル</Td>
+                    <Td><TextLeftInput name="title" value={this.state.title} onChange={ e => this.setState({title: e.target.value}) }/></Td>
+                  </Title>
+                  <EventDate>
+                    <Td>日付</Td>
+                    <Td><TextLeftInput name="eventDate" type='date' value={this.state.eventDate} onChange={ e => this.setState({eventDate: e.target.value})}/></Td>
+                  </EventDate>
+                  <Place>
+                    <Td>場所</Td>
+                    <Td><TextLeftInput name="place" value={this.state.place} onChange={ e => this.setState({place: e.target.value})}/></Td>
+                  </Place>
+                  <Memo>
+                    <Td>備考</Td>
+                    <Td><TextArea name="memo" value={this.state.memo} onChange={ e => this.setState({memo: e.target.value})}/></Td>
+                  </Memo>
+                </Tbody>
+              </HeadTable>
+              <Rehearsal>
+                <TimesContainer>
+                  <DefaultPlayTime>
+                    <Text>持ち時間:</Text>
+                    <Select name='rehearsalPlayTime' value={this.state.rehearsalPlayTime} style={{width: 100}} onChange={ e => this.setState({rehearsalPlayTime: e.target.value})}>
+                      {
+                        this.state.playTimes.map((time, index) => {
+                        return <option key={index} value={time}>{time}</option>
+                        })
+                      }
+                      </Select>
+                    <Text>分</Text>
+                  </DefaultPlayTime>
+                  <DefaultSettingTime>
+                    <Text>転換時間:</Text>
+                    <Select name='rehearsalSettingTime' value={this.state.rehearsalSettingTime} style={{width: 100}} onChange={ e => this.setState({rehearsalSettingTime: e.target.value})}>
+                      {
+                        this.state.settingTimes.map((time, index) => {
+                        return <option key={index} value={time}>{time}</option>
+                        })
+                      }
+                      </Select>
+                    <Text>分</Text>
+                  </DefaultSettingTime>
+                  <ButtonArea>
+                    <DeleteButton type="button" className='btn btn-secondary btn-sm' onClick={this.removeRehearsal}>削除</DeleteButton>
+                    <AddButton type="button" className='btn btn-secondary btn-sm' onClick={this.addRehearsal}>追加</AddButton>
+                  </ButtonArea>
+                </TimesContainer>
+                <Table className='table table-bordered'>
+                  <Thead>
+                    <Tr>
+                      <Th scope="col"> 順番</Th>
+                      <Th scope="col">バンド名</Th>
+                      <Th scope="col">時間</Th>
+                      <Th scope="col">演奏</Th>
+                      <Th scope="col">転換</Th>
+                      <Th scope="col">備考</Th>
+                    </Tr>
+                  </Thead>
+                  <Tbody>
+                  {
+                    this.state.rehearsals.map((record, index) => {
+                      return <Tr key={index}>
+                        <Td style={{width: 80}}>{record.order}</Td>
+                        <Td><Input placeholder='バンド名' defaultValue={record.bandName}/></Td>
+                        <Td style={{width: 200}}>時間</Td>
+                        <Td style={{width: 100}}><Input placeholder='演奏' defaultValue={record.customPlayTime}/></Td>
+                        <Td style={{width: 100}}><Input placeholder='転換' defaultValue={record.customSettingTime}/></Td>
+                        <Td><Input placeholder='備考' defaultValue={record.memo}/></Td>
+                      </Tr>
+                    }
+                    )
+                  }
+                  </Tbody>
+                </Table>
+              </Rehearsal>
               <TimesContainer>
-                <DefaultPlayTime><Text>持ち時間:</Text><Input placeholder='順番' style={{width: 100}}/><Text>分</Text></DefaultPlayTime>
-                <DefaultSettingTime><Text>転換時間:</Text><Input placeholder='順番' style={{width: 100}}/><Text>分</Text></DefaultSettingTime>
-                <ButtonArea>
-                  <DeleteButton type="button" className='btn btn-secondary btn-sm'>削除 </DeleteButton>
-                  <AddButton type="button" className='btn btn-secondary btn-sm'>追加</AddButton>
-                </ButtonArea>
+                <Meeting>
+                  <div style={{width: 100}}>顔合わせ:</div>
+                  <TimeInput placeholder='顔合わせ' type='time' value={this.state.startTime} onChange={ e => this.setState({title: e.startTime.value})}/>
+                </Meeting>
+                <Open>
+                  <div style={{width: 80}}>OPEN:</div>
+                  <TimeInput placeholder='12:00' type='time' value={this.state.startTime} onChange={ e => this.setState({startTime: e.target.value})}/>
+                </Open>
+                <Start>
+                  <div style={{width: 80}}>START:</div>
+                  <TimeInput placeholder='Start' type='time' value={this.state.startTime} onChange={ e => this.setState({startTime: e.target.value})}/>
+                </Start>
               </TimesContainer>
-              <Table className='table table-bordered'>
+              <Production>
+                <TimesContainer>
+                  <DefaultPlayTime>
+                    <Text>持ち時間:</Text>
+                    <Select name='productionPlayTime' value={this.state.productionPlayTime} style={{width: 100}} onChange={ e => this.setState({productionPlayTime: e.target.value})}>
+                      {
+                        this.state.playTimes.map((time, index) => {
+                        return <option key={index} value={time}>{time}</option>
+                        })
+                      }
+                      </Select>
+                    <Text>分</Text>
+                  </DefaultPlayTime>
+                  <DefaultSettingTime>
+                    <Text>転換時間:</Text>
+                    <Select name='productionSettingTime' value={this.state.productionSettingTime} style={{width: 100}}  onChange={ e => this.setState({productionSettingTime: e.target.value})}>
+                      {
+                        this.state.settingTimes.map((time, index) => {
+                        return <option key={index} value={time}>{time}</option>
+                        })
+                      }
+                      </Select>
+                    <Text>分</Text>
+                  </DefaultSettingTime>
+                  <ButtonArea>
+                    <DeleteButton type="button" className='btn btn-secondary btn-sm' onClick={this.removeProduction}>削除</DeleteButton>
+                    <AddButton type="button" className='btn btn-secondary btn-sm' onClick={this.addProduction}>追加</AddButton>
+                  </ButtonArea>
+                </TimesContainer>           
+                <Table className='table table-bordered'>
                 <Thead>
-                  <Tr>
-                    <Th scope="col"> 順番</Th>
-                    <Th scope="col">バンド名</Th>
-                    <Th scope="col">時間</Th>
-                    <Th scope="col">演奏</Th>
-                    <Th scope="col">転換</Th>
-                    <Th scope="col">備考</Th>
-                  </Tr>
-                </Thead>
-                <Tbody>
-                {
-                  this.state.concerts.map((record, index) => {
-                    return <Tr key={index}>
-                      <Td style={{width: 60}}><Input defaultValue={record.order}/></Td>
-                      <Td><Input placeholder='バンド名' defaultValue={record.bandName}/></Td>
-                      <Td style={{width: 200}}>時間</Td>
-                      <Td style={{width: 100}}><Input placeholder='演奏' defaultValue={record.customPlayTime}/></Td>
-                      <Td style={{width: 100}}><Input placeholder='転換' defaultValue={record.customSettingTime}/></Td>
-                      <Td><Input placeholder='備考' defaultValue={record.memo}/></Td>
+                    <Tr>
+                      <Th scope="col">順番</Th>
+                      <Th scope="col">バンド名</Th>
+                      <Th scope="col">時間</Th>
+                      <Th scope="col">演奏</Th>
+                      <Th scope="col">転換</Th>
+                      <Th scope="col">備考</Th>
                     </Tr>
-                  }
-                  )
-                }
-                </Tbody>
-              </Table>
-            </Rehearsal>
-            <TimesContainer>
-              <Meeting><div style={{width: 100}}>顔合わせ:</div><Input placeholder='顔合わせ'/></Meeting>
-              <Open><div style={{width: 100}}>OPEN:</div><Input placeholder='Open'/></Open>
-              <Start><div style={{width: 100}}>START:</div><Input placeholder='Start'/></Start>
-            </TimesContainer>
-            <Production>
-              <TimesContainer>
-                <DefaultPlayTime><Text>持ち時間:</Text><Input placeholder='順番' style={{width: 100}}/><Text>分</Text></DefaultPlayTime>
-                <DefaultSettingTime><Text>転換時間:</Text><Input placeholder='順番' style={{width: 100}}/><Text>分</Text></DefaultSettingTime>
-                <ButtonArea>
-                  <DeleteButton type="button" className='btn btn-secondary btn-sm'>削除 </DeleteButton>
-                  <AddButton type="button" className='btn btn-secondary btn-sm'>追加</AddButton>
-                </ButtonArea>
-              </TimesContainer>           
-              <Table className='table table-bordered'>
-              <Thead>
-                  <Tr>
-                    <Th scope="col">順番</Th>
-                    <Th scope="col">バンド名</Th>
-                    <Th scope="col">時間</Th>
-                    <Th scope="col">演奏</Th>
-                    <Th scope="col">転換</Th>
-                    <Th scope="col">備考</Th>
-                  </Tr>
-                </Thead>
-                <Tbody>
-                  {this.state.concerts.map((record, index) => {
-                    return <Tr key={index}>
-                      <Td style={{width: 60}}><Input defaultValue={record.order}/></Td>
-                      <Td><Input placeholder='バンド名' defaultValue={record.bandName}/></Td>
-                      <Td style={{width: 200}}>時間</Td>
-                      <Td style={{width: 100}}><Input placeholder='演奏' defaultValue={record.customPlayTime}/></Td>
-                      <Td style={{width: 100}}><Input placeholder='転換' defaultValue={record.customSettingTime}/></Td>
-                      <Td><Input placeholder='備考' defaultValue={record.memo}/></Td>
-                    </Tr>
-                  }
-                  )}
-                </Tbody>
-              </Table>
-            </Production>
-          </TTContainer>
+                  </Thead>
+                  <Tbody>
+                    {this.state.concerts.map((record, index) => {
+                      return <Tr key={index}>
+                        <Td style={{width: 80}}>{record.order}</Td>
+                        <Td><Input placeholder='バンド名' defaultValue={record.bandName}/></Td>
+                        <Td style={{width: 200}}>時間</Td>
+                        <Td style={{width: 100}}><Input placeholder='演奏' defaultValue={record.customPlayTime}/></Td>
+                        <Td style={{width: 100}}><Input placeholder='転換' defaultValue={record.customSettingTime}/></Td>
+                        <Td><Input placeholder='備考' defaultValue={record.memo}/></Td>
+                      </Tr>
+                    }
+                    )}
+                  </Tbody>
+                </Table>
+              </Production>
+            </TTContainer>
+          </div>
           <SaveButtop type="button" className='btn btn-light btn-lg' onClick={this.export}>png書き出し</SaveButtop>
         </Container>
       </React.Fragment>
     );
   }
 }
+
+const Container = styled.div`
+  display: block;
+  width: 1200px;
+  min-height: 2200px;
+  padding: 0 50px;
+  margin: 0 auto;
+  font-size: large;
+`
+
 
 const TTContainer = styled.div`
   background: white;
@@ -181,21 +278,43 @@ const Head = styled.div`
   display: flex;
 `
 
-const Container = styled.div`
-  display: block;
-  width: 980px;
-  margin: 0 auto;
-`
-
 const Logo = styled.img`
   max-width: 400px;
-  height: auto;
+  max-height: 176px;
   margin: 0px auto;
   margin-bottom: 30px;
 `
 
+const TextLeftInput = styled.input`
+  width: 100%;
+  padding: 0px 10px;
+  th {
+    border: none;
+  }
+`
+
+const Select = styled.select`
+  width: 100%;
+  padding: 0px 10px;
+  th {
+    border: none;
+  }
+  text-align: center;
+  border: none;
+  background-color: #fff;
+`
+
 const Input = styled.input`
   width: 100%;
+  padding: 0px 10px;
+  th {
+    border: none;
+  }
+  text-align: center;
+`
+
+const TimeInput = styled.input`
+  width: 100px;
   padding: 0px 10px;
   th {
     border: none;
@@ -209,7 +328,8 @@ const Text = styled.div`
 
 const TextArea =  styled.textarea`
   width: 100%;
-  padding: 0px 10px
+  padding: 0px 10px;
+  height: 150px;
 `
 
 const Title = styled.tr`
@@ -292,11 +412,14 @@ const Tbody = styled.tbody`
 
 const Td = styled.td`
   padding: 0px 5px !important;
+  text-align: center;
 `
 
 const SaveButtop = styled.button`
   margin-top: 30px;
   width: 100%;
+  height: 100px;
+  font-size: 45px;;
 `
 
 const ButtonArea = styled.div`
