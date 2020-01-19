@@ -160,7 +160,10 @@ export default class TimeTable extends React.Component {
         <Container>
           <Head>
             <Logo alt="Gigphil | ライブ好きのための検索アプリ @" src="/assets/logo.png"/>
+            <Description className="text-white">タイムテーブルシミュレーター</Description>
+            <SearcherLink><a class="text-white" href="/searcher">ライブ検索はこちら</a></SearcherLink>
           </Head>
+          
           <div id={'timetable'}>
             <TTContainer>
               <HeadTable className='table table-bordered'>
@@ -373,7 +376,18 @@ const TTContainer = styled.div`
 `
 
 const Head = styled.div`
-  display: flex;
+  display: block;
+`
+
+const Description = styled.div`
+  text-align: center;
+  font-size: 40px;
+`
+
+const SearcherLink = styled.div`
+  text-align: center;
+  font-size: 17px;
+  margin-bottom: 20px
 `
 
 const Logo = styled.img`
@@ -381,6 +395,7 @@ const Logo = styled.img`
   max-height: 176px;
   margin: 0px auto;
   margin-bottom: 30px;
+  display: block;
 `
 
 const TextLeftInput = styled.input`

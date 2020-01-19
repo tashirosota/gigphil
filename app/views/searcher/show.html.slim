@@ -4,6 +4,8 @@
     = image_tag image_path('logo.png'), class: 'gigphil-logo', alt: 'Gigphil | ライブ好きのための検索アプリ @'
   br
   h2.text-white 検索項目を入力して下さい。
+  = link_to('タイムテーブルシミュレータはこちら', '/TT', class: 'text-white')
+  br
   br
   .row.justify-content-md-center
     .col-md-6.col-12
@@ -26,6 +28,7 @@
         = f.submit '探す', class: "button btn btn-lg btn-light btn-block"
   br
   = mail_to('g4160hc@gmail.com', name = 'お問い合わせはこちら', class: 'text-white')
+
   br
   h2.text-white - 掲載ライブハウス一覧 -
   ul
