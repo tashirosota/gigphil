@@ -231,7 +231,7 @@ export default class TimeTable extends React.Component {
                     timeTable.rehearsals.map((record, index) => {
                       return <Tr key={index}>
                         <Td style={{width: 80}} >{record.order}</Td>
-                        <Td><Input name='bandName' value={record.bandName} onChange={ e => { this.changeProductionRecord(e, index) } } /></Td>
+                        <Td><Input name='bandName' value={record.bandName} onChange={ e => { this.changeRehearsalRecord(e, index) } } /></Td>
                         <Td style={{width: 200}}>{this.calculateRehearsalTime(index)}</Td>
                         <Td style={{width: 100}}>
                           <Select name='customPlayTime' value={record.customPlayTime || timeTable.rehearsalPlayTime} onChange={ e => { this.changeRehearsalRecord(e, index) } }>
