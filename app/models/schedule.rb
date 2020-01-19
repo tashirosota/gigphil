@@ -2,8 +2,8 @@
 #
 # Table name: schedules
 #
-#  id           :integer          not null, primary key
-#  music_bar_id :integer          not null
+#  id           :bigint           not null, primary key
+#  music_bar_id :bigint           not null
 #  title        :string           not null
 #  event_date   :datetime         not null
 #  info         :text

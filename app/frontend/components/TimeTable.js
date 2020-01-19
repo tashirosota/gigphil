@@ -13,24 +13,13 @@ let defalutRecord = {
 export default class TimeTable extends React.Component {
   constructor(props){
     super(props)
-    this.state = {
-      timeTable: {
-        eventDate: '2020-10-01',
-        title: 'タイトル',
-        place: '場所',
-        memo: '備考',
-        meetingTime: '17:30',
-        openTime: '18:00',
-        startTime: '18:30',
-        rehearsalSettingTime: 5,
-        rehearsalPlayTime: 20,
-        productionSettingTime: 10,
-        productionPlayTime: 30,
-        rehearsals: this.defaultRecords(), 
-        concerts: this.defaultRecords()
-      },
+    this.state = 
+    {
+      timeTable:this.props.timeTable,
       playTimes: [15, 20, 25, 30, 35, 40, 45, 60, 100, 120],
-      settingTimes: [5, 10, 15, 20]
+      settingTimes: [5, 10, 15, 20],
+      savable: this.props.savable,
+      shareable: this.props.shareable
     }
 
     this.removeProduction = this.removeProduction.bind(this)
@@ -41,18 +30,9 @@ export default class TimeTable extends React.Component {
     this.changeProductionRecord = this.changeProductionRecord.bind(this)
     this.changeRehearsalRecord = this.changeRehearsalRecord.bind(this)
     this.calculateProductionTime = this.calculateProductionTime.bind(this)
-    this.calculateRehearsalTime = this.calculateRehearsalTime.bind(this)
-    
-  }
-
-  defaultRecords(){
-    return [...Array(6)].map(
-      (_, index) => {
-        const record = Object.assign({}, defalutRecord)
-        record.order = index + 1
-        return record
-      }
-    )
+    this.calculateRehearsalTime = this.calculateRehearsalTime.bind(this) 
+    this.save = this.save.bind(this)
+    this.share = this.share.bind(this) 
   }
 
   removeProduction(){
@@ -81,6 +61,14 @@ export default class TimeTable extends React.Component {
     record.order = rehearsals.length + 1
     rehearsals.push(record)
     this.setState({rehearsals})
+  }
+
+  save(){
+
+  }
+
+  share(){
+    
   }
 
   change(e){
@@ -154,7 +142,7 @@ export default class TimeTable extends React.Component {
   }f
 
   render () {
-    const { timeTable, playTimes, settingTimes } = this.state
+    const { timeTable, playTimes, settingTimes, shareable, savable } = this.state
     return (
       <React.Fragment>
         <Container>
@@ -344,6 +332,12 @@ export default class TimeTable extends React.Component {
               </Production>
             </TTContainer>
           </div>
+          {
+            savable ? <SaveButton type="button" className='btn btn-light btn-lg' onClick={this.save}>保存する</SaveButton> : ''
+          }
+          {
+            shareable ? <ShareButton type="button" className='btn btn-light btn-lg' onClick={this.share}>シェアURLをコピーする</ShareButton> : ''
+          }
         </Container>
       </React.Fragment>
     );
@@ -531,4 +525,16 @@ const AddButton = styled.button`
 
 const DeleteButton  = styled.button`
  margin: 0px 5px;
+`
+
+const SaveButton  = styled.button`
+ margin-top: 30px;
+ width: 100%;
+ font-size: 30px;
+`
+
+const ShareButton  = styled.button`
+ margin-top: 30px;
+ width: 100%;
+ font-size: 30px;
 `

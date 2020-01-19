@@ -4,7 +4,16 @@
 #                                  root GET    /                                                                                        searcher#show
 #                              searcher GET    /searcher(.:format)                                                                      searcher#show
 #                                result GET    /result(.:format)                                                                        results#index
-#                                    TT GET    /TT(.:format)                                                                            time_tables#show
+#                      share_time_table GET    /time_tables/:uuid/share(.:format)                                                       time_tables#share
+#                           time_tables GET    /time_tables(.:format)                                                                   time_tables#index
+#                                       POST   /time_tables(.:format)                                                                   time_tables#create
+#                        new_time_table GET    /time_tables/new(.:format)                                                               time_tables#new
+#                       edit_time_table GET    /time_tables/:uuid/edit(.:format)                                                        time_tables#edit
+#                            time_table GET    /time_tables/:uuid(.:format)                                                             time_tables#show
+#                                       PATCH  /time_tables/:uuid(.:format)                                                             time_tables#update
+#                                       PUT    /time_tables/:uuid(.:format)                                                             time_tables#update
+#                                       DELETE /time_tables/:uuid(.:format)                                                             time_tables#destroy
+#                                    TT GET    /TT(.:format)                                                                            time_tables#new
 #                              api_user POST   /api/user(.:format)                                                                      api/users#create {:format=>:json}
 #                           api_session PUT    /api/session(.:format)                                                                   api/session#update {:format=>:json}
 #                        api_home_today GET    /api/home/today(.:format)                                                                api/home/today#index {:format=>:json}
@@ -34,7 +43,11 @@ Rails.application.routes.draw do
   root 'searcher#show'
   get 'searcher', to: 'searcher#show'
   get 'result', to: 'results#index' 
-  get 'TT', to: 'time_tables#show' 
+
+  resources :time_tables, param: :uuid do
+    member { get 'share', to: 'time_tables#share' }
+  end
+  get 'TT', to: 'time_tables#new' 
 
   # API
   namespace :api, defaults: { format: :json } do

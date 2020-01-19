@@ -2,9 +2,9 @@
 #
 # Table name: user_to_schedules
 #
-#  id          :integer          not null, primary key
-#  user_id     :integer          not null
-#  schedule_id :integer          not null
+#  id          :bigint           not null, primary key
+#  user_id     :bigint           not null
+#  schedule_id :bigint           not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #
