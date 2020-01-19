@@ -1,9 +1,9 @@
 import React from "react"
 import styled from 'styled-components'
 import swal from 'sweetalert';
-import html2canvas from 'html2canvas'
+import moment from 'moment'
 
-var defalutRecord = {
+let defalutRecord = {
   order: '',
   bandName: 'バンド名',
   customPlayTime: null,
@@ -38,6 +38,11 @@ export default class TimeTable extends React.Component {
     this.removeRehearsal = this.removeRehearsal.bind(this)
     this.addRehearsal = this.addRehearsal.bind(this)
     this.change = this.change.bind(this)
+    this.changeProductionRecord = this.changeProductionRecord.bind(this)
+    this.changeRehearsalRecord = this.changeRehearsalRecord.bind(this)
+    this.calculateProductionTime = this.calculateProductionTime.bind(this)
+    this.calculateRehearsalTime = this.calculateRehearsalTime.bind(this)
+    
   }
 
   defaultRecords(){
@@ -50,21 +55,10 @@ export default class TimeTable extends React.Component {
     )
   }
 
-  export(){
-    html2canvas(document.querySelector("#timetable")).then(canvas => {
-      canvas.toBlob(blob => {
-        const a = document.createElement('a');
-        a.download = `timetable`;
-        a.href = window.URL.createObjectURL(blob);
-        a.click();
-      })
-    });
-  }
-
   removeProduction(){
-    let concerts = this.state.timeTable.concerts
-    concerts.pop()
-    this.setState({concerts})
+    const { timeTable } = this.state
+    timeTable.concerts.pop()
+    this.setState({timeTable})
   }
 
   addProduction(){
@@ -76,9 +70,9 @@ export default class TimeTable extends React.Component {
   }
 
   removeRehearsal(){
-    let rehearsals = this.state.timeTable.rehearsals
-    rehearsals.pop()
-    this.setState({rehearsals})
+    const { timeTable } = this.state
+    timeTable.rehearsals.pop()
+    this.setState({timeTable})
   }
 
   addRehearsal(){
@@ -95,10 +89,69 @@ export default class TimeTable extends React.Component {
     this.setState({timeTable})
   }
 
-  calculateTT(){
-
+  changeRehearsalRecord(e, i){
+    const { timeTable } = this.state
+    timeTable.rehearsals[i][e.target.name] = e.target.value
+    this.setState({timeTable})
   }
 
+  changeProductionRecord(e, i){
+    const { timeTable } = this.state
+    timeTable.concerts[i][e.target.name] = e.target.value
+    this.setState({timeTable})
+  }
+
+  // ロジック更に複雑うううう
+  calculateRehearsalTime(i){
+    const { timeTable } = this.state
+    let finishTime = moment(timeTable.meetingTime, 'hh:mm')
+    let startTime = null
+    let reverse_i = timeTable.rehearsals.length -1 - i // わかりやすい用に逆順でのindexに変えてやる
+    let _rehearsals = Object.assign([], timeTable.rehearsals)
+    var settingSubValue = null
+    _rehearsals.reverse().some((record, index) => {
+      if(index == 0){
+        var subValue = record.customPlayTime || timeTable.rehearsalPlayTime
+        startTime = finishTime.clone()
+        startTime.subtract(subValue, 'm')
+        if(reverse_i == 0) return true;
+      } else {
+        finishTime = startTime.clone()
+        finishTime.subtract(settingSubValue, 'm')
+
+        var subValue = record.customPlayTime || timeTable.rehearsalPlayTime
+        startTime = finishTime.clone()
+        startTime.subtract(subValue, 'm')
+        if(index == reverse_i) return true;
+      }
+      settingSubValue = record.customSettingTime || timeTable.rehearsalSettingTime
+    })
+    return `${startTime.format('HH:mm')} - ${finishTime.format('HH:mm')}`
+  }
+
+  // ロジック複雑うううう
+  calculateProductionTime(i){
+    const { timeTable } = this.state
+    let startTime = moment(timeTable.startTime, 'hh:mm')
+    let finishTime = null
+    timeTable.concerts.some((record, index) => {
+      if(index == 0){
+        var addValue = record.customPlayTime || timeTable.productionPlayTime
+        finishTime = startTime.clone()
+        finishTime.add(addValue, 'm')
+        if(i == 0) return true; // トッパーのみここで終了
+      } else {
+        startTime = finishTime.clone()
+        addValue = record.customSettingTime || timeTable.productionSettingTime
+        startTime.add(addValue, 'm')
+        var addValue = record.customPlayTime || timeTable.productionPlayTime
+        finishTime = startTime.clone()
+        finishTime.add(addValue, 'm')
+        if(index == i) return true;
+      }
+    })
+    return `${startTime.format('HH:mm')} - ${finishTime.format('HH:mm')}`
+  }f
 
   render () {
     const { timeTable, playTimes, settingTimes } = this.state
@@ -174,12 +227,28 @@ export default class TimeTable extends React.Component {
                   {
                     timeTable.rehearsals.map((record, index) => {
                       return <Tr key={index}>
-                        <Td style={{width: 80}}>{record.order}</Td>
-                        <Td><Input placeholder='バンド名' defaultValue={record.bandName}/></Td>
-                        <Td style={{width: 200}}>時間</Td>
-                        <Td style={{width: 100}}><Input placeholder='演奏' defaultValue={record.customPlayTime}/></Td>
-                        <Td style={{width: 100}}><Input placeholder='転換' defaultValue={record.customSettingTime}/></Td>
-                        <Td><Input placeholder='備考' defaultValue={record.memo}/></Td>
+                        <Td style={{width: 80}} >{record.order}</Td>
+                        <Td><Input name='bandName' value={record.bandName} onChange={ e => { this.changeProductionRecord(e, index) } } /></Td>
+                        <Td style={{width: 200}}>{this.calculateRehearsalTime(index)}</Td>
+                        <Td style={{width: 100}}>
+                          <Select name='customPlayTime' value={record.customPlayTime || timeTable.rehearsalPlayTime} onChange={ e => { this.changeRehearsalRecord(e, index) } }>
+                          {
+                            playTimes.map((time, index) => {
+                            return <option key={index} value={time}>{time}</option>
+                            })
+                          }
+                          </Select>
+                        </Td>
+                        <Td style={{width: 100}}>
+                          <Select name='customSettingTime' disabled={index==0} value={record.customSettingTime || timeTable.rehearsalSettingTime} onChange={ e => { this.changeRehearsalRecord(e, index) } }>
+                          {
+                            settingTimes.map((time, index) => {
+                            return <option key={index} value={time}>{time}</option>
+                            })
+                          }
+                          </Select>
+                        </Td>
+                        <Td><Input name='memo' value={record.memo} onChange={ e => { this.changeRehearsalRecord(e, index) } }/></Td>
                       </Tr>
                     }
                     )
@@ -244,12 +313,29 @@ export default class TimeTable extends React.Component {
                   <Tbody>
                     {timeTable.concerts.map((record, index) => {
                       return <Tr key={index}>
-                        <Td style={{width: 80}}>{record.order}</Td>
-                        <Td><Input placeholder='バンド名' defaultValue={record.bandName}/></Td>
-                        <Td style={{width: 200}}>時間</Td>
-                        <Td style={{width: 100}}><Input placeholder='演奏' defaultValue={record.customPlayTime}/></Td>
-                        <Td style={{width: 100}}><Input placeholder='転換' defaultValue={record.customSettingTime}/></Td>
-                        <Td><Input placeholder='備考' defaultValue={record.memo}/></Td>
+                        <Td style={{width: 80}} >{record.order}</Td>
+                        <Td><Input name='bandName' value={record.bandName} onChange={ e => { this.changeProductionRecord(e, index) } } /></Td>
+                        <Td style={{width: 200}}>{this.calculateProductionTime(index)}</Td>
+                        <Td style={{width: 100}}>
+                          <Select name='customPlayTime' value={record.customPlayTime || timeTable.productionPlayTime} onChange={ e => { this.changeProductionRecord(e, index) } }>
+                          {
+                            playTimes.map((time, index) => {
+                            return <option key={index} value={time}>{time}</option>
+                            })
+                          }
+                          </Select>
+                        </Td>
+                        <Td style={{width: 100}}>
+                          <Select name='customSettingTime' disabled={index==0} value={record.customSettingTime || timeTable.productionSettingTime} onChange={ e => { this.changeProductionRecord(e, index) } }>
+                          {
+                            settingTimes.map((time, index) => {
+                            return <option key={index} value={time}>{time}</option>
+                            })
+                          }
+                          </Select>
+                        </Td>
+
+                        <Td><Input name='memo' value={record.memo} onChange={ e => { this.changeProductionRecord(e, index) } }/></Td>
                       </Tr>
                     }
                     )}
@@ -258,7 +344,6 @@ export default class TimeTable extends React.Component {
               </Production>
             </TTContainer>
           </div>
-          <SaveButtop type="button" className='btn btn-light btn-lg' onClick={this.export}>png書き出し</SaveButtop>
         </Container>
       </React.Fragment>
     );
