@@ -40,6 +40,7 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
     resource :user, only: %i(create)
     put 'session', to: 'session#update'
+    get 'TT/export', to: 'time_tables#export_as_pdf'
     namespace :home do
       get 'today', to: 'today#index'
       get 'tomorrow', to: 'tomorrow#index'
