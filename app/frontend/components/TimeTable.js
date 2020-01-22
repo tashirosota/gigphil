@@ -164,7 +164,7 @@ export default class TimeTable extends React.Component {
           </Head>
           
           <div id={'timetable'}>
-            <TTContainer>
+            <TTContainer action="/TT/export" method="get">
               <HeadTable className='table table-bordered'>
                 <Tbody>
                   <Title>
@@ -367,7 +367,7 @@ const Container = styled.div`
 `
 
 
-const TTContainer = styled.div`
+const TTContainer = styled.form`
   background: white;
   padding: 30px 10px;
   input {
