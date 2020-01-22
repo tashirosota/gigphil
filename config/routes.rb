@@ -33,14 +33,14 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   root 'searcher#show'
   get 'searcher', to: 'searcher#show'
-  get 'result', to: 'results#index' 
-  get 'TT', to: 'time_tables#show' 
+  get 'result', to: 'results#index'
+  get 'TT', to: 'time_tables#show'
+  post 'TT/export', to: 'time_tables#export_as_pdf'
 
   # API
   namespace :api, defaults: { format: :json } do
     resource :user, only: %i(create)
     put 'session', to: 'session#update'
-    post 'TT/export', to: 'time_tables#export_as_pdf'
     namespace :home do
       get 'today', to: 'today#index'
       get 'tomorrow', to: 'tomorrow#index'
