@@ -2,7 +2,6 @@ import React from "react"
 import styled from 'styled-components'
 import swal from 'sweetalert';
 import moment from 'moment'
-import axios from "axios";
 
 let defalutRecord = {
   order: '',
@@ -43,11 +42,6 @@ export default class TimeTable extends React.Component {
     this.changeRehearsalRecord = this.changeRehearsalRecord.bind(this)
     this.calculateProductionTime = this.calculateProductionTime.bind(this)
     this.calculateRehearsalTime = this.calculateRehearsalTime.bind(this)
-    this.export = this.export.bind(this)
-  }
-
-  export(){
-    axios.post('/api/TT/export',this.state);
   }
 
   defaultRecords(){
@@ -352,7 +346,7 @@ export default class TimeTable extends React.Component {
               </Production>
               <Operation>
                 <ButtonArea>
-                  <ExportButton type="button" className='btn btn-secondary btn-sm' onClick={this.export}>PDFを出力</ExportButton>
+                  <ExportButton type="submit" className='btn btn-secondary btn-sm' >PDFを出力</ExportButton>
                 </ButtonArea>
               </Operation>
             </TTContainer>
