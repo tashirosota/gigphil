@@ -35,7 +35,7 @@ Rails.application.routes.draw do
   get 'searcher', to: 'searcher#show'
   get 'result', to: 'results#index'
   get 'TT', to: 'time_tables#show'
-  post 'TT/export', to: 'time_tables#export_as_pdf'
+  get 'TT/export', to: 'time_tables#export_as_pdf'
 
   # API
   namespace :api, defaults: { format: :json } do
