@@ -34,3 +34,6 @@ yarn-debug.log*
 # Ignore vim swap/undo file
 .*.sw[a-z]
 *.un~
+
+# Ignore IDE config.
+.idea/
