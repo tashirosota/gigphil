@@ -5,6 +5,7 @@
 #                              searcher GET    /searcher(.:format)                                                                      searcher#show
 #                                result GET    /result(.:format)                                                                        results#index
 #                                    TT GET    /TT(.:format)                                                                            time_tables#show
+#                             TT_export POST   /TT/export(.:format)                                                                     time_tables#export_as_pdf
 #                              api_user POST   /api/user(.:format)                                                                      api/users#create {:format=>:json}
 #                           api_session PUT    /api/session(.:format)                                                                   api/session#update {:format=>:json}
 #                        api_home_today GET    /api/home/today(.:format)                                                                api/home/today#index {:format=>:json}
@@ -35,12 +36,12 @@ Rails.application.routes.draw do
   get 'searcher', to: 'searcher#show'
   get 'result', to: 'results#index'
   get 'TT', to: 'time_tables#show'
+  post 'TT/export', to: 'time_tables#export_as_pdf'
 
   # API
   namespace :api, defaults: { format: :json } do
     resource :user, only: %i(create)
     put 'session', to: 'session#update'
-    post 'TT/export', to: 'time_tables#export_as_pdf'
     namespace :home do
       get 'today', to: 'today#index'
       get 'tomorrow', to: 'tomorrow#index'

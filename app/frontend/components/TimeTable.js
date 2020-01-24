@@ -64,7 +64,7 @@ export default class TimeTable extends React.Component {
     const config = {
       method: 'post',
       responseType: 'blob',
-      url: '/api/TT/export',
+      url: '/TT/export',
       data: data
     }
     const downloadByUrl = pdfURL => {
@@ -83,7 +83,6 @@ export default class TimeTable extends React.Component {
           const blob = new Blob([res.data], { type: "application/pdf" })
           const url = window.URL.createObjectURL(blob)
           downloadByUrl(url);
-          // location.href = url
         })
   }
 
@@ -387,12 +386,10 @@ export default class TimeTable extends React.Component {
                   </Tbody>
                 </Table>
               </Production>
-              <Operation>
-                <ButtonArea>
-                  <ExportButton type="submit" onClick={this.exportAsPdf} className='btn btn-secondary btn-sm' >PDFを出力</ExportButton>
-                </ButtonArea>
-              </Operation>
             </TTContainer>
+            <Operation>
+                <ExportButton onClick={this.exportAsPdf} className='btn btn-light btn-lg' >PDFで書き出す</ExportButton>
+            </Operation>
           </div>
         </Container>
       </React.Fragment>
@@ -603,5 +600,7 @@ const DeleteButton  = styled.button`
 `
 
 const ExportButton = styled.button`
-  margin: 0px 5px;
+  margin-top: 30px;
+  width: 100%;
+  font-size: 30px;
 `
