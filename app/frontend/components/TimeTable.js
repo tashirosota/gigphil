@@ -2,6 +2,7 @@ import React from "react"
 import styled from 'styled-components'
 import swal from 'sweetalert';
 import moment from 'moment'
+import axios from "axios";
 
 let defalutRecord = {
   order: '',
@@ -42,6 +43,33 @@ export default class TimeTable extends React.Component {
     this.changeRehearsalRecord = this.changeRehearsalRecord.bind(this)
     this.calculateProductionTime = this.calculateProductionTime.bind(this)
     this.calculateRehearsalTime = this.calculateRehearsalTime.bind(this)
+    this.exportAsPdf = this.exportAsPdf.bind(this)
+  }
+
+  exportAsPdf() {
+    axios(config)
+        .then(res => {
+          const blob = new Blob([res.data], { type: "application/pdf" })
+          const url = window.URL.createObjectURL(blob)
+          // downloadByUrl(url);
+          location.href = url
+        })
+    const config = {
+      method: 'post',
+      responseType: 'blob',
+      url: '/api/TT/export',
+      data: this.state
+    }
+    const downloadByUrl = pdfURL => {
+      const a = document.createElement("a");
+      a.href = pdfURL;
+      a.download = "time_table.pdf";
+      // aタグ要素を画面に一時的に追加する
+      document.body.appendChild(a);
+      a.click();
+      // 不要になったら削除.
+      document.body.removeChild(a);
+    }
   }
 
   defaultRecords(){
@@ -164,7 +192,7 @@ export default class TimeTable extends React.Component {
           </Head>
           
           <div id={'timetable'}>
-            <TTContainer action="/TT/export" method="get">
+            <TTContainer>
               <HeadTable className='table table-bordered'>
                 <Tbody>
                   <Title>
@@ -346,7 +374,7 @@ export default class TimeTable extends React.Component {
               </Production>
               <Operation>
                 <ButtonArea>
-                  <ExportButton type="submit" className='btn btn-secondary btn-sm' >PDFを出力</ExportButton>
+                  <ExportButton type="submit" onClick={this.exportAsPdf} className='btn btn-secondary btn-sm' >PDFを出力</ExportButton>
                 </ButtonArea>
               </Operation>
             </TTContainer>
@@ -367,7 +395,7 @@ const Container = styled.div`
 `
 
 
-const TTContainer = styled.form`
+const TTContainer = styled.div`
   background: white;
   padding: 30px 10px;
   input {
