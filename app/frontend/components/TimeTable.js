@@ -50,12 +50,12 @@ export default class TimeTable extends React.Component {
     const data = this.state
 
     // これ以外に方法が思いつかなかった…
-    const productionPlayTimeRangeElements = document.getElementsByName('productionPlayTimeRanges');
+    const productionPlayTimeRangeElements = document.getElementsByName('productionPlayTimeRanges')
     const productionPlayTimeRanges = Array.from(productionPlayTimeRangeElements, element => element.defaultValue)
     data.timeTable.concerts.map(value => {
       value.playTimeRange = productionPlayTimeRanges.shift()
     })
-    const rehearsalPlayTimeRangeElements = document.getElementsByName('rehearsalPlayTimeRanges');
+    const rehearsalPlayTimeRangeElements = document.getElementsByName('rehearsalPlayTimeRanges')
     const rehearsalPlayTimeRanges = Array.from(rehearsalPlayTimeRangeElements, element => element.defaultValue)
     data.timeTable.rehearsals.map(value => {
       value.playTimeRange = rehearsalPlayTimeRanges.shift()
