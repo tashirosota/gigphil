@@ -1,7 +1,7 @@
 class Api::TimeTablesController < Api::ApplicationController
   def export_as_pdf
     # pdfを新規作成。インスタンスを渡す。
-    pdf = Pdf.new
+    pdf = Pdf.new(params)
     send_data pdf.render,
               filename:    "sample.pdf",
               type:        "application/pdf",
