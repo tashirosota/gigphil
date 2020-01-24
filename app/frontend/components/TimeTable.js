@@ -47,18 +47,25 @@ export default class TimeTable extends React.Component {
   }
 
   exportAsPdf() {
-    axios(config)
-        .then(res => {
-          const blob = new Blob([res.data], { type: "application/pdf" })
-          const url = window.URL.createObjectURL(blob)
-          // downloadByUrl(url);
-          location.href = url
-        })
+    const data = this.state
+
+    // これ以外に方法が思いつかなかった…
+    const productionPlayTimeRangeElements = document.getElementsByName('productionPlayTimeRanges');
+    const productionPlayTimeRanges = Array.from(productionPlayTimeRangeElements, element => element.defaultValue)
+    data.timeTable.concerts.map(value => {
+      value.playTimeRange = productionPlayTimeRanges.shift()
+    })
+    const rehearsalPlayTimeRangeElements = document.getElementsByName('rehearsalPlayTimeRanges');
+    const rehearsalPlayTimeRanges = Array.from(rehearsalPlayTimeRangeElements, element => element.defaultValue)
+    data.timeTable.rehearsals.map(value => {
+      value.playTimeRange = rehearsalPlayTimeRanges.shift()
+    })
+
     const config = {
       method: 'post',
       responseType: 'blob',
       url: '/api/TT/export',
-      data: this.state
+      data: data
     }
     const downloadByUrl = pdfURL => {
       const a = document.createElement("a");
@@ -70,6 +77,14 @@ export default class TimeTable extends React.Component {
       // 不要になったら削除.
       document.body.removeChild(a);
     }
+
+    axios(config)
+        .then(res => {
+          const blob = new Blob([res.data], { type: "application/pdf" })
+          const url = window.URL.createObjectURL(blob)
+          // downloadByUrl(url);
+          location.href = url
+        })
   }
 
   defaultRecords(){
@@ -259,7 +274,7 @@ export default class TimeTable extends React.Component {
                       return <Tr key={index}>
                         <Td style={{width: 80}} >{record.order}</Td>
                         <Td><Input name='bandName' value={record.bandName} onChange={ e => { this.changeRehearsalRecord(e, index) } } /></Td>
-                        <Td style={{width: 200}}>{this.calculateRehearsalTime(index)}</Td>
+                        <Td style={{width: 200}}><Input name='rehearsalPlayTimeRanges' value={this.calculateRehearsalTime(index)} readOnly /></Td>
                         <Td style={{width: 100}}>
                           <Select name='customPlayTime' value={record.customPlayTime || timeTable.rehearsalPlayTime} onChange={ e => { this.changeRehearsalRecord(e, index) } }>
                           {
@@ -345,7 +360,7 @@ export default class TimeTable extends React.Component {
                       return <Tr key={index}>
                         <Td style={{width: 80}} >{record.order}</Td>
                         <Td><Input name='bandName' value={record.bandName} onChange={ e => { this.changeProductionRecord(e, index) } } /></Td>
-                        <Td style={{width: 200}}>{this.calculateProductionTime(index)}</Td>
+                        <Td style={{width: 200}}><Input name='productionPlayTimeRanges' value={this.calculateProductionTime(index)} readOnly /></Td>
                         <Td style={{width: 100}}>
                           <Select name='customPlayTime' value={record.customPlayTime || timeTable.productionPlayTime} onChange={ e => { this.changeProductionRecord(e, index) } }>
                           {
