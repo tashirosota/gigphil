@@ -70,7 +70,7 @@ export default class TimeTable extends React.Component {
     const downloadByUrl = pdfURL => {
       const a = document.createElement("a");
       a.href = pdfURL;
-      a.download = "time_table.pdf";
+      a.download = "タイムテーブル.pdf";
       // aタグ要素を画面に一時的に追加する
       document.body.appendChild(a);
       a.click();

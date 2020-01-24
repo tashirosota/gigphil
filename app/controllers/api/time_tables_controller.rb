@@ -3,8 +3,7 @@ class Api::TimeTablesController < Api::ApplicationController
     # pdfを新規作成。インスタンスを渡す。
     pdf = Pdf.new(params)
     send_data pdf.render,
-              filename:    "sample.pdf",
-              type:        "application/pdf",
-              disposition: "inline" # 画面に表示。外すとダウンロードされる。
+              type: 'application/pdf',
+              disposition: 'inline' # 画面に表示。外すとダウンロードされる。
   end
 end
