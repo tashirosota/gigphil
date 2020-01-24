@@ -82,8 +82,8 @@ export default class TimeTable extends React.Component {
         .then(res => {
           const blob = new Blob([res.data], { type: "application/pdf" })
           const url = window.URL.createObjectURL(blob)
-          // downloadByUrl(url);
-          location.href = url
+          downloadByUrl(url);
+          // location.href = url
         })
   }
 
