@@ -19,7 +19,7 @@ class ShibuyaCrestCrawler < BaseCrawler
 
   def post_and_nokogiri
     res = Net::HTTP.post_form(
-      URI.parse('https://shibuya-o.com'+ CALENDAR_PATH),
+      URI.parse('https://shibuya-o.com' + CALENDAR_PATH),
       action: 'event_list',
       'year-month' => current_year_str + '-' + @month.to_s,
       venue: 172
