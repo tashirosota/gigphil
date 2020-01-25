@@ -14,6 +14,7 @@
 #                                       PUT    /time_tables/:uuid(.:format)                                                             time_tables#update
 #                                       DELETE /time_tables/:uuid(.:format)                                                             time_tables#destroy
 #                                    TT GET    /TT(.:format)                                                                            time_tables#new
+#                             TT_export POST   /TT/export(.:format)                                                                     time_tables#export_as_pdf
 #                              api_user POST   /api/user(.:format)                                                                      api/users#create {:format=>:json}
 #                           api_session PUT    /api/session(.:format)                                                                   api/session#update {:format=>:json}
 #                        api_home_today GET    /api/home/today(.:format)                                                                api/home/today#index {:format=>:json}
@@ -47,7 +48,9 @@ Rails.application.routes.draw do
   resources :time_tables, param: :uuid do
     member { get 'share', to: 'time_tables#share' }
   end
+  
   get 'TT', to: 'time_tables#new' 
+  post 'TT/export', to: 'time_tables#export_as_pdf'
 
   # API
   namespace :api, defaults: { format: :json } do

@@ -2,6 +2,8 @@ import React from "react"
 import styled from 'styled-components'
 import swal from 'sweetalert';
 import moment from 'moment'
+import axios from "axios";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 
 let defalutRecord = {
   order: '',
@@ -33,6 +35,19 @@ export default class TimeTable extends React.Component {
     this.calculateRehearsalTime = this.calculateRehearsalTime.bind(this) 
     this.save = this.save.bind(this)
     this.share = this.share.bind(this) 
+    this.calculateRehearsalTime = this.calculateRehearsalTime.bind(this)
+    this.exportAsPdf = this.exportAsPdf.bind(this)
+    this.copyText = this.copyText.bind(this)
+  }
+
+  defaultRecords(){
+    return [...Array(6)].map(
+      (_, index) => {
+        const record = Object.assign({}, defalutRecord)
+        record.order = index + 1
+        return record
+      }
+    )
   }
 
   removeProduction(){
@@ -139,7 +154,78 @@ export default class TimeTable extends React.Component {
       }
     })
     return `${startTime.format('HH:mm')} - ${finishTime.format('HH:mm')}`
-  }f
+  }
+
+  exportAsPdf() {
+    const data = this.state
+
+    // これ以外に方法が思いつかなかった…
+    const productionPlayTimeRangeElements = document.getElementsByName('productionPlayTimeRanges')
+    const productionPlayTimeRanges = Array.from(productionPlayTimeRangeElements, element => element.defaultValue)
+    data.timeTable.concerts.map(value => {
+      value.playTimeRange = productionPlayTimeRanges.shift()
+    })
+    const rehearsalPlayTimeRangeElements = document.getElementsByName('rehearsalPlayTimeRanges')
+    const rehearsalPlayTimeRanges = Array.from(rehearsalPlayTimeRangeElements, element => element.defaultValue)
+    data.timeTable.rehearsals.map(value => {
+      value.playTimeRange = rehearsalPlayTimeRanges.shift()
+    })
+
+    const config = {
+      method: 'post',
+      responseType: 'blob',
+      url: '/TT/export',
+      data: data
+    }
+    const downloadByUrl = pdfURL => {
+      const a = document.createElement("a");
+      a.href = pdfURL;
+      a.download = "タイムテーブル.pdf";
+      // aタグ要素を画面に一時的に追加する
+      document.body.appendChild(a);
+      a.click();
+      // 不要になったら削除.
+      document.body.removeChild(a);
+    }
+
+    axios(config)
+        .then(res => {
+          const blob = new Blob([res.data], { type: "application/pdf" })
+          const url = window.URL.createObjectURL(blob)
+          downloadByUrl(url);
+        })
+  }
+
+  copyText(){
+    const { timeTable } = this.state
+    const copyText = `
+〜${timeTable.title}〜
+${timeTable.eventDate}@${timeTable.place}
+open/start: ${timeTable.openTime}/${timeTable.startTime}
+
+【リハーサル】
+${
+  timeTable.rehearsals.map((rehearsal, i)=>{
+    const rehearsalText = `${this.calculateRehearsalTime(i)} ${rehearsal.bandName}`
+    return rehearsalText
+  }).join('\n')
+}
+
+顔合わせ: ${timeTable.meetingTime}
+
+【本番】
+${
+  timeTable.concerts.map((concert, i)=>{
+    const concertText = `${this.calculateProductionTime(i)} ${concert.bandName}`
+    return concertText
+  }).join('\n')
+}
+
+【備考】
+${timeTable.memo}
+`
+    return copyText
+  }
 
   render () {
     const { timeTable, playTimes, settingTimes, shareable, savable } = this.state
@@ -148,7 +234,10 @@ export default class TimeTable extends React.Component {
         <Container>
           <Head>
             <Logo alt="Gigphil | ライブ好きのための検索アプリ @" src="/assets/logo.png"/>
+            <Description className="text-white">タイムテーブルジェネレーター</Description>
+            <SearcherLink><a className="text-white" href="/searcher">ライブ検索はこちら</a></SearcherLink>
           </Head>
+          
           <div id={'timetable'}>
             <TTContainer>
               <HeadTable className='table table-bordered'>
@@ -216,8 +305,8 @@ export default class TimeTable extends React.Component {
                     timeTable.rehearsals.map((record, index) => {
                       return <Tr key={index}>
                         <Td style={{width: 80}} >{record.order}</Td>
-                        <Td><Input name='bandName' value={record.bandName} onChange={ e => { this.changeProductionRecord(e, index) } } /></Td>
-                        <Td style={{width: 200}}>{this.calculateRehearsalTime(index)}</Td>
+                        <Td><Input name='bandName' value={record.bandName} onChange={ e => { this.changeRehearsalRecord(e, index) } } /></Td>
+                        <Td style={{width: 200}}><Input name='rehearsalPlayTimeRanges' value={this.calculateRehearsalTime(index)} readOnly /></Td>
                         <Td style={{width: 100}}>
                           <Select name='customPlayTime' value={record.customPlayTime || timeTable.rehearsalPlayTime} onChange={ e => { this.changeRehearsalRecord(e, index) } }>
                           {
@@ -303,7 +392,7 @@ export default class TimeTable extends React.Component {
                       return <Tr key={index}>
                         <Td style={{width: 80}} >{record.order}</Td>
                         <Td><Input name='bandName' value={record.bandName} onChange={ e => { this.changeProductionRecord(e, index) } } /></Td>
-                        <Td style={{width: 200}}>{this.calculateProductionTime(index)}</Td>
+                        <Td style={{width: 200}}><Input name='productionPlayTimeRanges' value={this.calculateProductionTime(index)} readOnly /></Td>
                         <Td style={{width: 100}}>
                           <Select name='customPlayTime' value={record.customPlayTime || timeTable.productionPlayTime} onChange={ e => { this.changeProductionRecord(e, index) } }>
                           {
@@ -331,13 +420,19 @@ export default class TimeTable extends React.Component {
                 </Table>
               </Production>
             </TTContainer>
+            <Operation>
+                <OperationButton onClick={this.exportAsPdf} className='btn btn-light btn-lg' >PDFで書き出す</OperationButton>
+                <CopyToClipboard text={this.copyText() }onCopy={() => swal("コピー完了", "タイムテーブルをコピーしました", "success")}>
+                  <OperationButton className='btn btn-light btn-lg' >コピーする</OperationButton>
+                </CopyToClipboard>
+                {
+                  savable ? <OperationButton type="button" className='btn btn-light btn-lg' onClick={this.save}>保存する</OperationButton> : ''
+                }
+                {
+                  shareable ? <OperationButton type="button" className='btn btn-light btn-lg' onClick={this.share}>シェアURLをコピーする</OperationButton> : ''
+                }
+            </Operation>
           </div>
-          {
-            savable ? <SaveButton type="button" className='btn btn-light btn-lg' onClick={this.save}>保存する</SaveButton> : ''
-          }
-          {
-            shareable ? <ShareButton type="button" className='btn btn-light btn-lg' onClick={this.share}>シェアURLをコピーする</ShareButton> : ''
-          }
         </Container>
       </React.Fragment>
     );
@@ -367,7 +462,18 @@ const TTContainer = styled.div`
 `
 
 const Head = styled.div`
-  display: flex;
+  display: block;
+`
+
+const Description = styled.div`
+  text-align: center;
+  font-size: 40px;
+`
+
+const SearcherLink = styled.div`
+  text-align: center;
+  font-size: 17px;
+  margin-bottom: 20px
 `
 
 const Logo = styled.img`
@@ -375,6 +481,7 @@ const Logo = styled.img`
   max-height: 176px;
   margin: 0px auto;
   margin-bottom: 30px;
+  display: block;
 `
 
 const TextLeftInput = styled.input`
@@ -476,6 +583,13 @@ const Production = styled.div`
   display: block;
   width: 100%;
   height: 100%;
+  margin-bottom: 30px;
+`
+
+const Operation = styled.div`
+  display: block;
+  width: 100%;
+  height: 100%;
 `
 
 const HeadTable = styled.table`
@@ -526,15 +640,8 @@ const AddButton = styled.button`
 const DeleteButton  = styled.button`
  margin: 0px 5px;
 `
-
-const SaveButton  = styled.button`
- margin-top: 30px;
- width: 100%;
- font-size: 30px;
-`
-
-const ShareButton  = styled.button`
- margin-top: 30px;
- width: 100%;
- font-size: 30px;
+const OperationButton = styled.button`
+  margin-top: 30px;
+  width: 100%;
+  font-size: 30px;
 `
