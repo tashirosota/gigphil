@@ -2,5 +2,4 @@
 / てかlayouts分けたい
 meta[name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes"] 
 .top
-= react_component("Menu")
-= react_component("TimeTable", timeTable: @time_table, savable: false, shareable: false)
+= react_component("TimeTable", timeTable: @time_table, savable: !!@current_user, shareable: false, edit_disabled: false)

@@ -59,6 +59,7 @@ ActiveRecord::Schema.define(version: 2020_01_19_035929) do
     t.string "band_name", null: false
     t.integer "custom_play_time"
     t.integer "custom_setting_time"
+    t.string "memo"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["time_table_id"], name: "index_time_table_concerts_on_time_table_id"
@@ -70,6 +71,7 @@ ActiveRecord::Schema.define(version: 2020_01_19_035929) do
     t.string "band_name", null: false
     t.integer "custom_play_time"
     t.integer "custom_setting_time"
+    t.string "memo"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["time_table_id"], name: "index_time_table_rehearsals_on_time_table_id"

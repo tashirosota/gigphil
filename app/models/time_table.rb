@@ -23,10 +23,24 @@
 class TimeTable < ApplicationRecord
   belongs_to :user
   has_many :rehearsals, class_name: 'TimeTable::Rehearsal', dependent: :destroy
-  has_many :concerts, class_name: 'TimeTable::Consert', dependent: :destroy
+  has_many :concerts, class_name: 'TimeTable::Concert', dependent: :destroy
 
   def artist_names
-    concerts.pluk(:bandName)
+    concerts.pluck(:band_name)
+  end
+
+  def set_uuid
+    # A-Z, a-z, 0-9 から16文字
+    self.uuid = SecureRandom.alphanumeric(16)
+
+    # uuid がユニークでなかったら新しい乱数を生成する。3回連続で被ったらエラーを出す（確率的にあり得ないと思うが）。
+    count = 0
+    until self.class.find_by(uuid: uuid).blank?
+      count += 1
+      raise Uuidable::NotUniqueError if count <= RETRY_COUNT
+
+      self.uuid = SecureRandom.alphanumeric(16)
+    end
   end
 
   # rubocop:disable Metrics/MethodLength

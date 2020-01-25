@@ -8,6 +8,7 @@
 #  band_name           :string           not null
 #  custom_play_time    :integer
 #  custom_setting_time :integer
+#  memo                :string
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #

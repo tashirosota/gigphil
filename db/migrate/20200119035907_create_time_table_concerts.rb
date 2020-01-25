@@ -6,6 +6,7 @@ class CreateTimeTableConcerts < ActiveRecord::Migration[6.0]
       t.string :band_name, null: false
       t.integer :custom_play_time 
       t.integer :custom_setting_time 
+      t.string :memo 
       t.timestamps
     end
   end

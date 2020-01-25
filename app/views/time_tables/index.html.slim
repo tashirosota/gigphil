@@ -1,11 +1,10 @@
 .top
-= react_component("Menu")
 br
 - if @time_tables.present?
   .card-columns
     - @time_tables.each do |time_table|
       .card.bg-light.mb-3 style="max-width: 22rem;"
-        .card-header = "#{time_table.event_date.strftime("%Y/%m/%d")}@#{time_table.prace}"
+        .card-header = "#{time_table.event_date.strftime("%Y/%m/%d")}@#{time_table.place}"
         .card-body 
           h5.card-title = time_table.title
           p.card-text = time_table.artist_names.join(' / ')
