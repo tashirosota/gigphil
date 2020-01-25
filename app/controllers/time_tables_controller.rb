@@ -18,6 +18,7 @@ class TimeTablesController < ApplicationController
 
   def destroy
     TimeTable.find_by!(uuid: params[:uuid]).destroy!
+    redirect_to time_tables_path
   end
 
   # 下記は認証必要なし

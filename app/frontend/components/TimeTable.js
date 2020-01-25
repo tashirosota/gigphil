@@ -96,7 +96,7 @@ export default class TimeTable extends React.Component {
           location.href = `/time_tables/${res.data.uuid}/edit`
         }, (res) => {
           console.log('error')
-          swal("保存失敗", `保存にに失敗しました`, "success");
+          swal("保存失敗", `保存に失敗しました`, "danger");
           console.log(res)
         }).then(()=>{
           this.setState({saving: false})
@@ -250,7 +250,7 @@ ${timeTable.memo}
   }
 
   render () {
-    const { timeTable, playTimes, settingTimes, shareable, savable, editable } = this.state
+    const { timeTable, playTimes, settingTimes, shareable, savable, editable, saving } = this.state
     return (
       <React.Fragment>
         <Container>
@@ -444,7 +444,7 @@ ${timeTable.memo}
             </TTContainer>
             <Operation>
                {
-                  savable ? <OperationButton type="button" className='btn btn-light btn-lg' onClick={this.save}>保存する</OperationButton> : ''
+                  savable ? <OperationButton type="button" className='btn btn-light btn-lg' onClick={this.save} disabled={saving}>保存する</OperationButton> : ''
                 }
                 <OperationButton onClick={this.exportAsPdf} className='btn btn-light btn-lg' >PDFで書き出す</OperationButton>
                 <CopyToClipboard text={this.copyText() }onCopy={() => swal("コピー完了", "タイムテーブルをコピーしました", "success")}>
