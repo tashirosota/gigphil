@@ -339,7 +339,7 @@ ${timeTable.memo}
                           </Select>
                         </Td>
                         <Td style={{width: 100}}>
-                          <Select name='customSettingTime' disabled={index==0} value={record.customSettingTime || timeTable.rehearsalSettingTime} onChange={ e => { this.changeRehearsalRecord(e, index) } } disabled={editable}>
+                          <Select name='customSettingTime' value={record.customSettingTime || timeTable.rehearsalSettingTime} onChange={ e => { this.changeRehearsalRecord(e, index) } } disabled={index==0 || editable}>
                           {
                             settingTimes.map((time, index) => {
                             return <option key={index} value={time}>{time}</option>
@@ -425,7 +425,7 @@ ${timeTable.memo}
                           </Select>
                         </Td>
                         <Td style={{width: 100}}>
-                          <Select name='customSettingTime' disabled={index==0} value={record.customSettingTime || timeTable.productionSettingTime} onChange={ e => { this.changeProductionRecord(e, index) } } disabled={editable}>
+                          <Select name='customSettingTime' value={record.customSettingTime || timeTable.productionSettingTime} onChange={ e => { this.changeProductionRecord(e, index) } } disabled={index==0 || editable}>
                           {
                             settingTimes.map((time, index) => {
                             return <option key={index} value={time}>{time}</option>
