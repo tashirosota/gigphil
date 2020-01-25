@@ -174,7 +174,7 @@ export default class TimeTable extends React.Component {
     const config = {
       method: 'post',
       responseType: 'blob',
-      url: '/TT/export',
+      url: '/time_tables/export',
       data: data
     }
     const downloadByUrl = pdfURL => {

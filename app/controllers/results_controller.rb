@@ -1,4 +1,5 @@
 class ResultsController < ApplicationController
+  skip_before_action :authenticate!
   before_action :set_instances
 
   def index

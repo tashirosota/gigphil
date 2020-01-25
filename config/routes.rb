@@ -5,6 +5,7 @@
 #                              searcher GET    /searcher(.:format)                                                                      searcher#show
 #                                result GET    /result(.:format)                                                                        results#index
 #                      share_time_table GET    /time_tables/:uuid/share(.:format)                                                       time_tables#share
+#                    export_time_tables POST   /time_tables/export(.:format)                                                            time_tables#export_as_pdf
 #                           time_tables GET    /time_tables(.:format)                                                                   time_tables#index
 #                                       POST   /time_tables(.:format)                                                                   time_tables#create
 #                        new_time_table GET    /time_tables/new(.:format)                                                               time_tables#new
@@ -14,7 +15,6 @@
 #                                       PUT    /time_tables/:uuid(.:format)                                                             time_tables#update
 #                                       DELETE /time_tables/:uuid(.:format)                                                             time_tables#destroy
 #                                    TT GET    /TT(.:format)                                                                            time_tables#new
-#                             TT_export POST   /TT/export(.:format)                                                                     time_tables#export_as_pdf
 #                              api_user POST   /api/user(.:format)                                                                      api/users#create {:format=>:json}
 #                           api_session PUT    /api/session(.:format)                                                                   api/session#update {:format=>:json}
 #                        api_home_today GET    /api/home/today(.:format)                                                                api/home/today#index {:format=>:json}
@@ -44,13 +44,12 @@ Rails.application.routes.draw do
   root 'searcher#show'
   get 'searcher', to: 'searcher#show'
   get 'result', to: 'results#index' 
+  get 'TT', to: 'time_tables#new' 
 
   resources :time_tables, param: :uuid do
     member { get 'share', to: 'time_tables#share' }
+    collection { post 'export', to: 'time_tables#export_as_pdf' }
   end
-  
-  get 'TT', to: 'time_tables#new' 
-  post 'TT/export', to: 'time_tables#export_as_pdf'
 
   # API
   namespace :api, defaults: { format: :json } do

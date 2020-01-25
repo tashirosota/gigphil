@@ -1,0 +1,27 @@
+.top
+= react_component("Menu")
+br
+- if @time_tables.present?
+  .card-columns
+    - @time_tables.each do |time_table|
+      .card.bg-light.mb-3 style="max-width: 22rem;"
+        .card-header = "#{time_table.event_date.strftime("%Y/%m/%d")}@#{time_table.prace}"
+        .card-body 
+          h5.card-title = time_table.title
+          p.card-text = time_table.artist_names.join(' / ')
+          = link_to '詳細', edit_time_table_path(time_table.uuid), class: "button btn btn-secondary btn-block"
+- else
+  .text-center
+    h2.text-white スケジュールが見つかりませんでした。
+
+css: 
+  @media (min-width: 576px){
+    .card-columns {
+      -moz-column-count: 4;
+      column-count: 4;
+      -moz-column-gap: 1.25rem;
+      column-gap: 1.25rem;
+      orphans: 1;
+      widows: 1;
+    }
+  }
