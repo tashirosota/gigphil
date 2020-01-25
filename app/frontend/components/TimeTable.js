@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import swal from 'sweetalert';
 import moment from 'moment'
 import axios from "axios";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 
 let defalutRecord = {
   order: '',
@@ -44,46 +45,7 @@ export default class TimeTable extends React.Component {
     this.calculateProductionTime = this.calculateProductionTime.bind(this)
     this.calculateRehearsalTime = this.calculateRehearsalTime.bind(this)
     this.exportAsPdf = this.exportAsPdf.bind(this)
-  }
-
-  exportAsPdf() {
-    const data = this.state
-
-    // これ以外に方法が思いつかなかった…
-    const productionPlayTimeRangeElements = document.getElementsByName('productionPlayTimeRanges')
-    const productionPlayTimeRanges = Array.from(productionPlayTimeRangeElements, element => element.defaultValue)
-    data.timeTable.concerts.map(value => {
-      value.playTimeRange = productionPlayTimeRanges.shift()
-    })
-    const rehearsalPlayTimeRangeElements = document.getElementsByName('rehearsalPlayTimeRanges')
-    const rehearsalPlayTimeRanges = Array.from(rehearsalPlayTimeRangeElements, element => element.defaultValue)
-    data.timeTable.rehearsals.map(value => {
-      value.playTimeRange = rehearsalPlayTimeRanges.shift()
-    })
-
-    const config = {
-      method: 'post',
-      responseType: 'blob',
-      url: '/TT/export',
-      data: data
-    }
-    const downloadByUrl = pdfURL => {
-      const a = document.createElement("a");
-      a.href = pdfURL;
-      a.download = "タイムテーブル.pdf";
-      // aタグ要素を画面に一時的に追加する
-      document.body.appendChild(a);
-      a.click();
-      // 不要になったら削除.
-      document.body.removeChild(a);
-    }
-
-    axios(config)
-        .then(res => {
-          const blob = new Blob([res.data], { type: "application/pdf" })
-          const url = window.URL.createObjectURL(blob)
-          downloadByUrl(url);
-        })
+    this.copyText = this.copyText.bind(this)
   }
 
   defaultRecords(){
@@ -192,7 +154,78 @@ export default class TimeTable extends React.Component {
       }
     })
     return `${startTime.format('HH:mm')} - ${finishTime.format('HH:mm')}`
-  }f
+  }
+
+  exportAsPdf() {
+    const data = this.state
+
+    // これ以外に方法が思いつかなかった…
+    const productionPlayTimeRangeElements = document.getElementsByName('productionPlayTimeRanges')
+    const productionPlayTimeRanges = Array.from(productionPlayTimeRangeElements, element => element.defaultValue)
+    data.timeTable.concerts.map(value => {
+      value.playTimeRange = productionPlayTimeRanges.shift()
+    })
+    const rehearsalPlayTimeRangeElements = document.getElementsByName('rehearsalPlayTimeRanges')
+    const rehearsalPlayTimeRanges = Array.from(rehearsalPlayTimeRangeElements, element => element.defaultValue)
+    data.timeTable.rehearsals.map(value => {
+      value.playTimeRange = rehearsalPlayTimeRanges.shift()
+    })
+
+    const config = {
+      method: 'post',
+      responseType: 'blob',
+      url: '/TT/export',
+      data: data
+    }
+    const downloadByUrl = pdfURL => {
+      const a = document.createElement("a");
+      a.href = pdfURL;
+      a.download = "タイムテーブル.pdf";
+      // aタグ要素を画面に一時的に追加する
+      document.body.appendChild(a);
+      a.click();
+      // 不要になったら削除.
+      document.body.removeChild(a);
+    }
+
+    axios(config)
+        .then(res => {
+          const blob = new Blob([res.data], { type: "application/pdf" })
+          const url = window.URL.createObjectURL(blob)
+          downloadByUrl(url);
+        })
+  }
+
+  copyText(){
+    const { timeTable } = this.state
+    const copyText = `
+〜${timeTable.title}〜
+${timeTable.eventDate}@${timeTable.place}
+open/start: ${timeTable.openTime}/${timeTable.startTime}
+
+【リハーサル】
+${
+  timeTable.rehearsals.map((rehearsal, i)=>{
+    const rehearsalText = `${this.calculateRehearsalTime(i)} ${rehearsal.bandName}`
+    return rehearsalText
+  }).join('\n')
+}
+
+顔合わせ: ${timeTable.meetingTime}
+
+【本番】
+${
+  timeTable.concerts.map((concert, i)=>{
+    const concertText = `${this.calculateProductionTime(i)} ${concert.bandName}`
+    return concertText
+  }).join('\n')
+}
+
+【備考】
+${timeTable.memo}
+`
+    return copyText
+  }
 
   render () {
     const { timeTable, playTimes, settingTimes } = this.state
@@ -201,7 +234,7 @@ export default class TimeTable extends React.Component {
         <Container>
           <Head>
             <Logo alt="Gigphil | ライブ好きのための検索アプリ @" src="/assets/logo.png"/>
-            <Description className="text-white">タイムテーブルシミュレーター</Description>
+            <Description className="text-white">タイムテーブルジェネレーター</Description>
             <SearcherLink><a className="text-white" href="/searcher">ライブ検索はこちら</a></SearcherLink>
           </Head>
           
@@ -388,7 +421,10 @@ export default class TimeTable extends React.Component {
               </Production>
             </TTContainer>
             <Operation>
-                <ExportButton onClick={this.exportAsPdf} className='btn btn-light btn-lg' >PDFで書き出す</ExportButton>
+                <OperationButton onClick={this.exportAsPdf} className='btn btn-light btn-lg' >PDFで書き出す</OperationButton>
+                <CopyToClipboard text={this.copyText() }onCopy={() => swal("コピー完了", "タイムテーブルをコピーしました", "success")}>
+                  <OperationButton className='btn btn-light btn-lg' >コピーする</OperationButton>
+                </CopyToClipboard>
             </Operation>
           </div>
         </Container>
@@ -545,7 +581,7 @@ const Production = styled.div`
 `
 
 const Operation = styled.div`
-  display: flex;
+  display: block;
   width: 100%;
   height: 100%;
 `
@@ -599,7 +635,7 @@ const DeleteButton  = styled.button`
  margin: 0px 5px;
 `
 
-const ExportButton = styled.button`
+const OperationButton = styled.button`
   margin-top: 30px;
   width: 100%;
   font-size: 30px;
