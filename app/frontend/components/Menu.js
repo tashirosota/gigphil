@@ -23,14 +23,6 @@ export default class Menu extends React.Component {
     this.setState({ visiable: false })
   }
 
-  login(e){
-    e.preventDefault();
-  }
-
-  logout(e){
-    e.preventDefault();
-  }
-
   render () {
     const { visiable, userID } = this.state
     return (
@@ -45,9 +37,9 @@ export default class Menu extends React.Component {
             { userID ? <Item><a className="text-white" href={`/time_tables`}>タイムテーブル管理</a></Item> : '' }
             {
               userID ? <Login>
-                <a className="text-white" href='#' onClick={(e)=>{this.logout(e)}}>ログアウト</a>
+                <a className="text-white" href='/sessions' data-method="delete">ログアウト</a>
                 </Login>:<Logout>
-                  <a className="text-white" href='#' onClick={(e)=>{this.login(e)}}>ログイン(with Twitter)</a>
+                  <a className="text-white" href='/auth/twitter' >ログイン(with Twitter)</a>
                 </Logout>
             }
           </ItemArea>

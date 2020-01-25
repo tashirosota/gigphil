@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_19_035929) do
+ActiveRecord::Schema.define(version: 2020_01_25_095952) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -113,6 +113,9 @@ ActiveRecord::Schema.define(version: 2020_01_19_035929) do
     t.datetime "token_expires_at", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "provider"
+    t.string "uid"
+    t.string "username"
     t.index ["access_token_hash"], name: "index_users_on_access_token_hash", unique: true
     t.index ["refresh_token_hash"], name: "index_users_on_refresh_token_hash", unique: true
   end

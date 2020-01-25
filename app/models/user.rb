@@ -8,6 +8,9 @@
 #  token_expires_at   :datetime         not null
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
+#  provider           :string
+#  uid                :string
+#  username           :string
 #
 
 class User < ApplicationRecord
