@@ -12,17 +12,7 @@ class TimeTablesController < ApplicationController
 
   # 保存はここのみで行う
   def create
-    TimeTable.transaction do
-      @time_table = current_user.time_tables.find_or_initialize_by(uuid: params[:time_table][:uuid])
-      @time_table.attributes = time_table_params
-      @time_table.set_uuid 
-      @time_table.save!
-      @time_table.rehearsals.destroy_all
-      @time_table.rehearsals.create! rehearsal_params
-      @time_table.concerts.destroy_all
-      @time_table.concerts.create! concert_params
-    end
-
+    create_or_update!
     render json: { uuid: @time_table.uuid }
   end
 
@@ -47,20 +37,35 @@ class TimeTablesController < ApplicationController
     @time_table = TimeTable.find_by!(uuid: params[:uuid]).to_model
   end
 
-  private 
+  private
+
+  # rubocop:disable Metrics/AbcSize
+  def create_or_update!
+    TimeTable.transaction do
+      @time_table = current_user.time_tables.find_or_initialize_by(uuid: params[:time_table][:uuid])
+      @time_table.attributes = time_table_params
+      @time_table.set_uuid
+      @time_table.save!
+      @time_table.rehearsals.destroy_all
+      @time_table.rehearsals.create! rehearsal_params
+      @time_table.concerts.destroy_all
+      @time_table.concerts.create! concert_params
+    end
+  end
+  # rubocop:enable Metrics/AbcSize
 
   def time_table_params
     params.require(:time_table).permit(:title,
-                                  :place,
-                                  :memo,
-                                  :event_date,
-                                  :meeting_time,
-                                  :open_time,
-                                  :start_time,
-                                  :rehearsal_setting_time,
-                                  :rehearsal_play_time,
-                                  :production_setting_time,
-                                  :production_play_time)
+                                       :place,
+                                       :memo,
+                                       :event_date,
+                                       :meeting_time,
+                                       :open_time,
+                                       :start_time,
+                                       :rehearsal_setting_time,
+                                       :rehearsal_play_time,
+                                       :production_setting_time,
+                                       :production_play_time)
   end
 
   def rehearsal_params

@@ -16,7 +16,6 @@ class ApplicationController < ActionController::Base
   end
 end
 
-
 class AuthenticationError < StandardError
   def initialize(msg = '')
     message = msg.presence || 'need authentication by twitter'
