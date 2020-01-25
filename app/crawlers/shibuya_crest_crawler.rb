@@ -9,7 +9,6 @@ class ShibuyaCrestCrawler < BaseCrawler
     @term.times do |i|
       set_month_instanse(i)
       save_crawling_result(url: nil, parser: post_and_nokogiri) do |doc|
-        binding.irb
         format(doc: doc)
       end
     end

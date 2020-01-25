@@ -1,7 +1,7 @@
 # Note: You must restart bin/webpack-dev-server for changes to take effect
 
 default: &default
-  source_path: app/javascript
+  source_path: app/frontend
   source_entry_path: packs
   public_root_path: public
   public_output_path: packs
@@ -34,6 +34,7 @@ default: &default
     - .woff2
 
   extensions:
+    - .jsx
     - .mjs
     - .js
     - .sass
@@ -86,10 +87,11 @@ production:
   <<: *default
 
   # Production depends on precompilation of packs prior to booting for performance.
-  compile: false
+  compile: true
 
   # Extract and emit a css file
   extract_css: true
 
   # Cache manifest.json for performance
   cache_manifest: true
+
