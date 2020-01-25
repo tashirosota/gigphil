@@ -31,7 +31,6 @@ class Pdf < Prawn::Document
   end
 
   # @todoカラム内中央寄せ
-  # rubocop:disable Metrics/AbcSize
   def details
     time_text = '顔合わせ: ' + @time_table['meetingTime'] + \
                 ' / OPEN: ' + @time_table['openTime'] + \
@@ -43,7 +42,6 @@ class Pdf < Prawn::Document
             ['時間', time_text]]
     table(data, position: :center, width: 500, column_widths: { 0 => 80 })
   end
-  # rubocop:enable Metrics/AbcSize
 
   def rehearsals
     data = @time_table['rehearsals'].map do |rehearsal|
