@@ -39,7 +39,7 @@ export default class Menu extends React.Component {
               userID ? <Login>
   <a className="text-white" href='/sessions' data-method="delete">ログアウト（{userName}）</a>
                 </Login>:<Logout>
-                  <a className="text-white" href='/auth/twitter' >ログイン(with Twitter)</a>
+                  {/* <a className="text-white" href='/auth/twitter' >ログイン(with Twitter)</a> */}
                 </Logout>
             }
             <Item><a className="text-white" href="mailto:g4160hc@gmail.com">お問い合わせ</a></Item>
