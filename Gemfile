@@ -37,6 +37,9 @@ gem 'bootstrap', '~> 4.3.1'
 gem 'jquery-rails'
 gem 'rollbar'
 gem 'fast_jsonapi'
+
+gem 'serviceworker-rails'
+
 gem 'react-rails'
 gem 'prawn'
 gem 'prawn-table'
@@ -60,4 +63,3 @@ group :development do
   gem 'faker', :git => 'https://github.com/faker-ruby/faker.git', :branch => 'master'
   gem 'annotate'
 end
-

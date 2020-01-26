@@ -3,7 +3,7 @@ html
   head
     title
       | Gigphil
-    meta content=("text/html; charset=UTF-8") http-equiv="Content-Type" 
+    meta content=("text/html; charset=UTF-8") http-equiv="Content-Type"
     meta[name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"]
     meta name="google-site-verification" content="q-UK5zul2P7Wf5dmtg4YvaZAZXiriVdQMrZYTON5Ve0"
     meta[name="大塚Deepa,吉祥寺WARP,新宿Marble,ライブハウス,下北沢Three" content="keywords"]
@@ -15,6 +15,7 @@ html
     meta[property="og:description" content="Gigphilは東京のライブハウススケジュールを一撃で検索出来るWEB Applicationです！"]
     meta[property="og:image" content= URI.join(root_url, image_path('favicon/android-chrome-192x192.png'))]
     link[rel='apple-touch-icon-precomposed' href="#{image_path('favicon/apple-touch-icon.png')}"]
+    link[rel="manifest" href="/manifest.json"]
 
     = favicon_link_tag('favicon/favicon.ico')
     = csrf_meta_tags
