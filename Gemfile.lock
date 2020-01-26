@@ -1,10 +1,10 @@
 GIT
   remote: https://github.com/faker-ruby/faker.git
-  revision: 1c899db129e3c7a4465bffefd0ea670e6618ff75
+  revision: d94e28e68d669a7c4f4b4d626c8c57da83d9e65f
   branch: master
   specs:
-    faker (2.6.0)
-      i18n (>= 1.6, < 1.8)
+    faker (2.10.1)
+      i18n (>= 1.6, < 2)
 
 GEM
   remote: https://rubygems.org/
@@ -108,7 +108,7 @@ GEM
       activesupport (>= 4.2.0)
     google-analytics-rails (1.1.1)
     hashie (3.6.0)
-    i18n (1.7.0)
+    i18n (1.8.2)
       concurrent-ruby (~> 1.0)
     jaro_winkler (1.5.3)
     jbuilder (2.9.1)
