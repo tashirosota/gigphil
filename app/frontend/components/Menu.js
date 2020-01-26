@@ -8,7 +8,8 @@ export default class Menu extends React.Component {
     super(props)
     this.state = {
       visiable: false,
-      userID: this.props.userId 
+      userID: this.props.userId,
+      userName: this.props.userName
     }
 
     this.close = this.close.bind(this) 
@@ -24,24 +25,24 @@ export default class Menu extends React.Component {
   }
 
   render () {
-    const { visiable, userID } = this.state
+    const { visiable, userID, userName } = this.state
     return (
       <React.Fragment>  
         <OpenButton onClick={this.open}><IoIosMenu/></OpenButton>
         <Background style={{display: visiable ? 'flex' : 'none'}}>
           <CloseButton onClick={this.close}><IoIosClose/></CloseButton>
           <ItemArea>
-            {userID}
             <Item><a className="text-white" href="/searcher">ライブ検索</a></Item>
             <Item><a className="text-white" href="/TT">タイムテーブルジェネレータ</a></Item>
             { userID ? <Item><a className="text-white" href={`/time_tables`}>タイムテーブル管理</a></Item> : '' }
             {
               userID ? <Login>
-                <a className="text-white" href='/sessions' data-method="delete">ログアウト</a>
+  <a className="text-white" href='/sessions' data-method="delete">ログアウト（{userName}）</a>
                 </Login>:<Logout>
                   <a className="text-white" href='/auth/twitter' >ログイン(with Twitter)</a>
                 </Logout>
             }
+            <Item><a className="text-white" href="mailto:g4160hc@gmail.com">お問い合わせ</a></Item>
           </ItemArea>
         </Background>
       </React.Fragment>
@@ -55,7 +56,7 @@ const OpenButton = styled.button`
   top: 20px;
   right: 50px;
   width: auto;
-  height: 50px;
+  height: 60px;
   background: none;
   font-size: 50px;
   border: none;

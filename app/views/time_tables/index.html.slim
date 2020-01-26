@@ -12,7 +12,11 @@ br
           = link_to '削除', time_table_path(time_table.uuid), method: :delete, data: { confirm: 'このタイムテーブルを削除してもよろしいですか？' }, class: "button btn btn-danger btn-block"
 - else
   .text-center
-    h2.text-white スケジュールが見つかりませんでした。
+    h2.text-white 
+      | データがないよ😱
+      br
+      br
+      | タイムテーブルを登録してね🤪
 
 css: 
   @media (min-width: 576px){

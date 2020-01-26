@@ -257,7 +257,6 @@ ${timeTable.memo}
           <Head>
             <Logo alt="Gigphil | ライブ好きのための検索アプリ @" src="/assets/logo.png"/>
             <Description className="text-white">タイムテーブルジェネレーター</Description>
-            <SearcherLink><a className="text-white" href="/searcher">ライブ検索はこちら</a></SearcherLink>
           </Head>
           
           <div id={'timetable'}>
@@ -487,17 +486,12 @@ const TTContainer = styled.div`
 
 const Head = styled.div`
   display: block;
+  margin-bottom: 20px;
 `
 
 const Description = styled.div`
   text-align: center;
   font-size: 40px;
-`
-
-const SearcherLink = styled.div`
-  text-align: center;
-  font-size: 17px;
-  margin-bottom: 20px
 `
 
 const Logo = styled.img`

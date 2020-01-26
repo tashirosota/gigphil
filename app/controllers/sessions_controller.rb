@@ -20,7 +20,7 @@ class SessionsController < ApplicationController
     user = User.find_by(uid: user_data[:uid])
     user = unless user
              user = User.create_with_tokens!
-             user.name = "#{user_data[:name]}（@#{user_data[:nickname])}）"
+             user.username = user_data[:nickname]
              user.provider = user_data[:provider]
              user.uid = user_data[:uid]
              user.save!
