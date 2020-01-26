@@ -2,7 +2,7 @@
 #
 # Table name: music_bars
 #
-#  id         :integer          not null, primary key
+#  id         :bigint           not null, primary key
 #  name       :string           not null
 #  place      :string           not null
 #  hp         :string           not null

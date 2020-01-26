@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_23_230814) do
+ActiveRecord::Schema.define(version: 2020_01_25_095952) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,6 +53,50 @@ ActiveRecord::Schema.define(version: 2019_10_23_230814) do
     t.index ["title"], name: "index_schedules_on_title"
   end
 
+  create_table "time_table_concerts", force: :cascade do |t|
+    t.bigint "time_table_id", null: false
+    t.integer "order", null: false
+    t.string "band_name", null: false
+    t.integer "custom_play_time"
+    t.integer "custom_setting_time"
+    t.string "memo"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["time_table_id"], name: "index_time_table_concerts_on_time_table_id"
+  end
+
+  create_table "time_table_rehearsals", force: :cascade do |t|
+    t.bigint "time_table_id", null: false
+    t.integer "order", null: false
+    t.string "band_name", null: false
+    t.integer "custom_play_time"
+    t.integer "custom_setting_time"
+    t.string "memo"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["time_table_id"], name: "index_time_table_rehearsals_on_time_table_id"
+  end
+
+  create_table "time_tables", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "uuid", null: false
+    t.string "title", null: false
+    t.string "place"
+    t.text "memo"
+    t.datetime "event_date", null: false
+    t.datetime "meeting_time", null: false
+    t.datetime "open_time", null: false
+    t.datetime "start_time", null: false
+    t.integer "rehearsal_setting_time"
+    t.integer "rehearsal_play_time"
+    t.integer "production_setting_time"
+    t.integer "production_play_time"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_time_tables_on_user_id"
+    t.index ["uuid"], name: "index_time_tables_on_uuid", unique: true
+  end
+
   create_table "user_to_schedules", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "schedule_id", null: false
@@ -69,6 +113,9 @@ ActiveRecord::Schema.define(version: 2019_10_23_230814) do
     t.datetime "token_expires_at", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "provider"
+    t.string "uid"
+    t.string "username"
     t.index ["access_token_hash"], name: "index_users_on_access_token_hash", unique: true
     t.index ["refresh_token_hash"], name: "index_users_on_refresh_token_hash", unique: true
   end
@@ -76,6 +123,9 @@ ActiveRecord::Schema.define(version: 2019_10_23_230814) do
   add_foreign_key "artist_to_schedules", "artists"
   add_foreign_key "artist_to_schedules", "schedules"
   add_foreign_key "schedules", "music_bars"
+  add_foreign_key "time_table_concerts", "time_tables"
+  add_foreign_key "time_table_rehearsals", "time_tables"
+  add_foreign_key "time_tables", "users"
   add_foreign_key "user_to_schedules", "schedules"
   add_foreign_key "user_to_schedules", "users"
 end

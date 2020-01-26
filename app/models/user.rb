@@ -2,17 +2,21 @@
 #
 # Table name: users
 #
-#  id                 :integer          not null, primary key
+#  id                 :bigint           not null, primary key
 #  access_token_hash  :string           not null
 #  refresh_token_hash :string           not null
 #  token_expires_at   :datetime         not null
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
+#  provider           :string
+#  uid                :string
+#  username           :string
 #
 
 class User < ApplicationRecord
   has_many :user_to_schedules, class_name: '::UserToSchedule', dependent: :destroy
   has_many :schedules, through: :user_to_schedule
+  has_many :time_tables, class_name: 'TimeTable', dependent: :destroy
 
   validates :access_token_hash, format: { with: /\A[0-9a-f]{64}\z/ }, uniqueness: true
   validates :refresh_token_hash, format: { with: /\A[0-9a-f]{64}\z/ }, uniqueness: true

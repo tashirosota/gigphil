@@ -34,5 +34,6 @@ module Gigphil
 
     # クローラーの追加
     config.eager_load_paths << '#{Rails.root}/app/crawlers'
+    config.hosts << /\w+.ngrok.io/
   end
 end

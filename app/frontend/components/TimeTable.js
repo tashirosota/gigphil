@@ -15,24 +15,15 @@ let defalutRecord = {
 export default class TimeTable extends React.Component {
   constructor(props){
     super(props)
-    this.state = {
-      timeTable: {
-        eventDate: '2020-10-01',
-        title: 'タイトル',
-        place: '場所',
-        memo: '備考',
-        meetingTime: '17:30',
-        openTime: '18:00',
-        startTime: '18:30',
-        rehearsalSettingTime: 5,
-        rehearsalPlayTime: 20,
-        productionSettingTime: 10,
-        productionPlayTime: 30,
-        rehearsals: this.defaultRecords(), 
-        concerts: this.defaultRecords()
-      },
+    this.state = 
+    {
+      timeTable: this.props.timeTable,
       playTimes: [15, 20, 25, 30, 35, 40, 45, 60, 100, 120],
-      settingTimes: [5, 10, 15, 20]
+      settingTimes: [5, 10, 15, 20],
+      savable: this.props.savable,
+      shareable: this.props.shareable,
+      editable: this.props.edit_disabled,
+      saving: false
     }
 
     this.removeProduction = this.removeProduction.bind(this)
@@ -43,6 +34,9 @@ export default class TimeTable extends React.Component {
     this.changeProductionRecord = this.changeProductionRecord.bind(this)
     this.changeRehearsalRecord = this.changeRehearsalRecord.bind(this)
     this.calculateProductionTime = this.calculateProductionTime.bind(this)
+    this.calculateRehearsalTime = this.calculateRehearsalTime.bind(this) 
+    this.save = this.save.bind(this)
+    this.share = this.share.bind(this) 
     this.calculateRehearsalTime = this.calculateRehearsalTime.bind(this)
     this.exportAsPdf = this.exportAsPdf.bind(this)
     this.copyText = this.copyText.bind(this)
@@ -84,6 +78,34 @@ export default class TimeTable extends React.Component {
     record.order = rehearsals.length + 1
     rehearsals.push(record)
     this.setState({rehearsals})
+  }
+
+  save(){
+    const config = {
+      method: 'post',
+      url: '/time_tables',
+      data: {
+        timeTable: this.state.timeTable
+      }
+    }
+
+    if(this.state.saving) return
+    this.setState({saving: true},()=>{
+      axios(config)
+        .then(res => {
+          location.href = `/time_tables/${res.data.uuid}/edit`
+        }, (res) => {
+          console.log('error')
+          swal("保存失敗", `保存に失敗しました`, "danger");
+          console.log(res)
+        }).then(()=>{
+          this.setState({saving: false})
+        })
+    })
+  }
+
+  share(){
+    
   }
 
   change(e){
@@ -174,7 +196,7 @@ export default class TimeTable extends React.Component {
     const config = {
       method: 'post',
       responseType: 'blob',
-      url: '/TT/export',
+      url: '/time_tables/export',
       data: data
     }
     const downloadByUrl = pdfURL => {
@@ -228,14 +250,13 @@ ${timeTable.memo}
   }
 
   render () {
-    const { timeTable, playTimes, settingTimes } = this.state
+    const { timeTable, playTimes, settingTimes, shareable, savable, editable, saving } = this.state
     return (
       <React.Fragment>
         <Container>
           <Head>
             <Logo alt="Gigphil | ライブ好きのための検索アプリ @" src="/assets/logo.png"/>
             <Description className="text-white">タイムテーブルジェネレーター</Description>
-            <SearcherLink><a className="text-white" href="/searcher">ライブ検索はこちら</a></SearcherLink>
           </Head>
           
           <div id={'timetable'}>
@@ -244,19 +265,19 @@ ${timeTable.memo}
                 <Tbody>
                   <Title>
                     <Td style={{width: 110}}>タイトル</Td>
-                    <Td><TextLeftInput name="title" value={timeTable.title} onChange={ this.change }/></Td>
+                    <Td><TextLeftInput name="title" value={timeTable.title} onChange={ this.change } disabled={editable}/></Td>
                   </Title>
                   <EventDate>
                     <Td>日付</Td>
-                    <Td><TextLeftInput name="eventDate" type='date' value={timeTable.eventDate} onChange={ this.change }/></Td>
+                    <Td><TextLeftInput name="eventDate" type='date' value={timeTable.eventDate} onChange={ this.change } disabled={editable}/></Td>
                   </EventDate>
                   <Place>
                     <Td>場所</Td>
-                    <Td><TextLeftInput name="place" value={timeTable.place} onChange={ this.change }/></Td>
+                    <Td><TextLeftInput name="place" value={timeTable.place} onChange={ this.change } disabled={editable}/></Td>
                   </Place>
                   <Memo>
                     <Td>備考</Td>
-                    <Td><TextArea name="memo" value={timeTable.memo} onChange={ this.change }/></Td>
+                    <Td><TextArea name="memo" value={timeTable.memo} onChange={ this.change } disabled={editable}/></Td>
                   </Memo>
                 </Tbody>
               </HeadTable>
@@ -264,7 +285,7 @@ ${timeTable.memo}
                 <TimesContainer>
                   <DefaultPlayTime>
                     <Text>持ち時間:</Text>
-                    <Select name='rehearsalPlayTime' value={timeTable.rehearsalPlayTime} style={{width: 100}} onChange={ this.change }>
+                    <Select name='rehearsalPlayTime' value={timeTable.rehearsalPlayTime} style={{width: 100}} onChange={ this.change } disabled={editable}>
                       {
                         playTimes.map((time, index) => {
                         return <option key={index} value={time}>{time}</option>
@@ -275,7 +296,7 @@ ${timeTable.memo}
                   </DefaultPlayTime>
                   <DefaultSettingTime>
                     <Text>転換時間:</Text>
-                    <Select name='rehearsalSettingTime' value={timeTable.rehearsalSettingTime} style={{width: 100}} onChange={ this.change }>
+                    <Select name='rehearsalSettingTime' value={timeTable.rehearsalSettingTime} style={{width: 100}} onChange={ this.change } disabled={editable}>
                       {
                         settingTimes.map((time, index) => {
                         return <option key={index} value={time}>{time}</option>
@@ -285,8 +306,8 @@ ${timeTable.memo}
                     <Text>分</Text>
                   </DefaultSettingTime>
                   <ButtonArea>
-                    <DeleteButton type="button" className='btn btn-secondary btn-sm' onClick={this.removeRehearsal}>削除</DeleteButton>
-                    <AddButton type="button" className='btn btn-secondary btn-sm' onClick={this.addRehearsal}>追加</AddButton>
+                    <DeleteButton type="button" className='btn btn-secondary btn-sm' onClick={this.removeRehearsal} disabled={editable}>削除</DeleteButton>
+                    <AddButton type="button" className='btn btn-secondary btn-sm' onClick={this.addRehearsal} disabled={editable}>追加</AddButton>
                   </ButtonArea>
                 </TimesContainer>
                 <Table className='table table-bordered'>
@@ -305,10 +326,10 @@ ${timeTable.memo}
                     timeTable.rehearsals.map((record, index) => {
                       return <Tr key={index}>
                         <Td style={{width: 80}} >{record.order}</Td>
-                        <Td><Input name='bandName' value={record.bandName} onChange={ e => { this.changeRehearsalRecord(e, index) } } /></Td>
+                        <Td><Input name='bandName' value={record.bandName} onChange={ e => { this.changeRehearsalRecord(e, index) } }  disabled={editable}/></Td>
                         <Td style={{width: 200}}><Input name='rehearsalPlayTimeRanges' value={this.calculateRehearsalTime(index)} readOnly /></Td>
                         <Td style={{width: 100}}>
-                          <Select name='customPlayTime' value={record.customPlayTime || timeTable.rehearsalPlayTime} onChange={ e => { this.changeRehearsalRecord(e, index) } }>
+                          <Select name='customPlayTime' value={record.customPlayTime || timeTable.rehearsalPlayTime} onChange={ e => { this.changeRehearsalRecord(e, index) } } disabled={editable}>
                           {
                             playTimes.map((time, index) => {
                             return <option key={index} value={time}>{time}</option>
@@ -317,7 +338,7 @@ ${timeTable.memo}
                           </Select>
                         </Td>
                         <Td style={{width: 100}}>
-                          <Select name='customSettingTime' disabled={index==0} value={record.customSettingTime || timeTable.rehearsalSettingTime} onChange={ e => { this.changeRehearsalRecord(e, index) } }>
+                          <Select name='customSettingTime' value={record.customSettingTime || timeTable.rehearsalSettingTime} onChange={ e => { this.changeRehearsalRecord(e, index) } } disabled={index==0 || editable}>
                           {
                             settingTimes.map((time, index) => {
                             return <option key={index} value={time}>{time}</option>
@@ -325,7 +346,7 @@ ${timeTable.memo}
                           }
                           </Select>
                         </Td>
-                        <Td><Input name='memo' value={record.memo} onChange={ e => { this.changeRehearsalRecord(e, index) } }/></Td>
+                        <Td><Input name='memo' value={record.memo} onChange={ e => { this.changeRehearsalRecord(e, index) } } disabled={editable}/></Td>
                       </Tr>
                     }
                     )
@@ -336,22 +357,22 @@ ${timeTable.memo}
               <TimesContainer>
                 <Meeting>
                   <div style={{width: 100}}>顔合わせ:</div>
-                  <TimeInput placeholder='顔合わせ' name='meetingTime' type='time' value={timeTable.meetingTime} onChange={ this.change }/>
+                  <TimeInput placeholder='顔合わせ' name='meetingTime' type='time' value={timeTable.meetingTime} onChange={ this.change } disabled={editable}/>
                 </Meeting>
                 <Open>
                   <div style={{width: 80}}>OPEN:</div>
-                  <TimeInput placeholder='12:00' name='openTime' type='time' value={timeTable.openTime} onChange={ this.change }/>
+                  <TimeInput placeholder='12:00' name='openTime' type='time' value={timeTable.openTime} onChange={ this.change } disabled={editable}/>
                 </Open>
                 <Start>
                   <div style={{width: 80}}>START:</div>
-                  <TimeInput placeholder='Start'  name='startTime'type='time' value={timeTable.startTime} onChange={ this.change }/>
+                  <TimeInput placeholder='Start'  name='startTime'type='time' value={timeTable.startTime} onChange={ this.change } disabled={editable}/>
                 </Start>
               </TimesContainer>
               <Production>
                 <TimesContainer>
                   <DefaultPlayTime>
                     <Text>持ち時間:</Text>
-                    <Select name='productionPlayTime' value={timeTable.productionPlayTime} style={{width: 100}} onChange={ this.change }>
+                    <Select name='productionPlayTime' value={timeTable.productionPlayTime} style={{width: 100}} onChange={ this.change } disabled={editable}>
                       {
                         playTimes.map((time, index) => {
                         return <option key={index} value={time}>{time}</option>
@@ -362,7 +383,7 @@ ${timeTable.memo}
                   </DefaultPlayTime>
                   <DefaultSettingTime>
                     <Text>転換時間:</Text>
-                    <Select name='productionSettingTime' value={timeTable.productionSettingTime} style={{width: 100}}  onChange={ this.change }>
+                    <Select name='productionSettingTime' value={timeTable.productionSettingTime} style={{width: 100}}  onChange={ this.change } disabled={editable}>
                       {
                         settingTimes.map((time, index) => {
                         return <option key={index} value={time}>{time}</option>
@@ -372,8 +393,8 @@ ${timeTable.memo}
                     <Text>分</Text>
                   </DefaultSettingTime>
                   <ButtonArea>
-                    <DeleteButton type="button" className='btn btn-secondary btn-sm' onClick={this.removeProduction}>削除</DeleteButton>
-                    <AddButton type="button" className='btn btn-secondary btn-sm' onClick={this.addProduction}>追加</AddButton>
+                    <DeleteButton type="button" className='btn btn-secondary btn-sm' onClick={this.removeProduction} disabled={editable}>削除</DeleteButton>
+                    <AddButton type="button" className='btn btn-secondary btn-sm' onClick={this.addProduction} disabled={editable}>追加</AddButton>
                   </ButtonArea>
                 </TimesContainer>           
                 <Table className='table table-bordered'>
@@ -391,10 +412,10 @@ ${timeTable.memo}
                     {timeTable.concerts.map((record, index) => {
                       return <Tr key={index}>
                         <Td style={{width: 80}} >{record.order}</Td>
-                        <Td><Input name='bandName' value={record.bandName} onChange={ e => { this.changeProductionRecord(e, index) } } /></Td>
+                        <Td><Input name='bandName' value={record.bandName} onChange={ e => { this.changeProductionRecord(e, index) } }  disabled={editable}/></Td>
                         <Td style={{width: 200}}><Input name='productionPlayTimeRanges' value={this.calculateProductionTime(index)} readOnly /></Td>
                         <Td style={{width: 100}}>
-                          <Select name='customPlayTime' value={record.customPlayTime || timeTable.productionPlayTime} onChange={ e => { this.changeProductionRecord(e, index) } }>
+                          <Select name='customPlayTime' value={record.customPlayTime || timeTable.productionPlayTime} onChange={ e => { this.changeProductionRecord(e, index) } } disabled={editable}>
                           {
                             playTimes.map((time, index) => {
                             return <option key={index} value={time}>{time}</option>
@@ -403,7 +424,7 @@ ${timeTable.memo}
                           </Select>
                         </Td>
                         <Td style={{width: 100}}>
-                          <Select name='customSettingTime' disabled={index==0} value={record.customSettingTime || timeTable.productionSettingTime} onChange={ e => { this.changeProductionRecord(e, index) } }>
+                          <Select name='customSettingTime' value={record.customSettingTime || timeTable.productionSettingTime} onChange={ e => { this.changeProductionRecord(e, index) } } disabled={index==0 || editable}>
                           {
                             settingTimes.map((time, index) => {
                             return <option key={index} value={time}>{time}</option>
@@ -412,7 +433,7 @@ ${timeTable.memo}
                           </Select>
                         </Td>
 
-                        <Td><Input name='memo' value={record.memo} onChange={ e => { this.changeProductionRecord(e, index) } }/></Td>
+                        <Td><Input name='memo' value={record.memo} onChange={ e => { this.changeProductionRecord(e, index) } } disabled={editable}/></Td>
                       </Tr>
                     }
                     )}
@@ -421,10 +442,18 @@ ${timeTable.memo}
               </Production>
             </TTContainer>
             <Operation>
+               {
+                  savable ? <OperationButton type="button" className='btn btn-light btn-lg' onClick={this.save} disabled={saving}>保存する</OperationButton> : ''
+                }
                 <OperationButton onClick={this.exportAsPdf} className='btn btn-light btn-lg' >PDFで書き出す</OperationButton>
                 <CopyToClipboard text={this.copyText() }onCopy={() => swal("コピー完了", "タイムテーブルをコピーしました", "success")}>
-                  <OperationButton className='btn btn-light btn-lg' >コピーする</OperationButton>
+                  <OperationButton className='btn btn-light btn-lg' >テキストでコピーする</OperationButton>
                 </CopyToClipboard>
+                {
+                  shareable ? <CopyToClipboard text={`${location.host}/time_tables/${timeTable.uuid}/share`} onCopy={() => swal("コピー完了", "シェアURLをコピーしました", "success")}>
+                      <OperationButton type="button" className='btn btn-light btn-lg'>シェアURLをコピーする</OperationButton>
+                    </CopyToClipboard> : ''
+                }
             </Operation>
           </div>
         </Container>
@@ -457,17 +486,12 @@ const TTContainer = styled.div`
 
 const Head = styled.div`
   display: block;
+  margin-bottom: 20px;
 `
 
 const Description = styled.div`
   text-align: center;
   font-size: 40px;
-`
-
-const SearcherLink = styled.div`
-  text-align: center;
-  font-size: 17px;
-  margin-bottom: 20px
 `
 
 const Logo = styled.img`
@@ -615,13 +639,6 @@ const Td = styled.td`
   text-align: center;
 `
 
-const SaveButtop = styled.button`
-  margin-top: 30px;
-  width: 100%;
-  height: 100px;
-  font-size: 45px;;
-`
-
 const ButtonArea = styled.div`
   margin-left: auto;
 
@@ -634,9 +651,8 @@ const AddButton = styled.button`
 const DeleteButton  = styled.button`
  margin: 0px 5px;
 `
-
 const OperationButton = styled.button`
   margin-top: 30px;
   width: 100%;
-  font-size: 30px;
+  font-size: 20px;
 `

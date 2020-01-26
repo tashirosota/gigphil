@@ -2,9 +2,9 @@
 #
 # Table name: artist_to_schedules
 #
-#  id          :integer          not null, primary key
-#  artist_id   :integer          not null
-#  schedule_id :integer          not null
+#  id          :bigint           not null, primary key
+#  artist_id   :bigint           not null
+#  schedule_id :bigint           not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #
