@@ -2,10 +2,11 @@
 #
 # Table name: artists
 #
-#  id         :bigint           not null, primary key
-#  name       :string           not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id                   :bigint           not null, primary key
+#  name                 :string           not null
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#  registered_artist_id :integer
 #
 
 class Artist < ApplicationRecord
