@@ -36,11 +36,11 @@ export default class Menu extends React.Component {
             <Item><a className="text-white" href="/TT">タイムテーブルジェネレータ</a></Item>
             { userID ? <Item><a className="text-white" href={`/time_tables`}>タイムテーブル管理</a></Item> : '' }
             {
-              userID ? <Login>
+              userID ? <Logout>
   <a className="text-white" href='/sessions' data-method="delete">ログアウト（{userName}）</a>
-                </Login>:<Logout>
-                  {/* <a className="text-white" href='/auth/twitter' >ログイン(with Twitter)</a> */}
-                </Logout>
+                </Logout>:<Login>
+                  <a className="text-white" href='/auth/twitter' >ログイン(with Twitter)</a>
+                </Login>
             }
             <Item><a className="text-white" href="mailto:g4160hc@gmail.com">お問い合わせ</a></Item>
           </ItemArea>
