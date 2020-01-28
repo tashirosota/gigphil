@@ -37,9 +37,10 @@ export default class Menu extends React.Component {
             { userID ? <Item><a className="text-white" href={`/time_tables`}>タイムテーブル管理</a></Item> : '' }
             {
               userID ? <Logout>
-  <a className="text-white" href='/sessions' data-method="delete">ログアウト（{userName}）</a>
+                  <a className="text-white" href='/sessions' data-method="delete">ログアウト（{userName}）</a>
                 </Logout>:<Login>
                   <a className="text-white" href='/auth/twitter' >ログイン(with Twitter)</a>
+                  <LoginDescription>※ログインによりTTの保存や、<br/>シェア機能が使えるようになります。</LoginDescription>
                 </Login>
             }
             <Item><a className="text-white" href="mailto:g4160hc@gmail.com">お問い合わせ</a></Item>
@@ -110,6 +111,13 @@ const Login = styled.li`
   margin-bottom: 15px;
   color: white
 `
+
+const LoginDescription = styled.div`
+  color: #ff7777;
+  font-size: 15px;
+  margin-top: 5px;
+`
+
 const Logout = styled.li`
   list-style-type: none;
   font-size: 20px;
