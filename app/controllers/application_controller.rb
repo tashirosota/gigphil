@@ -1,6 +1,5 @@
 class ApplicationController < ActionController::Base
-  before_action :authenticate!, :snakeize_params
-  before_filter :ensure_domain
+  before_action :ensure_domain, :authenticate!, :snakeize_params
   helper_method :current_user
 
   private
