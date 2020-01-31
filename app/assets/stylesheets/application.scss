@@ -20,12 +20,6 @@
 // Extra small devices (portrait phones, less than 576px)
 // No media query since this is the default in Bootstrap
 
-@font-face{
-  font-family: "k-gothic";
-  src: font-url('k-gothic.ttf') format('truetype');
-}
-
-
 @media (max-width: 350px) {
   h2{
     font-size: 25px;
@@ -40,13 +34,8 @@ html,
   margin-top: 20px;
 }
 
-p {
-  font-family: "k-gothic";
-  src: font-url('k-gothic.ttf') format('truetype');
-}
+
 body {
-  font-family: "k-gothic";
-  src: font-url('k-gothic.ttf') format('truetype');
   display: -ms-flexbox;
   display: -webkit-box;
   display: flex;

@@ -255,7 +255,6 @@ ${timeTable.memo}
       <React.Fragment>
         <Container>
           <Head>
-            <Logo alt="Gigphil | ライブ好きのための検索アプリ @" src="/assets/logo.png"/>
             <Description className="text-white">タイムテーブルジェネレーター</Description>
           </Head>
           
@@ -487,19 +486,14 @@ const TTContainer = styled.div`
 const Head = styled.div`
   display: block;
   margin-bottom: 20px;
+  margin-top: 10px;
+  margin-top: 40px;
+
 `
 
 const Description = styled.div`
   text-align: center;
   font-size: 40px;
-`
-
-const Logo = styled.img`
-  max-width: 400px;
-  max-height: 176px;
-  margin: 0px auto;
-  margin-bottom: 30px;
-  display: block;
 `
 
 const TextLeftInput = styled.input`

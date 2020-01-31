@@ -9,7 +9,7 @@ export default class Menu extends React.Component {
     this.state = {
       visiable: false,
       userID: this.props.userId,
-      userName: this.props.userName
+      userName: 'chao____' || this.props.userName
     }
 
     this.close = this.close.bind(this) 
@@ -28,7 +28,10 @@ export default class Menu extends React.Component {
     const { visiable, userID, userName } = this.state
     return (
       <React.Fragment>  
-        <OpenButton onClick={this.open}><IoIosMenu/></OpenButton>
+        <MenuHeader>
+          <Logo alt="Gigphil | ライブ好きのための検索アプリ @" src="/assets/logo.png"/>
+          <OpenButton onClick={this.open}><IoIosMenu/></OpenButton>
+        </MenuHeader>
         <Background style={{display: visiable ? 'flex' : 'none'}}>
           <CloseButton onClick={this.close}><IoIosClose/></CloseButton>
           <ItemArea>
@@ -51,10 +54,32 @@ export default class Menu extends React.Component {
   }
 }
 
+const UserName = styled.div`
+
+`
+
+const Logo = styled.img`
+  max-width: 155px;
+  max-height: 161px;
+  margin-left: 12px;
+  margin-top: 7px;
+  display: block;
+`
+
+const MenuHeader = styled.div`
+  position: fixed;
+  top: 0px;
+  height: 55px;
+  width: 100%;
+  background: #000000ad;
+  display: block;
+  z-index: 10;
+`
+
 const OpenButton = styled.button`
   z-index: 10;
   position: fixed;
-  top: 20px;
+  top: -15px;
   right: 50px;
   width: auto;
   height: 60px;
@@ -63,7 +88,6 @@ const OpenButton = styled.button`
   border: none;
   color: white;
   @media (max-width: 576px){
-    top: 0px;
     right: 10px;
   }
   
