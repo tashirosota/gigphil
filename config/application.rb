@@ -35,6 +35,7 @@ module Gigphil
     # クローラーの追加
     config.eager_load_paths << '#{Rails.root}/app/crawlers'
     config.hosts << /\w+.ngrok.io/
+    config.hosts << 'www.gigphil.app'
     config.hosts << 'gigphil.herokuapp.com'
     config.hosts << 'gigphil-staging.herokuapp.com'
   end
