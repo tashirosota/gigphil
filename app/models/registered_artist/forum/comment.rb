@@ -11,5 +11,7 @@
 #  updated_at       :datetime         not null
 #
 
-class Artist::Forum::Comment < ApplicationRecord
+class RegisteredArtist::Forum::Comment < ApplicationRecord
+  belongs_to :forum ,class_name: 'RegisteredArtist::Forum'
+  belongs_to :user ,class_name: 'User'
 end

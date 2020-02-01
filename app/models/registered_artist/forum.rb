@@ -12,4 +12,5 @@
 #
 
 class RegisteredArtist::Forum < ApplicationRecord
+  has_many :comments, class_name: 'RegisteredArtist::Forum::Comment', dependent: :destroy
 end

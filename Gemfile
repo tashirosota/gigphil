@@ -37,13 +37,13 @@ gem 'bootstrap', '~> 4.3.1'
 gem 'jquery-rails'
 gem 'rollbar'
 gem 'fast_jsonapi'
-
 gem 'serviceworker-rails'
-
 gem 'react-rails'
 gem 'prawn'
 gem 'prawn-table'
 gem 'omniauth-twitter'
+gem 'carrierwave'
+gem 'fog-aws'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

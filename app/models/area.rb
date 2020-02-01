@@ -9,4 +9,6 @@
 #
 
 class Area < ApplicationRecord
+  has_many :artists, class_name: 'RegisteredArtist', dependent: :destroy
+  validates :name, uniqueness: true
 end

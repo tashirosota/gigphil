@@ -14,4 +14,6 @@
 #
 
 class RegisteredArtist::History < ApplicationRecord
+  belongs_to :editor ,class_name: 'User'
+  belongs_to :registerd_artist ,class_name: 'RegisteredArtist'
 end

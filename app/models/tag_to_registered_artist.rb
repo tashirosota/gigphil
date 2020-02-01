@@ -10,4 +10,6 @@
 #
 
 class TagToRegisteredArtist < ApplicationRecord
+  belongs_to :tag
+  belongs_to :registerd_artist
 end

@@ -11,4 +11,5 @@
 #
 
 class RegisteredArtist::Sound < ApplicationRecord
+  belongs_to :registerd_artist ,class_name: 'RegisteredArtist'
 end

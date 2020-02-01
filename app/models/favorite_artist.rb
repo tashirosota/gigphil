@@ -10,4 +10,6 @@
 #
 
 class FavoriteArtist < ApplicationRecord
+  belongs_to :user
+  belongs_to :artist, class_name: 'RegisteredArtist'
 end

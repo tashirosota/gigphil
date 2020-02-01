@@ -17,7 +17,7 @@ class Schedule < ApplicationRecord
   has_many :artist_to_schedules, class_name: '::ArtistToSchedule', dependent: :destroy
   has_many :artists, through: :artist_to_schedules
   has_many :user_to_schedules, class_name: '::UserToSchedule', dependent: :destroy
-  has_many :users, through: :user_to_schedule
+  has_many :users, through: :user_to_schedules
 
   validates :title, presence: true, uniqueness: { scope: %i(music_bar_id event_date) }
   validates :event_date, presence: true
