@@ -61,25 +61,21 @@ ActiveRecord::Schema.define(version: 2020_01_28_131759) do
   end
 
   create_table "registered_artist_forum_comments", force: :cascade do |t|
-    t.bigint "registered_artist_forums_id", null: false
+    t.bigint "registered_artist_forum_id", null: false
     t.bigint "user_id", null: false
-    t.string "display_name", null: false
+    t.string "display_name"
     t.string "body", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["registered_artist_forums_id"], name: "forum_comment_index"
+    t.index ["registered_artist_forum_id"], name: "forum_comment_index"
     t.index ["user_id"], name: "index_registered_artist_forum_comments_on_user_id"
   end
 
   create_table "registered_artist_forums", force: :cascade do |t|
     t.bigint "registered_artist_id", null: false
-    t.bigint "user_id", null: false
-    t.string "display_name", null: false
-    t.text "body", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["registered_artist_id"], name: "index_registered_artist_forums_on_registered_artist_id"
-    t.index ["user_id"], name: "index_registered_artist_forums_on_user_id"
   end
 
   create_table "registered_artist_histories", force: :cascade do |t|
@@ -218,10 +214,9 @@ ActiveRecord::Schema.define(version: 2020_01_28_131759) do
   add_foreign_key "artist_to_schedules", "schedules"
   add_foreign_key "favorite_artists", "registered_artists"
   add_foreign_key "favorite_artists", "users"
-  add_foreign_key "registered_artist_forum_comments", "registered_artist_forums", column: "registered_artist_forums_id"
+  add_foreign_key "registered_artist_forum_comments", "registered_artist_forums"
   add_foreign_key "registered_artist_forum_comments", "users"
   add_foreign_key "registered_artist_forums", "registered_artists"
-  add_foreign_key "registered_artist_forums", "users"
   add_foreign_key "registered_artist_histories", "registered_artists"
   add_foreign_key "registered_artist_histories", "users", column: "editor_id"
   add_foreign_key "registered_artist_sounds", "registered_artists"

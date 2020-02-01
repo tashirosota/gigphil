@@ -11,5 +11,6 @@
 #
 
 class RegisteredArtist::Sound < ApplicationRecord
-  belongs_to :registerd_artist, class_name: 'RegisteredArtist'
+  belongs_to :registered_artist, class_name: 'RegisteredArtist', inverse_of: :sounds
+  validates :url, format: /\A#{URI.regexp(%w(http https))}\z/
 end

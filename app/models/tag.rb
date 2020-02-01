@@ -1,11 +1,11 @@
 # == Schema Information
 #
-# Table name: registered_artist_tags
+# Table name: tags
 #
-#  id                   :bigint           not null, primary key
-#  name                 :string           not null
-#  created_at           :datetime         not null
-#  updated_at           :datetime         not null
+#  id         :bigint           not null, primary key
+#  name       :string           not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
 #
 
 class Tag < ApplicationRecord
