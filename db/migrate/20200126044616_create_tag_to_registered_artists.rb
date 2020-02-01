@@ -6,6 +6,6 @@ class CreateTagToRegisteredArtists < ActiveRecord::Migration[6.0]
 
       t.timestamps
     end
-    add_index :tag_to_registered_artists, [:registered_artist_id, :tag_id], unique: true
+    add_index :tag_to_registered_artists, [:registered_artist_id, :tag_id], unique: true, name: 'tag_artist_index'
   end
 end
