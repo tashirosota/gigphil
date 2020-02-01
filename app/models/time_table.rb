@@ -20,10 +20,33 @@
 #  updated_at              :datetime         not null
 #
 
+# rubocop:disable Metrics/ClassLength
 class TimeTable < ApplicationRecord
   belongs_to :user
   has_many :rehearsals, class_name: 'TimeTable::Rehearsal', dependent: :destroy
   has_many :concerts, class_name: 'TimeTable::Concert', dependent: :destroy
+
+  # rubocop:disable all
+  def self.copy!(uuid)
+    ActiveRecord::Base.transaction do
+      origin = find_by(uuid: uuid)
+      origin_id = origin.id
+      origin.id = nil
+      origin.title = origin.title + ' / コピー'
+      origin.set_uuid
+      copied = TimeTable.create!(origin.attributes)
+      origin.id = origin_id
+      origin.rehearsals.each do |rehearsal|
+        rehearsal.id = nil
+        copied.rehearsals.create! rehearsal.attributes
+      end
+      origin.concerts.each do |concert|
+        concert.id = nil
+        copied.concerts.create! concert.attributes
+      end
+    end
+  end
+  # rubocop:enable all
 
   def artist_names
     concerts.pluck(:band_name)
@@ -126,3 +149,4 @@ class TimeTable < ApplicationRecord
     end
   end
 end
+# rubocop:enable Metrics/ClassLength

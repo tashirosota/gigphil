@@ -8,8 +8,9 @@ br
         .card-body 
           h5.card-title = time_table.title
           p.card-text = time_table.artist_names.join(' / ')
-          = link_to '詳細', edit_time_table_path(time_table.uuid), class: "button btn btn-secondary btn-block"
-          = link_to '削除', time_table_path(time_table.uuid), method: :delete, data: { confirm: 'このタイムテーブルを削除してもよろしいですか？' }, class: "button btn btn-danger btn-block"
+          = link_to '詳細', edit_time_table_path(time_table.uuid), class: "button btn btn-secondary btn-block btn-sm"
+          = link_to 'コピー', copy_time_table_path(time_table.uuid), method: :post, class: "button btn btn-secondary btn-block btn-sm"
+          = link_to '削除', time_table_path(time_table.uuid), method: :delete, data: { confirm: 'このタイムテーブルを削除してもよろしいですか？' }, class: "button btn btn-light btn-block btn-sm"
 - else
   .text-center
     h2.text-white 

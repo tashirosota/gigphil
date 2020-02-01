@@ -21,6 +21,11 @@ class TimeTablesController < ApplicationController
     redirect_to time_tables_path
   end
 
+  def copy
+    TimeTable.copy!(params[:uuid])
+    redirect_to time_tables_path
+  end
+
   # 下記は認証必要なし
   def new
     @time_table = TimeTable.new_model
