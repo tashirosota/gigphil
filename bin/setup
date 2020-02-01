@@ -1,4 +1,6 @@
-#!/usr/bin/env ruby
+#! /bin/sh
+exec ruby -S -x "$0" "$@"
+#! ruby
 require 'fileutils'
 
 # path to your application root.
