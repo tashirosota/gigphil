@@ -7,9 +7,10 @@
 #                                    TT GET    /TT(.:format)                                                                            time_tables#new
 #                         session_index POST   /session(.:format)                                                                       session#create
 #                               session DELETE /session/:id(.:format)                                                                   session#destroy
-#                              sessions DELETE /sessions(.:format)                                                                      sessions#delete
+#                              sessions DELETE /sessions(.:format)                                                                      sessions#destroy
 #                 auth_twitter_callback GET    /auth/twitter/callback(.:format)                                                         sessions#create
 #                      share_time_table GET    /time_tables/:uuid/share(.:format)                                                       time_tables#share
+#                       copy_time_table POST   /time_tables/:uuid/copy(.:format)                                                        time_tables#copy
 #                    export_time_tables POST   /time_tables/export(.:format)                                                            time_tables#export_as_pdf
 #                           time_tables GET    /time_tables(.:format)                                                                   time_tables#index
 #                                       POST   /time_tables(.:format)                                                                   time_tables#create
@@ -55,7 +56,10 @@ Rails.application.routes.draw do
   get '/auth/twitter/callback', to: 'sessions#create'
 
   resources :time_tables, param: :uuid do
-    member { get 'share', to: 'time_tables#share' }
+    member do 
+      get 'share', to: 'time_tables#share'
+      post 'copy', to: 'time_tables#copy'
+    end
     collection { post 'export', to: 'time_tables#export_as_pdf' }
   end
 
