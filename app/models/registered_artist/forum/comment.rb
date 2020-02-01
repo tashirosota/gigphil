@@ -12,6 +12,6 @@
 #
 
 class RegisteredArtist::Forum::Comment < ApplicationRecord
-  belongs_to :forum ,class_name: 'RegisteredArtist::Forum'
-  belongs_to :user ,class_name: 'User'
+  belongs_to :forum, class_name: 'RegisteredArtist::Forum'
+  belongs_to :user, class_name: 'User'
 end

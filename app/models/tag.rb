@@ -10,5 +10,5 @@
 
 class Tag < ApplicationRecord
   # タグなんだから短くしなさい
-  validates :name, uniqueness: true, length: { maximum: 10 }, uniqueness: true
+  validates :name, uniqueness: true, length: { maximum: 10 }
 end

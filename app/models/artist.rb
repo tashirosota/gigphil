@@ -12,7 +12,7 @@
 class Artist < ApplicationRecord
   has_many :artist_to_schedules, class_name: '::ArtistToSchedule', dependent: :destroy
   has_many :schedules, through: :artist_to_schedules
-  belongs_to :registerd_artist ,class_name: 'RegisteredArtist', optional: true
+  belongs_to :registerd_artist, class_name: 'RegisteredArtist', optional: true
 
   validates :name, presence: true, uniqueness: true
 end
