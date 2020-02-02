@@ -79,6 +79,7 @@ const MenuHeader = styled.div`
 const OpenButton = styled.button`
   z-index: 10;
   position: fixed;
+  padding: 0px;
   top: -15px;
   right: 50px;
   width: auto;
