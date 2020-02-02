@@ -91,16 +91,34 @@ Rails.application.routes.draw do
   get 'result', to: 'results#index' 
   get 'TT', to: 'time_tables#new' 
 
+  # セッション
   resources :session, only: %i(create destroy)
   delete '/sessions', to: 'sessions#destroy'
   get '/auth/twitter/callback', to: 'sessions#create'
 
+  # タイムテーブル機能
   resources :time_tables, param: :uuid do
     member do 
       get 'share', to: 'time_tables#share'
       post 'copy', to: 'time_tables#copy'
     end
     collection { post 'export', to: 'time_tables#export_as_pdf' }
+  end
+
+  # インディーズwiki
+  namespace :indies_wiki do
+    root 'home#show'
+    resources :artists do
+      resource :forum, only: :create do
+        resources :comments
+      end
+      resources :sounds
+      resources :events, only: :index
+      resources :histories, only: :index
+    end
+    get 'areas', to: 'areas#index'
+    resources :tags
+    resources :favorites, only: [:index, :create, :destroy]
   end
 
   # API
