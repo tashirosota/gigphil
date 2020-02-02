@@ -27,4 +27,6 @@ html
   body
     = react_component("Menu", userId: current_user&.id, userName: current_user&.username)
     .container-fluid
+      .top
+      = render 'share/flash'
       = yield

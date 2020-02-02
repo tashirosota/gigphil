@@ -18,12 +18,12 @@ class TimeTablesController < ApplicationController
 
   def destroy
     TimeTable.find_by!(uuid: params[:uuid]).destroy!
-    redirect_to time_tables_path
+    redirect_to time_tables_path, success: '削除しました'
   end
 
   def copy
     TimeTable.copy!(params[:uuid])
-    redirect_to time_tables_path
+    redirect_to time_tables_path,  success: 'コピーしました'
   end
 
   # 下記は認証必要なし
