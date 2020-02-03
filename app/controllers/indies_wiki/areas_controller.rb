@@ -1,4 +1,5 @@
 class IndiesWiki::AreasController < ApplicationController
-  # 使わないかも
-  def index; end
+  def index
+    render json: { area_names: Area.all.pluck[:name] }
+  end
 end

@@ -1,4 +1,4 @@
 class IndiesWiki::HistoriesController < ApplicationController
-  # 使わないかも
+  # Pending
   def index; end
 end

@@ -1,4 +1,4 @@
 class IndiesWiki::EventsController < ApplicationController
-  # 使わないかも
+  # Pending
   def index; end
 end

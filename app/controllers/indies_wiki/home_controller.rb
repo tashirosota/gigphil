@@ -1,3 +1,6 @@
 class IndiesWiki::HomeController < ApplicationController
-  def show; end
+  def show
+    home = {} # ホームは巨大なserializerにする
+    render json: { home: home }
+  end
 end

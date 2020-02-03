@@ -1,7 +1,9 @@
 class IndiesWiki::TagsController < ApplicationController
-  def index; end
+  def index
+    render json: { area_names: Tag.all.pluck[:name] }
+  end
 
-  # 下は後から開発
+  # Pending
   def create; end
 
   def destroy; end
