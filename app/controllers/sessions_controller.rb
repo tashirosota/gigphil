@@ -4,12 +4,12 @@ class SessionsController < ApplicationController
   # twitter認証
   def create
     register_by_twitter!
-    redirect_to root_path, success: 'ログインしました'
+    redirect_to root_path, secondary: 'ログインしました'
   end
 
   def destroy
     session[:user_id] = nil
-    redirect_to root_path, success: 'ログアウトしました'
+    redirect_to root_path, secondary: 'ログアウトしました'
   end
 
   private
