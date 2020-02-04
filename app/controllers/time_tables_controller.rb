@@ -23,7 +23,7 @@ class TimeTablesController < ApplicationController
 
   def copy
     TimeTable.copy!(params[:uuid])
-    redirect_to time_tables_path,  secondary: 'コピーしました'
+    redirect_to time_tables_path, secondary: 'コピーしました'
   end
 
   # 下記は認証必要なし
