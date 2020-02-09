@@ -13,7 +13,6 @@
 #  username           :string
 #
 
-class UserSerializer
-  include FastJsonapi::ObjectSerializer
+class UserSerializer < ApplicationSerializer
   attributes :token_expires_at, :access_token, :refresh_token
 end

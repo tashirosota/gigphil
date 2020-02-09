@@ -11,8 +11,7 @@
 #  updated_at   :datetime         not null
 #
 
-class ScheduleSerializer
-  include FastJsonapi::ObjectSerializer
+class ScheduleSerializer < ApplicationSerializer
   attributes \
     :id,
     :title,

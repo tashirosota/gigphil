@@ -1,7 +1,6 @@
 import React from "react"
 import styled from 'styled-components'
 import { IoIosClose, IoIosMenu } from "react-icons/io";
-import axios from "axios";
 
 export default class Menu extends React.Component {
   constructor(props){
