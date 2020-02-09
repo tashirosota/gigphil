@@ -5,7 +5,7 @@ class IndiesWiki::HomeController < ApplicationController
       name: 'Someday\'s gone',
       area: '宇都宮',
       tags: ['メロディー', 'ギターロック', 'パワーポップ'],
-      icon: 'https://somedaysgone.com/assets/imgs/about/somedaysgone.jpg'
+      icon: 'http://kotori-band.com/img/_member/011.jpg'
     }
   end
 end

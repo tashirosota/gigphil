@@ -35,6 +35,7 @@ export default class ArtistCard extends React.Component {
 }
 
 const Card = styled.div`
+  text-align: center;
   margin-top: 100px;
   display: block;
   background: black;
@@ -48,18 +49,17 @@ const Card = styled.div`
 `
 
 const Icon = styled.img`
-  width: inherit;
+  width: auto;
   max-height: 120px;
   padding: 8px;
 `
 
 const Name = styled.div`
   font-size: 15px;
-  padding-left: 10px;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
-  text-align: center;
+  padding: 0px 5px;
 `
 
 const Area = styled.div`
