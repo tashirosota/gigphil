@@ -1,16 +1,17 @@
 class ApplicationController < ActionController::Base
   before_action :ensure_domain, :authenticate!, :snakeize_params
   helper_method :current_user
+  add_flash_types :secondary
 
   private
- 
+
   # redirect correct server from herokuapp domain for SEO
   def ensure_domain
-   return unless /\.herokuapp.com/ =~ request.host
-   
-   # 主にlocalテスト用の対策80と443以外でアクセスされた場合ポート番号をURLに含める 
-   port = ":#{request.port}" unless [80, 443].include?(request.port)
-   redirect_to "#{request.protocol}www.gigphil.app#{port}#{request.path}", status: :moved_permanently
+    return unless /\.herokuapp.com/ =~ request.host
+
+    # 主にlocalテスト用の対策80と443以外でアクセスされた場合ポート番号をURLに含める
+    port = ":#{request.port}" unless [80, 443].include?(request.port)
+    redirect_to "#{request.protocol}www.gigphil.app#{port}#{request.path}", status: :moved_permanently
   end
 
   def authenticate!
