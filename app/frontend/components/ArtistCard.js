@@ -8,22 +8,82 @@ export default class ArtistCard extends React.Component {
   constructor(props){
     super(props)
     this.state = {
-      example: this.props.example
-
+      artist: this.props.artist
     }
-
-    this.hoo = this.hoo.bind(this) 
-  }
-
-  hoo(){
-    this.setState({ visiable: true })
   }
 
   render () {
-    const { example } = this.state
+    const { artist } = this.state
     return (
       <React.Fragment>  
-      </React.Fragment>
+        <Card>
+          <Icon  alt={artist.name} src={artist.icon}/>
+          <Name>{artist.name}</Name>
+          <Area>{artist.area}</Area>
+          <TagList>
+            {
+              artist.tags.map(
+                (tag, index) => {
+                  return <Tag key={index}>{tag}</Tag>
+                })
+            }
+          </TagList>
+        </Card>
+       </React.Fragment>
     )
   }
 }
+
+const Card = styled.div`
+  margin-top: 100px;
+  display: block;
+  background: black;
+  height: 230px;
+  width: 170px;
+  color: white;
+  border-radius: 10px;
+  p {
+    margin: 0px;
+   }
+`
+
+const Icon = styled.img`
+  width: inherit;
+  max-height: 120px;
+  padding: 8px;
+`
+
+const Name = styled.div`
+  font-size: 15px;
+  padding-left: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  text-align: center;
+`
+
+const Area = styled.div`
+  font-size: 10px;
+  background: gray;
+  width: fit-content;
+  padding: 2px;
+  margin-left: 10px; 
+  border-radius: 6px;
+  margin: 8px 10px;
+`
+
+const TagList = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0px 10px;
+`
+
+const Tag = styled.div`
+  font-size: 10px;
+  background: gray;
+  width: fit-content;
+  padding: 2px;
+  border-radius: 6px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+`
