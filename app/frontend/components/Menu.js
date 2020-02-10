@@ -1,7 +1,6 @@
 import React from "react"
 import styled from 'styled-components'
 import { IoIosClose, IoIosMenu } from "react-icons/io";
-import axios from "axios";
 
 export default class Menu extends React.Component {
   constructor(props){
@@ -9,7 +8,7 @@ export default class Menu extends React.Component {
     this.state = {
       visiable: false,
       userID: this.props.userId,
-      userName: 'chao____' || this.props.userName
+      userName: this.props.userName
     }
 
     this.close = this.close.bind(this) 
