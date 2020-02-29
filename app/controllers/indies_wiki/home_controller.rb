@@ -9,7 +9,7 @@ class IndiesWiki::HomeController < ApplicationController
       name: artists.sample,
       area: areas.sample,
       tags: %w(メロディー ギターロック パワーポップ),
-      icon: 'http://kotori-band.com/img/_member/011.jpg'
+      icon: 'http://soshaku.wp.xdomain.jp/wp-content/themes/soshaku/img/profile.jpg'
     }
     @artists << {
       name: artists.sample,
