@@ -1,29 +1,41 @@
 import React from "react"
 import styled from 'styled-components'
-import swal from 'sweetalert';
-import axios from "axios";
-import { IoIosClose, IoIosMenu } from "react-icons/io";
+import ArtiscCard from './ArtistCard'
 
 export default class ArtistList extends React.Component {
   constructor(props){
     super(props)
     this.state = {
-      example: this.props.example
-
+      artists: this.props.artists,
+      title: this.props.title
     }
-
-    this.hoo = this.hoo.bind(this) 
-  }
-
-  hoo(){
-    this.setState({ visiable: true })
   }
 
   render () {
-    const { example } = this.state
+    const { artists, title } = this.state
     return (
-      <React.Fragment>  
+      <React.Fragment>
+        <Title>{title}</Title>
+        <ArtistsContainer>
+          {
+            artists.map(
+              (artist, index) => {
+                return <ArtiscCard key={index} artist={artist}/>
+              })
+          }
+        </ArtistsContainer>
       </React.Fragment>
     )
   }
 }
+
+const ArtistsContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+`
+
+const Title = styled.h1`
+  color: white;
+  font-size: 25px;
+`
