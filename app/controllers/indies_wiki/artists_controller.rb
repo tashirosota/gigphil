@@ -4,7 +4,7 @@ class IndiesWiki::ArtistsController < ApplicationController
   # fatになると思う
   # indexはsearchなのでserviceに切り出す
   def index
-    stories = RegisteredArtist::SearchCommand.execute(params[:artist_name], params[:area], params[:tags])
+    stories = RegisteredArtist::SearchCommand.execute!(params[:artist_name], params[:area], params[:tags])
     render json: stories # TODO: serializer
   end
 
@@ -13,6 +13,8 @@ class IndiesWiki::ArtistsController < ApplicationController
   end
 
   def new; end
+
+  def edit; end
 
   def create; end
 

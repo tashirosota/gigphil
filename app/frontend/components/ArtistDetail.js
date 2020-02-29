@@ -4,7 +4,7 @@ import swal from 'sweetalert';
 import axios from "axios";
 import { IoIosClose, IoIosMenu } from "react-icons/io";
 
-export default class Artist extends React.Component {
+export default class ArtistDetail extends React.Component {
   constructor(props){
     super(props)
     this.state = {

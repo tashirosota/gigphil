@@ -4,9 +4,11 @@ class RegisteredArtist::SearchCommand
   end
 
   def initialize(name, area, tags)
-    @name, @area, @tags = name, area, tags
+    @name = name
+    @area = area
+    @tags = tags
   end
-  
+
   def execute
     # TODO
   end

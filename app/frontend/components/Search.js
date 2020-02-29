@@ -2,7 +2,6 @@ import React from "react"
 import ReactSelect from 'react-select';
 import styled from 'styled-components'
 import axios from "axios";
-import qs from 'qs';
 
 
 export default class Search extends React.Component {
@@ -27,9 +26,7 @@ export default class Search extends React.Component {
       selected_area: selectedArea,
       selected_tags: selectedTags
     }
-    const paramsSerializer = (params) => qs.stringify(params);
-
-    axios.get('/indies_wiki/artists', { params, paramsSerializer });
+    axios.get('/indies_wiki/artists', { params })
   }
 
   hundleChange(e){
@@ -54,7 +51,7 @@ export default class Search extends React.Component {
 
   render () {
 
-    const { tags, areas, artistName, selectedArea, selectedTags } = this.state
+    const { tags, areas, artistName, selectedArea } = this.state
     return (
       <React.Fragment>
         <Title>インディーズwiki</Title>
