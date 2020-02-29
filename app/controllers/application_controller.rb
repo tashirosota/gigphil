@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
 
   # redirect correct server from herokuapp domain for SEO
   def ensure_domain
+    return if Rails.env.staging?
     return unless /\.herokuapp.com/ =~ request.host
 
     # 主にlocalテスト用の対策80と443以外でアクセスされた場合ポート番号をURLに含める
