@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   before_action :ensure_domain, :authenticate!, :snakeize_params
   helper_method :current_user
+  add_flash_types :secondary
 
   private
 

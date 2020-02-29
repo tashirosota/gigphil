@@ -8,7 +8,7 @@ export default class Menu extends React.Component {
     this.state = {
       visiable: false,
       userID: this.props.userId,
-      userName: 'chao____' || this.props.userName
+      userName: this.props.userName
     }
 
     this.close = this.close.bind(this) 
@@ -78,6 +78,7 @@ const MenuHeader = styled.div`
 const OpenButton = styled.button`
   z-index: 10;
   position: fixed;
+  padding: 0px;
   top: -15px;
   right: 50px;
   width: auto;
