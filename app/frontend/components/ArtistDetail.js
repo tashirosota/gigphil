@@ -198,7 +198,7 @@ const AndMore = styled.a`
 const Items = styled.ul`
   display: block;
   height: auto;
-  background: #dadada;
+  background: white;
   border-radius: 10px;
   box-shadow: 1px 1px 4px grey;
   padding: 5px;
