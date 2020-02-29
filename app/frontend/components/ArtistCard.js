@@ -55,6 +55,7 @@ const Icon = styled.img`
 `
 
 const Name = styled.div`
+  width: 160px;
   font-size: 15px;
   text-overflow: ellipsis;
   white-space: nowrap;
