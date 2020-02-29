@@ -21,12 +21,7 @@ export default class Search extends React.Component {
 
   saerch(){
     const { artistName, selectedArea, selectedTags } = this.state
-    const params = {
-      artist_name: artistName,
-      selected_area: selectedArea,
-      selected_tags: selectedTags
-    }
-    axios.get('/indies_wiki/artists', { params })
+    location.href = `/indies_wiki/artists?artist_name=${artistName}&selected_area=${selectedArea}&tags=${selectedTags}`
   }
 
   hundleChange(e){
