@@ -1,7 +1,9 @@
 class IndiesWiki::CommentsController < ApplicationController
-  def index(artist_id)
-    comments = RegisteredArtist::Forum.find(artist_id).comments
-    render json: comments # シリアライザー挟む
+  skip_before_action :authenticate!, only: :index
+  def index
+    artist = RegisteredArtist.find(params[:id])
+    artist.create_forum! unless artist.forum
+    @comments = artist.forum.comments
   end
 
   def create; end

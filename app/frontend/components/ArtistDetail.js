@@ -65,7 +65,7 @@ export default class ArtistDetail extends React.Component {
             artist.comments.length == 0 ? `` : <div>
               <TitleArea>
                 <ListTitle>Forum</ListTitle>
-                <AndMore href={`/indies_wiki/artists/${artist.id}/comments`}>もっと見る ></AndMore>
+                <AndMore href={`/indies_wiki/artists/${artist.id}/forum/comments`}>もっと見る ></AndMore>
               </TitleArea>
               <Items>
                 {

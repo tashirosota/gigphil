@@ -55,6 +55,7 @@ const Login = styled.a`
   z-index: 5;
   border-radius: 10px;
   bottom: 40px;
+  padding-top: 15px;
   left: 0px;
   right: 0px;
   color: white;
