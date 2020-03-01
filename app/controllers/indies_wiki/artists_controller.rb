@@ -34,7 +34,7 @@ class IndiesWiki::ArtistsController < ApplicationController
       hp: artist.hp,
       twitter: artist.twitter,
       tags: Tag.all.map(&:name).shuffle.take(3),
-      is_favorite: true,
+      is_favorite: false,
       sounds: [
         {
           title: '長いタイトル長いタイトル長いタイトルミニアルバムAppleMusic',

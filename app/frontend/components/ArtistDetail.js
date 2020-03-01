@@ -139,6 +139,9 @@ const AddButton = styled.button`
   margin: 0px 5px;
   padding: 0px;
   color: white;
+  background: no-repeat;
+  border: none;
+}
 `
 
 const TagList = styled.ul`
