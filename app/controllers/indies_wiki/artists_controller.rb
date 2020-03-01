@@ -19,7 +19,7 @@ class IndiesWiki::ArtistsController < ApplicationController
       }
     end
 
-    @title = "#{params[:artist_name]}, #{params[:selected_area]}, #{params[:tags]}"
+    @title = "#{params[:artist_name]} #{params[:selected_area]} #{params[:tags].split(',').join(' ')}"
   end
 
   def show
