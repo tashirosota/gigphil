@@ -25,6 +25,7 @@ export default class ArtistCard extends React.Component {
                 })
             }
           </TagList>
+          <ToDetail href={`/indies_wiki/artists/${artist.id}`}/>
         </Card>
        </React.Fragment>
     )
@@ -33,6 +34,7 @@ export default class ArtistCard extends React.Component {
 
 const Card = styled.div`
   text-align: center;
+  position: relative;
   display: block;
   background: #dadada;
   height: 222px;
@@ -94,4 +96,12 @@ const TagList = styled.div`
   display: flex;
   flex-wrap: wrap;
   padding: 0px 10px;
+`
+const ToDetail = styled.a`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 10;
+  display: block;
+  top: 0px;
 `
