@@ -5,8 +5,8 @@ class IndiesWiki::ArtistsController < ApplicationController
   # indexはsearchなのでserviceに切り出す
   def index
     # stories = RegisteredArtist::SearchCommand.execute!(params[:artist_name], params[:area], params[:tags])
-    tags = Tag.all.map(&:name)
-    areas = Area.all.map(&:name)
+    tags = Tag.pluck(:name)
+    areas = Area.pluck(:name)
     artists = RegisteredArtist.all
     @artists = []
     10.times do
@@ -33,7 +33,7 @@ class IndiesWiki::ArtistsController < ApplicationController
       area: '新宿',
       hp: artist.hp,
       twitter: artist.twitter,
-      tags: Tag.all.map(&:name).shuffle.take(3),
+      tags: Tag.all.map(&:name).shuffle.take(10),
       is_favorite: false,
       sounds: [
         {
@@ -59,7 +59,23 @@ class IndiesWiki::ArtistsController < ApplicationController
     }
   end
 
-  def new; end
+  def new
+    @artist = {
+      id: nil,
+      name: nil,
+      description: nil,
+      icon: '/assets/default_icon.jpeg',
+      area: {
+        id: nil,
+        name: nil
+      },
+      hp: nil,
+      twitter: nil,
+      tags: []
+    }
+    @tags = Tag.all.map{ |tag| { id: tag.id, name: tag.name} }
+    @areas = Area.all.map{ |area| { id: area.id, name: area.name} }
+  end
 
   def edit; end
 

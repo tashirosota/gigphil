@@ -1,7 +1,5 @@
 import React from "react"
 import styled from 'styled-components'
-import swal from 'sweetalert';
-import axios from "axios";
 import { IoLogoTwitter, IoIosHome, IoIosAddCircleOutline, IoIosCheckmarkCircleOutline } from "react-icons/io";
 import { FaEdit } from "react-icons/fa";
 
@@ -12,12 +10,6 @@ export default class ArtistDetail extends React.Component {
       artist: this.props.artist,
       didLogined: this.props.didLogined
     }
-
-    this.hoo = this.hoo.bind(this) 
-  }
-
-  hoo(){
-    this.setState({ visiable: true })
   }
 
   render () {
@@ -27,8 +19,8 @@ export default class ArtistDetail extends React.Component {
         <Detail>
           <Icon alt={artist.name} src={artist.icon}/> 
           <SNSItems>
-            <SNSItem href={artist.hp}><IoIosHome/></SNSItem>
-            <SNSItem href={artist.twitter}><IoLogoTwitter/></SNSItem>
+            { artist.hp ? <SNSItem href={artist.hp}><IoIosHome/></SNSItem> : ''}
+            { artist.twitter ? <SNSItem href={artist.twitter}><IoLogoTwitter/></SNSItem> : ''}
             {
               artist.is_favorite ? <AddButton><IoIosCheckmarkCircleOutline/></AddButton> : <AddButton><IoIosAddCircleOutline/></AddButton>
             }
@@ -100,7 +92,7 @@ export default class ArtistDetail extends React.Component {
 const Detail = styled.div`
   text-align: center;
   margin: 0px auto;
-  width: 345px;
+  width: autpo;
 `
 
 const Icon = styled.img`
@@ -115,10 +107,12 @@ const Name = styled.h1`
   text-align: center;
   color: white;
   font-size: 1.5rem;
+  margin: 20px 5px;
 `
 const Description = styled.h2`
   color: white;
   font-size: 1.3rem;
+  text-align: left;
 `
 
 const SNSItems = styled.ul`
@@ -205,6 +199,7 @@ const Items = styled.ul`
   border-radius: 10px;
   box-shadow: 1px 1px 4px grey;
   padding: 5px;
+  text-align: left;
 `
 
 const SoundItem = styled.a`

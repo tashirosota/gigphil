@@ -1,8 +1,6 @@
 import React from "react"
 import ReactSelect from 'react-select';
 import styled from 'styled-components'
-import axios from "axios";
-
 
 export default class Search extends React.Component {
   constructor(props){
