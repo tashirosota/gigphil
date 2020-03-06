@@ -45,7 +45,7 @@ export default class Menu extends React.Component {
                   <a className="text-white" href='/sessions' data-method="delete">ログアウト（{userName}）</a>
                 </Logout>:<Login>
                   <a className="text-white" href='/auth/twitter' >ログイン(with Twitter)</a>
-                  <LoginDescription>※ログインをすると、<br/>各種機能が開放されます。</LoginDescription>
+                  <LoginDescription>※ログインすることにより、<br/>各種機能が開放されます。</LoginDescription>
                 </Login>
             }
             <Item><a className="text-white" href="mailto:g4160hc@gmail.com">お問い合わせ</a></Item>
@@ -55,10 +55,6 @@ export default class Menu extends React.Component {
     )
   }
 }
-
-const UserName = styled.div`
-
-`
 
 const Logo = styled.img`
   max-width: 155px;

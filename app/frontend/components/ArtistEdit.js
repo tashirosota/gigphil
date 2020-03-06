@@ -9,10 +9,14 @@ export default class ArtistEdit extends React.Component {
       artist: this.props.artist,
       tags: this.props.tags,
       areas: this.props.areas,
-      uploadFileURL: null
+      uploadFileURL: null,
+      saving: false,
+      validationMessages: []
     }
 
     this.hundleChange = this.hundleChange.bind(this) 
+    this.save = this.save.bind(this) 
+    this.validation = this.validation.bind(this) 
   }
 
   hundleChange(e){
@@ -20,15 +24,34 @@ export default class ArtistEdit extends React.Component {
     if(e.target.name == 'icon'){
       artist.icon = e.target.files[0]
       this.setState({ uploadFileURL: window.URL.createObjectURL(e.target.files[0]) })
+    } else if(e.target.name == 'area_id') {
+      artist.area.id = e.target.value
     } else {
       artist[e.target.name] = e.target.value
     }
     this.setState({ artist })
   }
 
+  save(){
+    const { saving } = this.state
+    if(!this.validation()) { return false }
+    // this.setState({saving: true}, ()=>{
+
+    // })
+  }
+
+  validation(){
+    const { artist, uploadFileURL } = this.state
+    const validationMessages = []
+    if(!uploadFileURL) { validationMessages.push('アーティスト写は必須項目です')}
+    if(!artist.name) { validationMessages.push('アーティスト名は必須項目です。')}
+    if(!artist.area.id) { validationMessages.push('エリアは必須項目です。')}
+    this.setState({validationMessages})
+    validationMessages.length == 0
+  }
 
   render () {
-    const { artist, tags, areas, uploadFileURL } = this.state
+    const { artist, tags, areas, uploadFileURL, validationMessages, saving } = this.state
     return (
       <React.Fragment> 
         <Editor>
@@ -38,7 +61,7 @@ export default class ArtistEdit extends React.Component {
           </IconArea>
           <Input name='name' type='text' placeholder='アーティスト名 ※ 必須' value={artist.name || ''}  onChange={ this.hundleChange }/>
           <Description name='description' placeholder='このアーティストの説明を説明を入力してください。' value={artist.description || ''}  onChange={ this.hundleChange }/>
-          <AreaSelect name='selectedArea' className="form-control" value={artist.area.id || ''} onChange={ this.hundleChange }>
+          <AreaSelect name='area_id' className="form-control" value={artist.area.id || ''} onChange={ this.hundleChange }>
             <option value=''>エリアを選ぶ ※ 必須</option>
             {
               areas.map((area, index) => {
@@ -58,7 +81,12 @@ export default class ArtistEdit extends React.Component {
           />
           <Input name='twitter' type='text' placeholder='Twitter URL' value={artist.hp || ''}  onChange={ this.hundleChange }/>
           <Input name='hp' type='text' placeholder='HP URL' value={artist.twitter || ''}  onChange={ this.hundleChange }/>
-          <SaveButton>保存する</SaveButton>
+          {
+            validationMessages.map((msg, index) => {
+              return <ValidationMessage key={index}>{msg}</ValidationMessage>
+            })
+          }
+          <SaveButton onClick={this.save} disabled={saving}>保存する</SaveButton>
         </Editor>  
       </React.Fragment>
     )
@@ -137,5 +165,11 @@ const SaveButton = styled.button`
   border-radius: 0.25rem;
   margin-top: 20px;
   height: 50px;
+`
+
+const ValidationMessage = styled.p`
+  color: #ff7777;
+  font-size: 15px;
+  margin-top: 5px;
 `
 
