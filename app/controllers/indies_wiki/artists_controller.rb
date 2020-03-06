@@ -4,21 +4,7 @@ class IndiesWiki::ArtistsController < ApplicationController
   # fatになると思う
   # indexはsearchなのでserviceに切り出す
   def index
-    # stories = RegisteredArtist::SearchCommand.execute!(params[:artist_name], params[:area], params[:tags])
-    tags = Tag.pluck(:name)
-    areas = Area.pluck(:name)
-    artists = RegisteredArtist.all
-    @artists = []
-    10.times do
-      @artists << {
-        id: artists.sample.id,
-        name: artists.sample.name,
-        area: areas.sample,
-        tags: tags.shuffle.take(3),
-        icon: 'http://soshaku.wp.xdomain.jp/wp-content/themes/soshaku/img/profile.jpg'
-      }
-    end
-
+    @stories = RegisteredArtist::SearchCommand.execute!(params[:artist_name], params[:selected_area], params[:tags].split(','))
     @title = "#{params[:artist_name]} #{params[:selected_area]} #{params[:tags].split(',').join(' ')}"
   end
 
@@ -54,10 +40,10 @@ class IndiesWiki::ArtistsController < ApplicationController
         }
       ],
       commentable: false,
-      comments: ['テストコメントテストコメントby誰々さんテストコメントby誰々さんテストコメントby誰々さんテストコメントby誰々さんテストコメントby誰々さんテストコメントby誰々さん  by誰々さん','テストdsfsfdコメントby誰々さん','テストコメントby誰々さん','テストdsfsfdコメントby誰々さん','テストコメントby誰々さん','テストdsfsfdコメントby誰々さん','テストコメントby誰々さん','テストdsfsfdコメントby誰々さん'],
-      histories: ['テストコメントby誰々さん','テストdsfsfdコメントby誰々さん','テストコメントby誰々さん','テストdsfsfdコメントby誰々さん','テストコメントby誰々さん','テストdsfsfdコメントby誰々さん']
+      comments: ['テストコメントテストコメントby誰々さんテストコメントby誰々さんテストコメントby誰々さんテストコメントby誰々さんテストコメントby誰々さんテストコメントby誰々さん  by誰々さん', 'テストdsfsfdコメントby誰々さん', 'テストコメントby誰々さん', 'テストdsfsfdコメントby誰々さん', 'テストコメントby誰々さん', 'テストdsfsfdコメントby誰々さん', 'テストコメントby誰々さん', 'テストdsfsfdコメントby誰々さん'],
+      histories: %w(テストコメントby誰々さん テストdsfsfdコメントby誰々さん テストコメントby誰々さん テストdsfsfdコメントby誰々さん テストコメントby誰々さん テストdsfsfdコメントby誰々さん)
     }
-    render :layout => 'artist'
+    render layout: 'artist'
   end
 
   def new
@@ -74,8 +60,8 @@ class IndiesWiki::ArtistsController < ApplicationController
       twitter: nil,
       tags: []
     }
-    @tags = Tag.all.map{ |tag| { id: tag.id, name: tag.name} }
-    @areas = Area.all.map{ |area| { id: area.id, name: area.name} }
+    @tags = Tag.all.map { |tag| { id: tag.id, name: tag.name } }
+    @areas = Area.all.map { |area| { id: area.id, name: area.name } }
   end
 
   def edit; end

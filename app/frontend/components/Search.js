@@ -47,7 +47,7 @@ export default class Search extends React.Component {
     const { tags, areas, artistName, selectedArea } = this.state
     return (
       <React.Fragment>
-        <Title>インディーズwiki</Title>
+        <Title>インディーズwiki(β版)</Title>
         <ArtistName name='artistName' placeholder='アーティスト名' className="form-control" value={artistName} onChange={ this.hundleChange }/>
         <ReactSelect
           isMulti
@@ -75,9 +75,9 @@ export default class Search extends React.Component {
 
 const Title = styled.h1`
   text-align: center;
-  font-size: 40px;
+  font-size: 30px;
   color: white;
-  margin-bottom: 20px;
+  margin: 25px 0px;
 `
 
 const SearchButton = styled.button`
