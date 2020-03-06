@@ -16,8 +16,11 @@
 
 class RegisteredArtist < ApplicationRecord
   mount_uploader :icon, IconUploader
-  has_many :tag_to_registered_artists, class_name: 'TagToRegisteredArtist', dependent: :nullify
-  has_many :tags, through: :tag_to_registered_artists, inverse_of: :registered_artist
+  has_many :tag_to_registered_artists,
+           class_name: 'TagToRegisteredArtist',
+           dependent: :nullify,
+           inverse_of: :registered_artist
+  has_many :tags, through: :tag_to_registered_artists
   has_many :edit_histories, class_name: 'RegisteredArtist::History', dependent: :destroy
   has_many :sounds, class_name: 'RegisteredArtist::Sound', dependent: :destroy, inverse_of: :registered_artist
   has_one :forum, class_name: 'RegisteredArtist::Forum', dependent: :destroy

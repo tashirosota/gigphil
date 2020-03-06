@@ -15,7 +15,7 @@ class RegisteredArtist::SearchCommand
   end
 
   def init_model
-    RegisteredArtist.joins({ tag_to_registered_artists: :tag }, :area)
+    RegisteredArtist.includes(:tags, :area).joins(:tags, :area).order(updated_at: :desc)
   end
 
   def by_name(model)

@@ -18,11 +18,12 @@ export default class ArtistList extends React.Component {
         <Title>{title}</Title>
         <ArtistsContainer>
           {
-            artists.map(
+            artists.length == 0 ? <Title>該当のアーティストは見つかりませんでした。</Title> : artists.map(
               (artist, index) => {
                 return <ArtiscCard key={index} artist={artist}/>
               })
           }
+
         </ArtistsContainer>
       </React.Fragment>
     )

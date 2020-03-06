@@ -1,3 +1,4 @@
+# rubocop:disable all
 namespace :area do
   desc 'Create records for initial state'
   task create_initial_data: :environment do
@@ -9,3 +10,4 @@ namespace :area do
     end
   end
 end
+# rubocop:enable all

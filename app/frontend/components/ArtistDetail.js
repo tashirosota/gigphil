@@ -1,6 +1,6 @@
 import React from "react"
 import styled from 'styled-components'
-import { IoLogoTwitter, IoIosHome, IoIosAddCircleOutline, IoIosCheckmarkCircleOutline } from "react-icons/io";
+import { IoLogoTwitter, IoIosHome, IoIosStarOutline, IoIosCheckmarkCircleOutline } from "react-icons/io";
 import { FaEdit } from "react-icons/fa";
 
 export default class ArtistDetail extends React.Component {
@@ -22,7 +22,7 @@ export default class ArtistDetail extends React.Component {
             { artist.hp ? <SNSItem href={artist.hp}><IoIosHome/></SNSItem> : ''}
             { artist.twitter ? <SNSItem href={artist.twitter}><IoLogoTwitter/></SNSItem> : ''}
             {
-              artist.is_favorite ? <AddButton><IoIosCheckmarkCircleOutline/></AddButton> : <AddButton><IoIosAddCircleOutline/></AddButton>
+              artist.is_favorite ? <AddButton><IoIosCheckmarkCircleOutline/></AddButton> : <AddButton><IoIosStarOutline/></AddButton>
             }
             {
               didLogined ? <SNSItem href={`/indies_wiki/artists/${artist.id}/edit`}><FaEdit/></SNSItem> : ''

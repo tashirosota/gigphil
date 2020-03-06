@@ -36,6 +36,7 @@ export default class Menu extends React.Component {
           <CloseButton onClick={this.close}><IoIosClose/></CloseButton>
           <ItemArea>
             <Item><a className="text-white" href="/indies_wiki">インディーズwiki(β版)</a></Item>
+            { userID ? <Item><a className="text-white" href="/indies_wiki/favorites">お気に入り</a></Item> : '' }
             <Item><a className="text-white" href="/searcher">ライブ検索</a></Item>
             <Item><a className="text-white" href="/TT">タイムテーブルジェネレータ</a></Item>
             { userID ? <Item><a className="text-white" href={`/time_tables`}>タイムテーブル管理</a></Item> : '' }
@@ -44,7 +45,7 @@ export default class Menu extends React.Component {
                   <a className="text-white" href='/sessions' data-method="delete">ログアウト（{userName}）</a>
                 </Logout>:<Login>
                   <a className="text-white" href='/auth/twitter' >ログイン(with Twitter)</a>
-                  <LoginDescription>※ログインによりTTの保存や、<br/>シェア機能が使えるようになります。</LoginDescription>
+                  <LoginDescription>※ログインをすると、<br/>各種機能が開放されます。</LoginDescription>
                 </Login>
             }
             <Item><a className="text-white" href="mailto:g4160hc@gmail.com">お問い合わせ</a></Item>
