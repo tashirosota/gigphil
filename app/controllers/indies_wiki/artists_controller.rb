@@ -57,6 +57,7 @@ class IndiesWiki::ArtistsController < ApplicationController
       comments: ['テストコメントテストコメントby誰々さんテストコメントby誰々さんテストコメントby誰々さんテストコメントby誰々さんテストコメントby誰々さんテストコメントby誰々さん  by誰々さん','テストdsfsfdコメントby誰々さん','テストコメントby誰々さん','テストdsfsfdコメントby誰々さん','テストコメントby誰々さん','テストdsfsfdコメントby誰々さん','テストコメントby誰々さん','テストdsfsfdコメントby誰々さん'],
       histories: ['テストコメントby誰々さん','テストdsfsfdコメントby誰々さん','テストコメントby誰々さん','テストdsfsfdコメントby誰々さん','テストコメントby誰々さん','テストdsfsfdコメントby誰々さん']
     }
+    render :layout => 'artist'
   end
 
   def new

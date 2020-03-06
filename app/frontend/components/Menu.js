@@ -29,6 +29,7 @@ export default class Menu extends React.Component {
       <React.Fragment>  
         <MenuHeader>
           <Logo alt="Gigphil | ライブ好きのための検索アプリ @" src="/assets/logo.png"/>
+          <ToTop href='/'/>
           <OpenButton onClick={this.open}><IoIosMenu/></OpenButton>
         </MenuHeader>
         <Background style={{display: visiable ? 'flex' : 'none'}}>
@@ -148,4 +149,12 @@ const Logout = styled.li`
   font-size: 20px;
   margin-bottom: 15px;
   color: white
+`
+const ToTop = styled.a`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 180px;
+  bottom: 0;
+  margin: auto;
 `
