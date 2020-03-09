@@ -1,5 +1,7 @@
 import React from "react"
 import styled from 'styled-components'
+import axios from "axios";
+import swal from 'sweetalert';
 import ReactSelect from 'react-select'
 
 export default class ArtistEdit extends React.Component {
@@ -9,6 +11,7 @@ export default class ArtistEdit extends React.Component {
       artist: this.props.artist,
       tags: this.props.tags,
       areas: this.props.areas,
+      isNew: this.props.is_new,
       uploadFileURL: null,
       saving: false,
       validationMessages: []
@@ -17,13 +20,13 @@ export default class ArtistEdit extends React.Component {
     this.hundleChange = this.hundleChange.bind(this) 
     this.save = this.save.bind(this) 
     this.validation = this.validation.bind(this) 
+    this.fileInput = React.createRef();
   }
 
   hundleChange(e){
     const { artist } = this.state
     if(e.target.name == 'icon'){
-      artist.icon = e.target.files[0]
-      this.setState({ uploadFileURL: window.URL.createObjectURL(e.target.files[0]) })
+      this.setState({ uploadFileURL: window.URL.createObjectURL(e.target.files[0]) })    
     } else if(e.target.name == 'area_id') {
       artist.area.id = e.target.value
     } else {
@@ -32,22 +35,45 @@ export default class ArtistEdit extends React.Component {
     this.setState({ artist })
   }
 
-  save(){
-    const { saving } = this.state
+  save(e){
+    e.preventDefault();
+    const { artist, isNew } = this.state
     if(!this.validation()) { return false }
-    // this.setState({saving: true}, ()=>{
-
-    // })
+    const formData = new FormData()
+    if(this.fileInput.current.files[0]) {
+      formData.append("artist[icon]", this.fileInput.current.files[0])
+    }
+    formData.append("artist[name]", artist.name)
+    formData.append("artist[description]", artist.name)
+    formData.append("artist[area_id]", artist.area.id)
+    artist.tags.forEach((tag) => { formData.append("artist[tag_ids][]", tag.id)})
+    formData.append("artist[twitter]", artist.twitter)
+    formData.append("artist[hp]", artist.hp)
+    const config = {
+      method: (isNew ? 'post' : 'put'),
+      url: (isNew ? '/indies_wiki/artists' : `/indies_wiki/artists/${artist.id}`),
+      data: formData
+    }
+    this.setState({saving: true}, ()=>{
+      axios(config)
+        .then(res => {
+          location.href = `/indies_wiki/artists/${res.data.id}`
+        }, (res) => {
+          swal("保存失敗", `保存に失敗しました。hp、twitterまたは、アー写を確認して下さい。※同名のアーティストが存在する場合も保存することが出来ません`, "danger");
+        }).then(()=>{
+          this.setState({saving: false})
+        })
+    })
   }
 
   validation(){
     const { artist, uploadFileURL } = this.state
     const validationMessages = []
-    if(!uploadFileURL) { validationMessages.push('アーティスト写は必須項目です')}
+    if(!(uploadFileURL || artist.icon)) { validationMessages.push('アーティスト写真は必須項目です')}
     if(!artist.name) { validationMessages.push('アーティスト名は必須項目です。')}
     if(!artist.area.id) { validationMessages.push('エリアは必須項目です。')}
     this.setState({validationMessages})
-    validationMessages.length == 0
+    return validationMessages.length === 0
   }
 
   render () {
@@ -56,8 +82,8 @@ export default class ArtistEdit extends React.Component {
       <React.Fragment> 
         <Editor>
           <IconArea>
-            <Icon alt={artist.name} src={uploadFileURL || artist.icon}/> 
-            <IconInput alt={artist.name} name='icon' type="file" onChange={ this.hundleChange }/> 
+            <Icon alt={artist.name} src={uploadFileURL || artist.icon || '/assets/default_icon.jpeg'}/> 
+            <IconInput alt={artist.name} name='icon' type="file" ref={this.fileInput} accept="image/*" onChange={ this.hundleChange }/> 
           </IconArea>
           <Input name='name' type='text' placeholder='アーティスト名 ※ 必須' value={artist.name || ''}  onChange={ this.hundleChange }/>
           <Description name='description' placeholder='このアーティストの説明を説明を入力してください。' value={artist.description || ''}  onChange={ this.hundleChange }/>
@@ -79,8 +105,8 @@ export default class ArtistEdit extends React.Component {
             className="basic-multi-select"
             onChange={this.hundleTagChange}
           />
-          <Input name='twitter' type='text' placeholder='Twitter URL' value={artist.hp || ''}  onChange={ this.hundleChange }/>
-          <Input name='hp' type='text' placeholder='HP URL' value={artist.twitter || ''}  onChange={ this.hundleChange }/>
+          <Input name='twitter' type='text' placeholder='https://twitter.com/ARTIST_ID' value={artist.twitter || ''}  onChange={ this.hundleChange }/>
+          <Input name='hp' type='text' placeholder='HP URL' value={artist.hp || ''}  onChange={ this.hundleChange }/>
           {
             validationMessages.map((msg, index) => {
               return <ValidationMessage key={index}>{msg}</ValidationMessage>
@@ -93,7 +119,7 @@ export default class ArtistEdit extends React.Component {
   }
 }
 
-const Editor = styled.div`
+const Editor = styled.form`
   text-align: center;
   margin: 0px auto;
   width: autpo;

@@ -26,4 +26,38 @@ class RegisteredArtist < ApplicationRecord
   has_one :forum, class_name: 'RegisteredArtist::Forum', dependent: :destroy
   belongs_to :user, class_name: 'User', foreign_key: 'registered_user_id', inverse_of: :registered_artists
   belongs_to :area
+  validates :hp, format: /\A#{URI::regexp(%w(http https))}\z/, allow_blank: true
+  validates :twitter, format: /\A#{URI::regexp(%w(http https))}\z/, allow_blank: true
+
+  def self.new_hash
+    {
+      id: nil,
+      name: nil,
+      description: nil,
+      icon: nil,
+      area: {
+        id: nil,
+        name: nil
+      },
+      hp: nil,
+      twitter: nil,
+      tags: []
+    }
+  end
+
+  def edit_hash
+    {
+      id: id,
+      name: name,
+      description: description,
+      icon: icon.url,
+      area: {
+        id: area.id,
+        name: area.name
+      },
+      hp: hp,
+      twitter: twitter,
+      tags: tags.map { |tag| { id: tag.id, name: tag.name } }
+    }
+  end
 end

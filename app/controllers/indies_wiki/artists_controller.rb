@@ -19,50 +19,40 @@ class IndiesWiki::ArtistsController < ApplicationController
   end
 
   def new
-    @artist = {
-      id: nil,
-      name: nil,
-      description: nil,
-      icon: '/assets/default_icon.jpeg',
-      area: {
-        id: nil,
-        name: nil
-      },
-      hp: nil,
-      twitter: nil,
-      tags: []
-    }
-    @tags = Tag.all.map { |tag| { id: tag.id, name: tag.name } }
-    @areas = Area.all.map { |area| { id: area.id, name: area.name } }
+    @artist = RegisteredArtist.new_hash
+    @tags = Tag.to_hash
+    @areas = Area.to_hash
   end
 
-  # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
   def edit
-    artist = RegisteredArtist.includes(:tags, :area).find(params[:id])
-    @artist = {
-      id: artist.id,
-      name: artist.name,
-      description: artist.description,
-      icon: artist.icon.url,
-      area: {
-        id: artist.area.id,
-        name: artist.area.name
-      },
-      hp: artist.hp,
-      twitter: artist.twitter,
-      tags: artist.tags.map { |tag| { id: tag.id, name: tag.name } }
-    }
-    @tags = Tag.all.map { |tag| { id: tag.id, name: tag.name } }
-    @areas = Area.all.map { |area| { id: area.id, name: area.name } }
+    @artist = RegisteredArtist.includes(:tags, :area).find(params[:id]).edit_hash
+    @tags = Tag.to_hash
+    @areas = Area.to_hash
   end
-  # rubocop:enable Metrics/MethodLength, Metrics/AbcSize
+  # rubocop:enable
 
   def create
-    redirect_to indies_wiki_artist(artist.id), secondary: '保存しました'
+    artist = RegisteredArtist.new artist_params
+    artist.user = current_user
+    artist.save!
+    render json: { id: artist.id }
   end
 
   # 閲覧履歴も作るのでコマンドで分ける
   def update
-    redirect_to indies_wiki_artist(artist.id), secondary: '保存しました'
+    artist = RegisteredArtist.find params[:id]
+    RegisteredArtist.transaction do
+      artist.update! artist_params
+      params[:artist].permit(:tag_ids) do |tag_id|
+        artist.tags.create(tag_id: tag_id)
+      end 
+    end
+    render json: { id: artist.id }
+  end
+
+  private 
+
+  def artist_params
+    params[:artist].permit(:id, :name, :icon, :description, :twitter, :hp, :area_id)
   end
 end
