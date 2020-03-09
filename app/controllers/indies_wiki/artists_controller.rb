@@ -45,12 +45,12 @@ class IndiesWiki::ArtistsController < ApplicationController
       artist.update! artist_params
       params[:artist].permit(:tag_ids) do |tag_id|
         artist.tags.create(tag_id: tag_id)
-      end 
+      end
     end
     render json: { id: artist.id }
   end
 
-  private 
+  private
 
   def artist_params
     params[:artist].permit(:id, :name, :icon, :description, :twitter, :hp, :area_id)
