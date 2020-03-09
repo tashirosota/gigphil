@@ -4,7 +4,7 @@ class IconUploader < CarrierWave::Uploader::Base
   include CarrierWave::MiniMagick
 
   # Choose what kind of storage to use for this uploader:
-  strage_arg = Rails.env.production? ? :fog : :file
+  strage_arg = (Rails.env.production? || Rails.env.staging?) ? :fog : :file
   storage strage_arg
   # Override the directory where uploaded files will be stored.
   # This is a sensible default for uploaders that are meant to be mounted:

@@ -47,8 +47,8 @@ export default class ArtistEdit extends React.Component {
     formData.append("artist[description]", artist.name)
     formData.append("artist[area_id]", artist.area.id)
     artist.tags.forEach((tag) => { formData.append("artist[tag_ids][]", tag.id)})
-    formData.append("artist[twitter]", artist.twitter)
-    formData.append("artist[hp]", artist.hp)
+    if(artist.twitter){ formData.append("artist[twitter]", artist.twitter) }
+    if(artist.hp){ formData.append("artist[hp]", artist.hp) }
     const config = {
       method: (isNew ? 'post' : 'put'),
       url: (isNew ? '/indies_wiki/artists' : `/indies_wiki/artists/${artist.id}`),
