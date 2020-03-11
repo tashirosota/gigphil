@@ -21,9 +21,9 @@ export default class ArtistDetail extends React.Component {
           <SNSItems>
             { artist.hp ? <SNSItem href={artist.hp}><IoIosHome/></SNSItem> : ''}
             { artist.twitter ? <SNSItem href={artist.twitter}><IoLogoTwitter/></SNSItem> : ''}
-            {
+            {/* {
               artist.is_favorite ? <AddButton><IoIosCheckmarkCircleOutline/></AddButton> : <AddButton><IoIosStarOutline/></AddButton>
-            }
+            } */}
             {
               didLogined ? <SNSItem href={`/indies_wiki/artists/${artist.id}/edit`}><FaEdit/></SNSItem> : ''
             }
@@ -40,7 +40,7 @@ export default class ArtistDetail extends React.Component {
             }
           </TagList>
           {
-            artist.sounds.length == 0 ? `` : <div>
+            artist.sounds.length === 0 ? '' : <div>
               <ListTitle>Sounds</ListTitle>
               <Items>
                 {
@@ -54,7 +54,7 @@ export default class ArtistDetail extends React.Component {
           }
           {/* comments0の時は飛ぶリンクを出してあげる */}
           {
-            artist.comments.length == 0 ? `` : <div>
+            artist.comments.length === 0 ? '' : <div>
               <TitleArea>
                 <ListTitle>Forum</ListTitle>
                 <AndMore href={`/indies_wiki/artists/${artist.id}/forum/comments`}>もっと見る ></AndMore>
@@ -70,7 +70,7 @@ export default class ArtistDetail extends React.Component {
             </div>
           }
           {
-            artist.histories.length == 0 ? `` : <div>
+            artist.histories.length === 0 ? '' : <div>
               <ListTitle>Histories</ListTitle>
               <Items>
                 {
@@ -211,7 +211,6 @@ const SoundItem = styled.a`
   white-space: nowrap;
   overflow: hidden;
   padding: 0px;
-  max-width: 340px;
 `
 
 const Item = styled.p`
@@ -220,7 +219,6 @@ const Item = styled.p`
   width: fit-content;
   color: black;
   padding: 0px;
-  max-width: 340px;
   margin: 0px;
   margin-left: 5px;
 `

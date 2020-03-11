@@ -7,8 +7,7 @@ export default class Menu extends React.Component {
     super(props)
     this.state = {
       visiable: false,
-      userID: this.props.userId,
-      userName: this.props.userName
+      current_user: this.props.current_user
     }
 
     this.close = this.close.bind(this) 
@@ -24,25 +23,26 @@ export default class Menu extends React.Component {
   }
 
   render () {
-    const { visiable, userID, userName } = this.state
+    const { visiable, current_user } = this.state
     return (
       <React.Fragment>  
         <MenuHeader>
           <Logo alt="Gigphil | ライブ好きのための検索アプリ @" src="/assets/logo.png"/>
           <ToTop href='/'/>
+          <Icon src={current_user.icon_url}/>
           <OpenButton onClick={this.open}><IoIosMenu/></OpenButton>
         </MenuHeader>
         <Background style={{display: visiable ? 'flex' : 'none'}}>
           <CloseButton onClick={this.close}><IoIosClose/></CloseButton>
           <ItemArea>
             <Item><a className="text-white" href="/indies_wiki">インディーズwiki(β版)</a></Item>
-            { userID ? <Item><a className="text-white" href="/indies_wiki/favorites">お気に入り</a></Item> : '' }
+            { current_user.id ? <Item><a className="text-white" href="/indies_wiki/favorites">お気に入り</a></Item> : '' }
             <Item><a className="text-white" href="/searcher">ライブ検索</a></Item>
             <Item><a className="text-white" href="/TT">タイムテーブルジェネレータ</a></Item>
-            { userID ? <Item><a className="text-white" href={`/time_tables`}>タイムテーブル管理</a></Item> : '' }
+            { current_user.id ? <Item><a className="text-white" href={`/time_tables`}>タイムテーブル管理</a></Item> : '' }
             {
-              userID ? <Logout>
-                  <a className="text-white" href='/sessions' data-method="delete">ログアウト（{userName}）</a>
+              current_user.id ? <Logout>
+                  <a className="text-white" href='/sessions' data-method="delete">ログアウト（{current_user.name}）</a>
                 </Logout>:<Login>
                   <a className="text-white" href='/auth/twitter' >ログイン(with Twitter)</a>
                   <LoginDescription>※ログインすることにより、<br/>各種機能が開放されます。</LoginDescription>
@@ -74,6 +74,24 @@ const MenuHeader = styled.div`
   z-index: 10;
 `
 
+const Icon = styled.img`
+  z-index: 10;
+  position: fixed;
+  padding: 0px;
+  top: 8px;
+  right: 112px;
+  width: auto;
+  height: 39px;
+  background: none;
+  font-size: 50px;
+  border: none;
+  color: white;
+  border-radius: 100px;
+  @media (max-width: 576px){
+    right: 62px;
+  }
+`
+
 const OpenButton = styled.button`
   z-index: 10;
   position: fixed;
@@ -89,7 +107,6 @@ const OpenButton = styled.button`
   @media (max-width: 576px){
     right: 10px;
   }
-  
 `
 
 const Background = styled.div`

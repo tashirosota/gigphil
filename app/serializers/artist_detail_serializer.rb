@@ -23,9 +23,11 @@ class ArtistDetailSerializer < ApplicationSerializer
     []
   end
 
-  attribute :histories do
+  attribute :histories do |object|
     # 一旦空配列
-    []
+    object.edit_histories.order(created_at: :desc).limit(10).map do |history|
+      history.created_at.strftime('%Y/%m/%d %H:%M') + ' 編集が行われました。'
+    end + ["#{object.created_at.strftime('%Y/%m/%d %H:%M')} このアーティストが登録されました。"]
   end
 
   attribute :is_favorite do

@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   before_action :ensure_domain, :authenticate!, :snakeize_params
-  helper_method :current_user, :logined?
+  helper_method :current_user, :user_hash, :logined?
   add_flash_types :secondary
 
   private
@@ -20,7 +20,19 @@ class ApplicationController < ActionController::Base
   end
 
   def current_user
-    @current_user ||= User.first || User.find_by(id: session[:user_id])
+    @current_user ||= if Rails.development
+                        User.first
+                      else
+                        User.find_by(id: session[:user_id])
+                      end
+  end
+
+  def user_hash
+    @user_hash ||= {
+      id: @current_user&.id,
+      name: @current_user&.username,
+      icon_url: (@current_user&.icon_url || '/assets/default_user.jpg')
+    }
   end
 
   def logined?

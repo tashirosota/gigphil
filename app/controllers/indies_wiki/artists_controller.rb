@@ -44,9 +44,16 @@ class IndiesWiki::ArtistsController < ApplicationController
   end
 
   # 閲覧履歴も作るのでコマンドで分ける
-  def update
+  def update # rubocop:disable all
     artist = RegisteredArtist.find params[:id]
     RegisteredArtist.transaction do
+      artist.edit_histories.create!(
+        editor_id: current_user.id,
+        old_name: artist.name,
+        old_hp: artist.hp,
+        old_description: artist.description,
+        old_area: artist.area.name
+      )
       artist.update! artist_params
       artist.tags.delete_all
       params[:artist][:tag_ids].each do |tag_id|
