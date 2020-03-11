@@ -15,8 +15,15 @@
 
 class User < ApplicationRecord
   has_many :user_to_schedules, class_name: '::UserToSchedule', dependent: :destroy
-  has_many :schedules, through: :user_to_schedule
+  has_many :schedules, through: :user_to_schedules
   has_many :time_tables, class_name: 'TimeTable', dependent: :destroy
+  has_many :favorite_artists, dependent: :destroy
+  has_many :comments, class_name: 'Artist::Forum::Comment', dependent: :destroy
+  has_many :registered_artists,
+           class_name: 'RegisteredArtist',
+           foreign_key: 'registered_user_id',
+           inverse_of: :user,
+           dependent: :nullify
 
   validates :access_token_hash, format: { with: /\A[0-9a-f]{64}\z/ }, uniqueness: true
   validates :refresh_token_hash, format: { with: /\A[0-9a-f]{64}\z/ }, uniqueness: true

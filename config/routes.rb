@@ -20,6 +20,46 @@
 #                                       PATCH  /time_tables/:uuid(.:format)                                                             time_tables#update
 #                                       PUT    /time_tables/:uuid(.:format)                                                             time_tables#update
 #                                       DELETE /time_tables/:uuid(.:format)                                                             time_tables#destroy
+#                      indies_wiki_root GET    /indies_wiki(.:format)                                                                   indies_wiki/home#show
+#     indies_wiki_artist_forum_comments GET    /indies_wiki/artists/:artist_id/forum/comments(.:format)                                 indies_wiki/comments#index
+#                                       POST   /indies_wiki/artists/:artist_id/forum/comments(.:format)                                 indies_wiki/comments#create
+#  new_indies_wiki_artist_forum_comment GET    /indies_wiki/artists/:artist_id/forum/comments/new(.:format)                             indies_wiki/comments#new
+# edit_indies_wiki_artist_forum_comment GET    /indies_wiki/artists/:artist_id/forum/comments/:id/edit(.:format)                        indies_wiki/comments#edit
+#      indies_wiki_artist_forum_comment GET    /indies_wiki/artists/:artist_id/forum/comments/:id(.:format)                             indies_wiki/comments#show
+#                                       PATCH  /indies_wiki/artists/:artist_id/forum/comments/:id(.:format)                             indies_wiki/comments#update
+#                                       PUT    /indies_wiki/artists/:artist_id/forum/comments/:id(.:format)                             indies_wiki/comments#update
+#                                       DELETE /indies_wiki/artists/:artist_id/forum/comments/:id(.:format)                             indies_wiki/comments#destroy
+#              indies_wiki_artist_forum POST   /indies_wiki/artists/:artist_id/forum(.:format)                                          indies_wiki/forums#create
+#             indies_wiki_artist_sounds GET    /indies_wiki/artists/:artist_id/sounds(.:format)                                         indies_wiki/sounds#index
+#                                       POST   /indies_wiki/artists/:artist_id/sounds(.:format)                                         indies_wiki/sounds#create
+#          new_indies_wiki_artist_sound GET    /indies_wiki/artists/:artist_id/sounds/new(.:format)                                     indies_wiki/sounds#new
+#         edit_indies_wiki_artist_sound GET    /indies_wiki/artists/:artist_id/sounds/:id/edit(.:format)                                indies_wiki/sounds#edit
+#              indies_wiki_artist_sound GET    /indies_wiki/artists/:artist_id/sounds/:id(.:format)                                     indies_wiki/sounds#show
+#                                       PATCH  /indies_wiki/artists/:artist_id/sounds/:id(.:format)                                     indies_wiki/sounds#update
+#                                       PUT    /indies_wiki/artists/:artist_id/sounds/:id(.:format)                                     indies_wiki/sounds#update
+#                                       DELETE /indies_wiki/artists/:artist_id/sounds/:id(.:format)                                     indies_wiki/sounds#destroy
+#             indies_wiki_artist_events GET    /indies_wiki/artists/:artist_id/events(.:format)                                         indies_wiki/events#index
+#          indies_wiki_artist_histories GET    /indies_wiki/artists/:artist_id/histories(.:format)                                      indies_wiki/histories#index
+#                   indies_wiki_artists GET    /indies_wiki/artists(.:format)                                                           indies_wiki/artists#index
+#                                       POST   /indies_wiki/artists(.:format)                                                           indies_wiki/artists#create
+#                new_indies_wiki_artist GET    /indies_wiki/artists/new(.:format)                                                       indies_wiki/artists#new
+#               edit_indies_wiki_artist GET    /indies_wiki/artists/:id/edit(.:format)                                                  indies_wiki/artists#edit
+#                    indies_wiki_artist GET    /indies_wiki/artists/:id(.:format)                                                       indies_wiki/artists#show
+#                                       PATCH  /indies_wiki/artists/:id(.:format)                                                       indies_wiki/artists#update
+#                                       PUT    /indies_wiki/artists/:id(.:format)                                                       indies_wiki/artists#update
+#                                       DELETE /indies_wiki/artists/:id(.:format)                                                       indies_wiki/artists#destroy
+#                     indies_wiki_areas GET    /indies_wiki/areas(.:format)                                                             indies_wiki/areas#index
+#                      indies_wiki_tags GET    /indies_wiki/tags(.:format)                                                              indies_wiki/tags#index
+#                                       POST   /indies_wiki/tags(.:format)                                                              indies_wiki/tags#create
+#                   new_indies_wiki_tag GET    /indies_wiki/tags/new(.:format)                                                          indies_wiki/tags#new
+#                  edit_indies_wiki_tag GET    /indies_wiki/tags/:id/edit(.:format)                                                     indies_wiki/tags#edit
+#                       indies_wiki_tag GET    /indies_wiki/tags/:id(.:format)                                                          indies_wiki/tags#show
+#                                       PATCH  /indies_wiki/tags/:id(.:format)                                                          indies_wiki/tags#update
+#                                       PUT    /indies_wiki/tags/:id(.:format)                                                          indies_wiki/tags#update
+#                                       DELETE /indies_wiki/tags/:id(.:format)                                                          indies_wiki/tags#destroy
+#                 indies_wiki_favorites GET    /indies_wiki/favorites(.:format)                                                         indies_wiki/favorites#index
+#                                       POST   /indies_wiki/favorites(.:format)                                                         indies_wiki/favorites#create
+#                  indies_wiki_favorite DELETE /indies_wiki/favorites/:id(.:format)                                                     indies_wiki/favorites#destroy
 #                              api_user POST   /api/user(.:format)                                                                      api/users#create {:format=>:json}
 #                           api_session PUT    /api/session(.:format)                                                                   api/session#update {:format=>:json}
 #                        api_home_today GET    /api/home/today(.:format)                                                                api/home/today#index {:format=>:json}
@@ -51,16 +91,34 @@ Rails.application.routes.draw do
   get 'result', to: 'results#index' 
   get 'TT', to: 'time_tables#new' 
 
+  # セッション
   resources :session, only: %i(create destroy)
   delete '/sessions', to: 'sessions#destroy'
   get '/auth/twitter/callback', to: 'sessions#create'
 
+  # タイムテーブル機能
   resources :time_tables, param: :uuid do
     member do 
       get 'share', to: 'time_tables#share'
       post 'copy', to: 'time_tables#copy'
     end
     collection { post 'export', to: 'time_tables#export_as_pdf' }
+  end
+
+  # インディーズwiki
+  namespace :indies_wiki do
+    root 'home#show'
+    resources :artists do
+      resource :forum, only: :create do
+        resources :comments
+      end
+      resources :sounds
+      resources :events, only: :index
+      resources :histories, only: :index
+    end
+    get 'areas', to: 'areas#index'
+    resources :tags
+    resources :favorites, only: [:index, :create, :destroy]
   end
 
   # API
