@@ -59,7 +59,7 @@ export default class ArtistEdit extends React.Component {
         .then(res => {
           location.href = `/indies_wiki/artists/${res.data.id}`
         }, (res) => {
-          swal("保存失敗", `保存に失敗しました。hp、twitterまたは、アー写を確認して下さい。※同名のアーティストが存在する場合も保存することが出来ません`, "danger");
+          swal("保存失敗", `保存に失敗しました。hp、twitterまたは、アー写を確認して下さい。※同名のアーティストが存在する場合も保存出来ません。`, "danger");
         }).then(()=>{
           this.setState({saving: false})
         })
