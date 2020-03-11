@@ -22,10 +22,11 @@ class SessionsController < ApplicationController
       user.username = user_data[:info][:nickname]
       user.provider = user_data[:provider]
       user.uid = user_data[:uid]
-      user.icon_url = user_data[:image]
+      user.icon_url = user_data[:info][:image]
       user.save!
       user
     end
+    user.update!(icon_url: user_data[:info][:image])
     session[:user_id] = user.id
   end
 end
