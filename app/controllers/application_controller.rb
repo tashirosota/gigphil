@@ -28,6 +28,7 @@ class ApplicationController < ActionController::Base
   end
 
   def user_hash
+    current_user
     @user_hash ||= {
       id: @current_user&.id,
       name: @current_user&.username,
