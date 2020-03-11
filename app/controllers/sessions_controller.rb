@@ -14,7 +14,7 @@ class SessionsController < ApplicationController
 
   private
 
-  def register_by_twitter!
+  def register_by_twitter! # rubocop:disable  Metrics/AbcSize
     user_data = request.env['omniauth.auth']
     user = User.find_by(uid: user_data[:uid])
     unless user
