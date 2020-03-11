@@ -1,4 +1,4 @@
-class Api::ApplicationController < ActionController::Base
+class Api::ApplicationController < ApplicationController
   before_action :authenticate!
   skip_before_action :verify_authenticity_token, :snakeize_params, :ensure_domain
 
