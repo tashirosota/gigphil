@@ -57,7 +57,7 @@ class RegisteredArtist < ApplicationRecord
       },
       hp: hp,
       twitter: twitter,
-      tags: tags.map { |tag| { id: tag.id, name: tag.name } }
+      tags: tags.map { |tag| { value: tag.id, label: tag.name } }
     }
   end
 end

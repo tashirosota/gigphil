@@ -34,7 +34,12 @@ class IndiesWiki::ArtistsController < ApplicationController
   def create
     artist = RegisteredArtist.new artist_params
     artist.user = current_user
-    artist.save!
+    RegisteredArtist.transaction do
+      artist.save!
+      params[:artist][:tag_ids].each do |tag_id|
+        artist.tag_to_registered_artists.create!(tag_id: tag_id)
+      end
+    end
     render json: { id: artist.id }
   end
 
@@ -43,8 +48,9 @@ class IndiesWiki::ArtistsController < ApplicationController
     artist = RegisteredArtist.find params[:id]
     RegisteredArtist.transaction do
       artist.update! artist_params
-      params[:artist].permit(:tag_ids) do |tag_id|
-        artist.tags.create(tag_id: tag_id)
+      artist.tags.delete_all
+      params[:artist][:tag_ids].each do |tag_id|
+        artist.tag_to_registered_artists.create!(tag_id: tag_id)
       end
     end
     render json: { id: artist.id }

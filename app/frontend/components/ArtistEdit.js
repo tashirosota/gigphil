@@ -21,6 +21,7 @@ export default class ArtistEdit extends React.Component {
     this.save = this.save.bind(this) 
     this.validation = this.validation.bind(this) 
     this.fileInput = React.createRef();
+    this.hundleTagChange = this.hundleTagChange.bind(this) 
   }
 
   hundleChange(e){
@@ -35,6 +36,16 @@ export default class ArtistEdit extends React.Component {
     this.setState({ artist })
   }
 
+  hundleTagChange(tags){
+    const { artist } = this.state
+    if(tags == null){
+      artist.tags = []
+    } else {
+      artist.tags = tags
+    }
+    this.setState({artist})
+  }
+
   save(e){
     e.preventDefault();
     const { artist, isNew } = this.state
@@ -46,7 +57,7 @@ export default class ArtistEdit extends React.Component {
     formData.append("artist[name]", artist.name)
     formData.append("artist[description]", artist.name)
     formData.append("artist[area_id]", artist.area.id)
-    artist.tags.forEach((tag) => { formData.append("artist[tag_ids][]", tag.id)})
+    artist.tags.forEach((tag) => { formData.append("artist[tag_ids][]", tag.value)})
     if(artist.twitter){ formData.append("artist[twitter]", artist.twitter) }
     if(artist.hp){ formData.append("artist[hp]", artist.hp) }
     const config = {
@@ -97,10 +108,10 @@ export default class ArtistEdit extends React.Component {
           </AreaSelect>
           <ReactSelect
             isMulti
-            name="selectedTags"
             options={tags.map((tag) => {
               return ({ value: tag.id, label: tag.name })
             })}
+            value={artist.tags}
             placeholder="タグを追加する"
             className="basic-multi-select"
             onChange={this.hundleTagChange}
