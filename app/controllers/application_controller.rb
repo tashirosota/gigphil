@@ -20,11 +20,12 @@ class ApplicationController < ActionController::Base
   end
 
   def current_user
-    @current_user ||= if Rails.development?
+    @current_user ||= if Rails.env.development?
                         User.first
                       else
                         User.find_by(id: session[:user_id])
                       end
+    # @current_user ||= User.find_by(id: session[:user_id])
   end
 
   def user_hash
