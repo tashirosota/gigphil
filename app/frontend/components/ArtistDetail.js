@@ -108,12 +108,12 @@ const Icon = styled.img`
 const Name = styled.h1`
   text-align: center;
   color: white;
-  font-size: 1.5rem;
+  font-size: 35px;
   margin: 20px 5px;
 `
 const Description = styled.h2`
   color: white;
-  font-size: 1.3rem;
+  font-size: 20px;
   text-align: left;
   white-space: pre-wrap;
 `
