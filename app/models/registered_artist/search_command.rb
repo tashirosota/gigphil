@@ -19,7 +19,7 @@ class RegisteredArtist::SearchCommand
   end
 
   def by_name(model)
-    @name.present? ? model.where("registered_artists.name LIKE '%#{@name}%'") : model
+    @name.present? ? model.where("registered_artists.name LIKE '%#{@name.gsub('\'', '')}%'") : model
   end
 
   def by_area(model)

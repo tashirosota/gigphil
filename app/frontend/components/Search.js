@@ -10,7 +10,8 @@ export default class Search extends React.Component {
       areas: props.areas,
       selectedArea: '',
       artistName: '',
-      selectedTags: []
+      selectedTags: [],
+      totalCount: props.total_count
     }
     this.saerch = this.saerch.bind(this) 
     this.hundleChange = this.hundleChange.bind(this) 
@@ -44,10 +45,13 @@ export default class Search extends React.Component {
 
   render () {
 
-    const { tags, areas, artistName, selectedArea } = this.state
+    const { tags, areas, artistName, selectedArea, totalCount } = this.state
     return (
       <React.Fragment>
         <Title>インディーズwiki(β版)</Title>
+        <Description>インディーズwikiはユーザ投稿型、公開式のバンドデータベースです。<br/>twitterでログインすることにより、誰でも好きなアーティストを登録、編集できます。</Description>
+        <Count>現在の登録数: {totalCount}組</Count>
+        <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" className="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
         <ArtistName name='artistName' placeholder='アーティスト名' className="form-control" value={artistName} onChange={ this.hundleChange }/>
         <ReactSelect
           isMulti
@@ -100,4 +104,17 @@ const ArtistName = styled.input`
   width: 100px;
   padding: 0px 10px;
   margin-bottom: 20px;
+`
+
+const Description =  styled.h2`
+  text-align: left;
+  font-size: 16px;
+  color: white;
+`
+
+const Count =  styled.h3`
+  text-align: center;
+  font-size: 20px;
+  color: white;
+  margin: 20px 0px;
 `

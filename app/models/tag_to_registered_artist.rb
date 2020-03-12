@@ -11,5 +11,5 @@
 
 class TagToRegisteredArtist < ApplicationRecord
   belongs_to :tag
-  belongs_to :registered_artist, class_name: 'RegisteredArtist'
+  belongs_to :registered_artist, class_name: 'RegisteredArtist', touch: true
 end

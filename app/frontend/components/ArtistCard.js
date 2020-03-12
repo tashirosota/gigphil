@@ -67,7 +67,7 @@ const Name = styled.div`
 `
 
 const Area = styled.div`
-  font-size: 8px;
+  font-size: 10px;
   background: #f35f04;
   width: fit-content;
   padding: 2px 7px;
@@ -78,7 +78,7 @@ const Area = styled.div`
   box-shadow: 1px 1px 4px grey;
 `
 const Tag = styled.div`
-  font-size: 8px;
+  font-size: 10px;
   background: white;
   width: fit-content;
   padding: 2px 7px;

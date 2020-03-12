@@ -55,7 +55,7 @@ export default class ArtistEdit extends React.Component {
       formData.append("artist[icon]", this.fileInput.current.files[0])
     }
     formData.append("artist[name]", artist.name)
-    formData.append("artist[description]", artist.name)
+    formData.append("artist[description]", artist.description)
     formData.append("artist[area_id]", artist.area.id)
     artist.tags.forEach((tag) => { formData.append("artist[tag_ids][]", tag.value)})
     if(artist.twitter){ formData.append("artist[twitter]", artist.twitter) }
@@ -97,7 +97,7 @@ export default class ArtistEdit extends React.Component {
             <IconInput alt={artist.name} name='icon' type="file" ref={this.fileInput} accept="image/*" onChange={ this.hundleChange }/> 
           </IconArea>
           <Input name='name' type='text' placeholder='アーティスト名 ※ 必須' value={artist.name || ''}  onChange={ this.hundleChange }/>
-          <Description name='description' placeholder='このアーティストの説明を説明を入力してください。' value={artist.description || ''}  onChange={ this.hundleChange }/>
+          <Description name='description' placeholder='このアーティストの説明を入力してください。' value={artist.description || ''}  onChange={ this.hundleChange }/>
           <AreaSelect name='area_id' className="form-control" value={artist.area.id || ''} onChange={ this.hundleChange }>
             <option value=''>エリアを選ぶ ※ 必須</option>
             {

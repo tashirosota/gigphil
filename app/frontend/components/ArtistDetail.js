@@ -1,6 +1,6 @@
 import React from "react"
 import styled from 'styled-components'
-import { IoLogoTwitter, IoIosHome, IoIosStarOutline, IoIosCheckmarkCircleOutline } from "react-icons/io";
+import { IoLogoTwitter, IoIosHome, IoIosStarOutline, IoIosCheckmarkCircleOutline, IoMdShare } from "react-icons/io";
 import { FaEdit } from "react-icons/fa";
 
 export default class ArtistDetail extends React.Component {
@@ -17,6 +17,7 @@ export default class ArtistDetail extends React.Component {
     return (
       <React.Fragment> 
         <Detail>
+         <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
           <Icon alt={artist.name} src={artist.icon}/> 
           <SNSItems>
             { artist.hp ? <SNSItem href={artist.hp}><IoIosHome/></SNSItem> : ''}
@@ -27,6 +28,7 @@ export default class ArtistDetail extends React.Component {
             {
               didLogined ? <SNSItem href={`/indies_wiki/artists/${artist.id}/edit`}><FaEdit/></SNSItem> : ''
             }
+            <SNSItem href={encodeURI(`https://twitter.com/intent/tweet?url=${location.href}&text=${artist.name} | gigphil`)} data-show-count="false"><IoMdShare/></SNSItem>
           </SNSItems>
           <Name>{artist.name}</Name>
           <Description>{artist.description}</Description>
