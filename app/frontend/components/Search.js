@@ -51,7 +51,6 @@ export default class Search extends React.Component {
         <Title>インディーズwiki(β版)</Title>
         <Description>インディーズwikiはユーザ投稿型、公開式のバンドデータベースです。<br/>twitterでログインすることにより、誰でも好きなアーティストを登録、編集できます。</Description>
         <Count>現在の登録数: {totalCount}組</Count>
-        <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" className="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
         <ArtistName name='artistName' placeholder='アーティスト名' className="form-control" value={artistName} onChange={ this.hundleChange }/>
         <ReactSelect
           isMulti
