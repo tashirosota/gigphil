@@ -115,6 +115,7 @@ const Description = styled.h2`
   color: white;
   font-size: 1.3rem;
   text-align: left;
+  white-space: pre-wrap;
 `
 
 const SNSItems = styled.ul`
