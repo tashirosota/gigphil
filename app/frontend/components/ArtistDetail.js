@@ -28,7 +28,7 @@ export default class ArtistDetail extends React.Component {
             {
               didLogined ? <SNSItem href={`/indies_wiki/artists/${artist.id}/edit`}><FaEdit/></SNSItem> : ''
             }
-            <SNSItem href={encodeURI(`https://twitter.com/intent/tweet?url=${location.href}&text=${artist.name} | gigphil`)} data-show-count="false"><IoMdShare/></SNSItem>
+            <SNSItem href={encodeURI(`https://twitter.com/intent/tweet?url=${location.href}&text=${artist.name} | Gigphil`)} data-show-count="false"><IoMdShare/></SNSItem>
           </SNSItems>
           <Name>{artist.name}</Name>
           <Description>{artist.description}</Description>
