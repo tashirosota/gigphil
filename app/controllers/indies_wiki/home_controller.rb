@@ -19,7 +19,7 @@ class IndiesWiki::HomeController < ApplicationController
 
   def pickup_artists
     artists = RegisteredArtist.includes(:tags, :area)
-                              .where(id: [1, 3, 6, 11, 12, 14, 30, 36, 39, 43, 38])
+                              .where(id: [1, 3, 6, 11, 12, 14, 30, 36, 39, 43, 38, 46])
                               .order(Arel.sql('Random()'))
                               .limit(10)
     ArtistSummarySerializer.new(artists).serializable_hash[:data].map { |artist| artist[:attributes] }
