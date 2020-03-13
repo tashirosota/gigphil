@@ -33,6 +33,7 @@ const ArtistsContainer = styled.div`
   display: flex;
   overflow-x: scroll;
   justify-content: flex-start;
+  padding: 5px;
 `
 
 const Title = styled.h1`
