@@ -79,7 +79,7 @@ const Icon = styled.img`
   position: fixed;
   padding: 0px;
   top: 8px;
-  right: 112px;
+  right: 80px;
   width: auto;
   height: 39px;
   background: none;
@@ -96,16 +96,16 @@ const OpenButton = styled.button`
   z-index: 10;
   position: fixed;
   padding: 0px;
-  top: -15px;
-  right: 50px;
+  top: -12px;
+  right: 21px;
   width: auto;
-  height: 60px;
+  height: 41px;
   background: none;
-  font-size: 50px;
+  font-size: 45px;
   border: none;
   color: white;
   @media (max-width: 576px){
-    right: 10px;
+    right: 4px;
   }
 `
 
