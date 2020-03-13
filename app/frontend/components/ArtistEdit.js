@@ -60,6 +60,7 @@ export default class ArtistEdit extends React.Component {
     artist.tags.forEach((tag) => { formData.append("artist[tag_ids][]", tag.value)})
     if(artist.twitter){ formData.append("artist[twitter]", artist.twitter) }
     if(artist.hp){ formData.append("artist[hp]", artist.hp) }
+    if(artist.mv){ formData.append("artist[mv]", artist.mv) }
     const config = {
       method: (isNew ? 'post' : 'put'),
       url: (isNew ? '/indies_wiki/artists' : `/indies_wiki/artists/${artist.id}`),
@@ -118,6 +119,7 @@ export default class ArtistEdit extends React.Component {
           />
           <Input name='twitter' type='text' placeholder='https://twitter.com/ARTIST_ID' value={artist.twitter || ''}  onChange={ this.hundleChange }/>
           <Input name='hp' type='text' placeholder='HP URL' value={artist.hp || ''}  onChange={ this.hundleChange }/>
+          <Input name='mv' type='text' placeholder='Youtube URL' value={artist.mv || ''}  onChange={ this.hundleChange }/>
           {
             validationMessages.map((msg, index) => {
               return <ValidationMessage key={index}>{msg}</ValidationMessage>
@@ -143,11 +145,14 @@ const Icon = styled.img`
   border-radius: 10px;
   width: auto;
   max-height: 200px;
-  max-width: 340px;
+  max-width: 100%;
   margin-bottom: 0px;
   display: block;
   margin: 0px auto;
   background: white;
+  @media (min-width: 576px){
+    max-width: 340px;
+  }
 `
 
 const IconInput = styled.input`

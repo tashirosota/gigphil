@@ -17,7 +17,7 @@ export default class ArtistDetail extends React.Component {
     return (
       <React.Fragment> 
         <Detail>
-         <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+         <script async src="https://platform.twitter.com/widgets.js" charSet="utf-8"></script>
           <Icon alt={artist.name} src={artist.icon}/> 
           <SNSItems>
             { artist.hp ? <SNSItem href={artist.hp}><IoIosHome/></SNSItem> : ''}
@@ -41,6 +41,7 @@ export default class ArtistDetail extends React.Component {
                 })
             }
           </TagList>
+          { artist.mv_url ? <Mv src={artist.mv_url} frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen/> : '' }
           {
             artist.sounds.length === 0 ? '' : <div>
               <ListTitle>Sounds</ListTitle>
@@ -101,8 +102,11 @@ const Icon = styled.img`
   border-radius: 10px;
   width: auto;
   max-height: 240px;
-  max-width: 340px;
+  max-width: 100%;
   margin-bottom: 0px;
+  @media (min-width: 576px){
+    max-width: 340px;
+  }
 `
 
 const Name = styled.h1`
@@ -224,4 +228,14 @@ const Item = styled.p`
   padding: 0px;
   margin: 0px;
   margin-left: 5px;
+`
+const Mv = styled.iframe`
+  border-radius: 10px;
+  width: auto;
+  max-height: 240px;
+  max-width: 100%;
+  margin-bottom: 0px;
+  @media (min-width: 576px){
+    max-width: 340px;
+  }
 `
