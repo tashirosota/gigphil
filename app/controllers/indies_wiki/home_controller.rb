@@ -30,14 +30,14 @@ class IndiesWiki::HomeController < ApplicationController
   def popular_tag_artists
     sql = <<~SQL
       SELECT
-        tag.id
+        tags.id
       FROM tags
       JOIN tag_to_registered_artists ON tags.id = tag_to_registered_artists.tag_id
-      GROUP BY tag.id
+      GROUP BY tags.id
       ORDER BY COUNT(*)
       LIMIT 1
     SQL
-    tag_id = Tag.find_by_sql(sql).map(&:id)
+    tag_id = Tag.find_by_sql(sql).map(&:id).first
     artists = RegisteredArtist.joins(:tags).where("tags.id = #{tag_id}").limit(10)
     ArtistSummarySerializer.new(artists).serializable_hash[:data].map { |artist| artist[:attributes] }
   end
