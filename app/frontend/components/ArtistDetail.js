@@ -32,6 +32,7 @@ export default class ArtistDetail extends React.Component {
           </SNSItems>
           <Name>{artist.name}</Name>
           <Description>{artist.description}</Description>
+          { artist.mv ? <Mv src={artist.mv}></Mv> : '' }
           <TagList>
             <Area href={`/indies_wiki/artists?selected_area=${artist.area}`}>#{artist.area}</Area>
             {
@@ -101,8 +102,11 @@ const Icon = styled.img`
   border-radius: 10px;
   width: auto;
   max-height: 240px;
-  max-width: 340px;
+  max-width: 100%;
   margin-bottom: 0px;
+  @media (min-width: 576px){
+    max-width: 340px;
+  }
 `
 
 const Name = styled.h1`
@@ -224,4 +228,14 @@ const Item = styled.p`
   padding: 0px;
   margin: 0px;
   margin-left: 5px;
+`
+const Mv = styled.video`
+  border-radius: 10px;
+  width: auto;
+  max-height: 240px;
+  max-width: 100%;
+  margin-bottom: 0px;
+  @media (min-width: 576px){
+    max-width: 340px;
+  }
 `

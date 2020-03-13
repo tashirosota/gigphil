@@ -1,5 +1,5 @@
 class ArtistDetailSerializer < ApplicationSerializer
-  attributes :id, :name, :hp, :twitter, :description
+  attributes :id, :name, :hp, :twitter, :description, :mv
 
   attribute :area do |object|
     object.area.name

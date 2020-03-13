@@ -28,6 +28,7 @@ class RegisteredArtist < ApplicationRecord
   belongs_to :area
   validates :hp, format: /\A#{URI.regexp(%w(http https))}\z/, allow_blank: true
   validates :twitter, format: /\A#{URI.regexp(%w(http https))}\z/, allow_blank: true
+  validates :mv, format: /\A#{URI.regexp(%w(http https))}\z/, allow_blank: true
 
   def self.new_hash
     {
@@ -41,7 +42,8 @@ class RegisteredArtist < ApplicationRecord
       },
       hp: nil,
       twitter: nil,
-      tags: []
+      tags: [],
+      mv: nil
     }
   end
 
@@ -57,6 +59,7 @@ class RegisteredArtist < ApplicationRecord
       },
       hp: hp,
       twitter: twitter,
+      mv: mv,
       tags: tags.map { |tag| { value: tag.id, label: tag.name } }
     }
   end

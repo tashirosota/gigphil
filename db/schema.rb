@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_11_123541) do
+ActiveRecord::Schema.define(version: 2020_03_13_145652) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -108,6 +108,7 @@ ActiveRecord::Schema.define(version: 2020_03_11_123541) do
     t.string "hp"
     t.string "twitter"
     t.text "description"
+    t.string "mv"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["area_id"], name: "index_registered_artists_on_area_id"

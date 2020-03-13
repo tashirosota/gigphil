@@ -109,6 +109,9 @@ const Description =  styled.h2`
   text-align: left;
   font-size: 16px;
   color: white;
+  @media (min-width: 576px){
+    text-align: center;
+  }
 `
 
 const Count =  styled.h3`

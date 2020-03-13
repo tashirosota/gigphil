@@ -66,6 +66,6 @@ class IndiesWiki::ArtistsController < ApplicationController
   private
 
   def artist_params
-    params[:artist].permit(:id, :name, :icon, :description, :twitter, :hp, :area_id)
+    params[:artist].permit(:id, :name, :icon, :description, :twitter, :hp, :mv, :area_id)
   end
 end
