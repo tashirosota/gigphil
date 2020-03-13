@@ -32,7 +32,6 @@ export default class ArtistDetail extends React.Component {
           </SNSItems>
           <Name>{artist.name}</Name>
           <Description>{artist.description}</Description>
-          { artist.mv_url ? <Mv src={artist.mv_url} frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen/> : '' }
           <TagList>
             <Area href={`/indies_wiki/artists?selected_area=${artist.area}`}>#{artist.area}</Area>
             {
@@ -42,6 +41,7 @@ export default class ArtistDetail extends React.Component {
                 })
             }
           </TagList>
+          { artist.mv_url ? <Mv src={artist.mv_url} frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen/> : '' }
           {
             artist.sounds.length === 0 ? '' : <div>
               <ListTitle>Sounds</ListTitle>
