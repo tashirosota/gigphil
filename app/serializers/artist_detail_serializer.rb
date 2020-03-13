@@ -36,7 +36,9 @@ class ArtistDetailSerializer < ApplicationSerializer
   end
 
   attribute :mv_url do |object|
-    if object.mv.match(/embed/)
+    if object.mv.blank?
+      nil
+    elsif object.mv.match(/embed/)
       object.mv
     elsif object.mv.match(/watch/)
       object.mv.gsub('youtube.com/watch?v=', 'youtube.com/embed/')
