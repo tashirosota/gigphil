@@ -17,7 +17,7 @@ export default class ArtistDetail extends React.Component {
     return (
       <React.Fragment> 
         <Detail>
-         <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+         <script async src="https://platform.twitter.com/widgets.js" charSet="utf-8"></script>
           <Icon alt={artist.name} src={artist.icon}/> 
           <SNSItems>
             { artist.hp ? <SNSItem href={artist.hp}><IoIosHome/></SNSItem> : ''}
@@ -32,7 +32,7 @@ export default class ArtistDetail extends React.Component {
           </SNSItems>
           <Name>{artist.name}</Name>
           <Description>{artist.description}</Description>
-          { artist.mv ? <Mv src={artist.mv}></Mv> : '' }
+          { artist.mv_url ? <Mv src={artist.mv_url} frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen/> : '' }
           <TagList>
             <Area href={`/indies_wiki/artists?selected_area=${artist.area}`}>#{artist.area}</Area>
             {
@@ -229,7 +229,7 @@ const Item = styled.p`
   margin: 0px;
   margin-left: 5px;
 `
-const Mv = styled.video`
+const Mv = styled.iframe`
   border-radius: 10px;
   width: auto;
   max-height: 240px;

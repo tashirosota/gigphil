@@ -108,9 +108,9 @@ ActiveRecord::Schema.define(version: 2020_03_13_145652) do
     t.string "hp"
     t.string "twitter"
     t.text "description"
-    t.string "mv"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "mv"
     t.index ["area_id"], name: "index_registered_artists_on_area_id"
     t.index ["name"], name: "index_registered_artists_on_name", unique: true
     t.index ["registered_user_id"], name: "index_registered_artists_on_registered_user_id"

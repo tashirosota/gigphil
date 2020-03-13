@@ -1,5 +1,5 @@
 class ArtistDetailSerializer < ApplicationSerializer
-  attributes :id, :name, :hp, :twitter, :description, :mv
+  attributes :id, :name, :hp, :twitter, :description
 
   attribute :area do |object|
     object.area.name
@@ -33,5 +33,15 @@ class ArtistDetailSerializer < ApplicationSerializer
   attribute :is_favorite do
     # false
     false
+  end
+
+  attribute :mv_url do |object|
+    if object.mv.match(/embed/)
+      object.mv
+    elsif object.mv.match(/watch/)
+      object.mv.gsub('youtube.com/watch?v=', 'youtube.com/embed/')
+    else
+      object.mv.gsub('youtu.be/', 'youtube.com/embed/')
+    end
   end
 end
