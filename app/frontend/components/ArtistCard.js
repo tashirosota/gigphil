@@ -42,7 +42,7 @@ const Card = styled.div`
   color: black;
   border-radius: 10px;
   box-shadow: 2px 2px 4px black;
-  margin: 0px;
+  margin: 6px;
   p {
     margin: 0px;
    }

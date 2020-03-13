@@ -37,7 +37,7 @@ class IndiesWiki::HomeController < ApplicationController
       FROM tags
       JOIN tag_to_registered_artists ON tags.id = tag_to_registered_artists.tag_id
       GROUP BY tags.id
-      ORDER BY COUNT(*)
+      ORDER BY COUNT(*) DESC
       LIMIT 1
     SQL
     tag_id = Tag.find_by_sql(sql).map(&:id).first

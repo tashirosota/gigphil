@@ -96,6 +96,9 @@ const Detail = styled.div`
   text-align: center;
   margin: 0px auto;
   width: autpo;
+  @media (min-width: 576px){
+    max-width: 340px;
+  }
 `
 
 const Icon = styled.img`
@@ -104,9 +107,6 @@ const Icon = styled.img`
   max-height: 240px;
   max-width: 100%;
   margin-bottom: 0px;
-  @media (min-width: 576px){
-    max-width: 340px;
-  }
 `
 
 const Name = styled.h1`
@@ -235,7 +235,4 @@ const Mv = styled.iframe`
   max-height: 240px;
   max-width: 100%;
   margin-bottom: 0px;
-  @media (min-width: 576px){
-    max-width: 340px;
-  }
 `

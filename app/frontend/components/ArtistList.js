@@ -33,7 +33,10 @@ export default class ArtistList extends React.Component {
 const ArtistsContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-betwee;
+  justify-content: center;
+  @media (min-width: 576px){
+    justify-content: left;
+  }
   
 `
 

@@ -39,4 +39,5 @@ const ArtistsContainer = styled.div`
 const Title = styled.h1`
   color: white;
   font-size: 25px;
+  margin: 10px 0px;
 `

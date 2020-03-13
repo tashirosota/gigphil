@@ -84,7 +84,6 @@ const Title = styled.h1`
 `
 
 const SearchButton = styled.button`
-  margin-bottom: 20px;
   width: 100%;
   background: #f35f04;
   color: white;
