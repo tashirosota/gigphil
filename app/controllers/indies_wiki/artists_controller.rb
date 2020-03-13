@@ -36,7 +36,7 @@ class IndiesWiki::ArtistsController < ApplicationController
     artist.user = current_user
     RegisteredArtist.transaction do
       artist.save!
-      params[:artist][:tag_ids].each do |tag_id|
+      params[:artist][:tag_ids]&.each do |tag_id|
         artist.tag_to_registered_artists.create!(tag_id: tag_id)
       end
     end
