@@ -48,6 +48,8 @@ export default class Menu extends React.Component {
                   <LoginDescription>※ログインすることにより、<br/>各種機能が開放されます。</LoginDescription>
                 </Login>
             }
+            <Item><a className="text-white" href="/statics/terms">利用規約</a></Item>
+            <Item><a className="text-white" href="/statics/privacy">プライバシーポリシー</a></Item>
             <Item><a className="text-white" href="mailto:g4160hc@gmail.com">お問い合わせ</a></Item>
           </ItemArea>
         </Background>
