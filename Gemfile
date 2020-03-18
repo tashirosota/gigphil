@@ -46,6 +46,7 @@ gem 'carrierwave'
 gem 'mini_magick'
 gem 'fog-aws'
 gem 'sitemap_generator'
+gem 'whenever'
 
 gem 'dotenv-rails'
 
