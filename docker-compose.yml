@@ -5,7 +5,7 @@ services:
       context: .
       dockerfile: docker/web/Dockerfile
     ports:
-      - "3000:3000"
+      - 3000:3000
     volumes:
       - ./:/usr/src/app:cached
       - bundle_install:/usr/local/bundle:cached
@@ -21,6 +21,8 @@ services:
       true
   db:
     image: postgres:11.5
+    ports:
+      - 5432:5432
     volumes:
       - ./tmp/db:/var/lib/postgresql/data
 volumes:
