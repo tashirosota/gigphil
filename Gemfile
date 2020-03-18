@@ -45,6 +45,7 @@ gem 'omniauth-twitter'
 gem 'carrierwave'
 gem 'mini_magick'
 gem 'fog-aws'
+gem 'sitemap_generator'
 
 gem 'dotenv-rails'
 
