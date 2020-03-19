@@ -101,7 +101,7 @@ const ToDetail = styled.a`
   width: 100%;
   height: 100%;
   position: absolute;
-  z-index: 10;
+  z-index: unset;
   display: block;
   top: 0px;
 `
