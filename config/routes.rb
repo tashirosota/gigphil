@@ -1,10 +1,12 @@
 # == Route Map
 #
 #                                Prefix Verb   URI Pattern                                                                              Controller#Action
-#                                  root GET    /                                                                                        searcher#show
+#                                  root GET    /                                                                                        indies_wiki/home#show
 #                              searcher GET    /searcher(.:format)                                                                      searcher#show
 #                                result GET    /result(.:format)                                                                        results#index
 #                                    TT GET    /TT(.:format)                                                                            time_tables#new
+#                         statics_terms GET    /statics/terms(.:format)                                                                 statics#terms
+#                       statics_privacy GET    /statics/privacy(.:format)                                                               statics#privacy
 #                         session_index POST   /session(.:format)                                                                       session#create
 #                               session DELETE /session/:id(.:format)                                                                   session#destroy
 #                              sessions DELETE /sessions(.:format)                                                                      sessions#destroy
@@ -90,6 +92,10 @@ Rails.application.routes.draw do
   get 'searcher', to: 'searcher#show'
   get 'result', to: 'results#index' 
   get 'TT', to: 'time_tables#new' 
+
+  # 利用規約
+  get 'statics/terms', to: 'statics#terms'
+  get 'statics/privacy', to: 'statics#privacy'
 
   # セッション
   resources :session, only: %i(create destroy)
