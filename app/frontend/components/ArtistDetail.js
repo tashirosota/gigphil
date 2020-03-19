@@ -145,7 +145,7 @@ const AddButton = styled.button`
 }
 `
 
-const TagList = styled.ul`
+const TagList = styled.h2`
   display: flex;
   flex-wrap: wrap;
   margin: 15px 0px;
