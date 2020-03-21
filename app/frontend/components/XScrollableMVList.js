@@ -19,7 +19,10 @@ export default class XScrollableMVList extends React.Component {
           {
             mvs.map(
               (mv, index) => {
-                return <Mv key={index} src={mv} frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen/>
+                return <Mv key={index}>
+                    <Src src={mv.url} frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen/>
+                    <ArtistName>{mv.artistName}</ArtistName>
+                  </Mv>
               })
           }
         </MvsContainer>
@@ -40,9 +43,18 @@ const Title = styled.h1`
   font-size: 25px;
   margin: 10px 0px;
 `
-const Mv = styled.iframe`
-  border-radius: 10px;
-  margin-right: 10px;
+const Mv = styled.div`
   width: 200px;
+  margin-right: 10px;
+`
+
+const Src = styled.iframe`
+  width: 100%;
+  border-radius: 10px;
   margin-bottom: 0px;
+`
+
+const ArtistName = styled.p`
+  color: white;
+  text-align: center;
 `

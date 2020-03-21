@@ -47,6 +47,11 @@ class IndiesWiki::HomeController < ApplicationController
   end
 
   def mvs
-    RegisteredArtist.where('mv IS NOT NULL').order(Arel.sql('Random()')).limit(10).map(&:mv_url)
+    RegisteredArtist.where('mv IS NOT NULL').order(Arel.sql('Random()')).limit(10).map do |artist|
+      {
+        artistName: artist.name,
+        url: artist.mv_url
+      }
+    end
   end
 end

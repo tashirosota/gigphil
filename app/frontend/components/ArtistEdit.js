@@ -119,7 +119,7 @@ export default class ArtistEdit extends React.Component {
           />
           <Input name='twitter' type='text' placeholder='https://twitter.com/ARTIST_ID' value={artist.twitter || ''}  onChange={ this.hundleChange }/>
           <Input name='hp' type='text' placeholder='HP URL' value={artist.hp || ''}  onChange={ this.hundleChange }/>
-          <Input name='mv' type='text' placeholder='Youtube URL' value={artist.mv || ''}  onChange={ this.hundleChange }/>
+          <Input name='mv' type='text' placeholder='Youtube URL ※ Not channel url' value={artist.mv || ''}  onChange={ this.hundleChange }/>
           {
             validationMessages.map((msg, index) => {
               return <ValidationMessage key={index}>{msg}</ValidationMessage>
