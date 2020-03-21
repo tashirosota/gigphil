@@ -284,6 +284,8 @@ GEM
       tilt
     serviceworker-rails (0.6.0)
       railties (>= 3.1)
+    sitemap_generator (6.1.0)
+      builder (~> 3.0)
     slim (4.0.1)
       temple (>= 0.7.6, < 0.9)
       tilt (>= 2.0.6, < 2.1)
@@ -359,6 +361,7 @@ DEPENDENCIES
   rubocop-rails
   sass-rails (~> 6)
   serviceworker-rails
+  sitemap_generator
   slim
   spring
   spring-watcher-listen (~> 2.0.0)

@@ -17,3 +17,8 @@
 
 # 次回以降
 * `docker-compose up -d`
+
+# gem変更時、package.json更新時
+* `docker-compose run bundle install`
+* `docker-compose run yarn install`
+これをup前にやらないと起動しない。
