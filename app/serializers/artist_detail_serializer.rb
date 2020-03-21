@@ -41,7 +41,11 @@ class ArtistDetailSerializer < ApplicationSerializer
     elsif object.mv.match(/embed/)
       object.mv
     elsif object.mv.match(/watch/)
-      object.mv.gsub('youtube.com/watch?v=', 'youtube.com/embed/')
+      if object.mv.match(/m.youtube/)
+        object.mv.gsub('m.youtube.com/watch?v=', 'youtube.com/embed/')
+      else
+        object.mv.gsub('youtube.com/watch?v=', 'youtube.com/embed/')
+      end
     else
       object.mv.gsub('youtu.be/', 'youtube.com/embed/')
     end
