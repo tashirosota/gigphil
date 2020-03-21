@@ -49,7 +49,7 @@ const Mv = styled.div`
 `
 
 const Src = styled.iframe`
-  width: 100%;
+  width: 200px;
   border-radius: 10px;
   margin-bottom: 0px;
 `
