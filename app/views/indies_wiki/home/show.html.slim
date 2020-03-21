@@ -1,6 +1,7 @@
 = react_component("Search", tags: @tags, areas: @areas, total_count: @total_count)
-= react_component("XScrollableArtistList", artists: @pickup_artists, title: 'PickUp!!')
 = react_component("XScrollableArtistList", artists: @up_artists, title: 'Up!!')
+= react_component("XScrollableMVList", mvs: @mvs, title: 'Mvs!!')
+= react_component("XScrollableArtistList", artists: @pickup_artists, title: 'PickUp!!')
 = react_component("XScrollableArtistList", artists: @random_artists, title: 'Random!!')
 = react_component("XScrollableArtistList", artists: @popular_tag_artists, title: 'PopularTag!!')
 = react_component("IndiesRecommender", didLogined: logined?)

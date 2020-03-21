@@ -8,6 +8,7 @@ class IndiesWiki::HomeController < ApplicationController
     @total_count = RegisteredArtist.all.size
     @tags = Tag.names
     @areas = Area.names
+    @mvs = mvs
   end
 
   private
@@ -41,7 +42,11 @@ class IndiesWiki::HomeController < ApplicationController
       LIMIT 1
     SQL
     tag_id = Tag.find_by_sql(sql).map(&:id).first
-    artists = RegisteredArtist.joins(:tags).where("tags.id = #{tag_id}").limit(10)
+    artists = RegisteredArtist.joins(:tags).includes(:area).where("tags.id = #{tag_id}").limit(10)
     ArtistSummarySerializer.new(artists).serializable_hash[:data].map { |artist| artist[:attributes] }
+  end
+
+  def mvs
+    RegisteredArtist.where('mv IS NOT NULL').order(Arel.sql('Random()')).limit(10).map(&:mv_url)
   end
 end

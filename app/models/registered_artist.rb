@@ -63,4 +63,20 @@ class RegisteredArtist < ApplicationRecord
       tags: tags.map { |tag| { value: tag.id, label: tag.name } }
     }
   end
+
+  def mv_url
+    if mv.blank?
+      nil
+    elsif mv.match(/embed/)
+      mv
+    elsif mv.match(/watch/)
+      if mv.match(/m.youtube/)
+        mv.gsub('m.youtube.com/watch?v=', 'youtube.com/embed/')
+      else
+        mv.gsub('youtube.com/watch?v=', 'youtube.com/embed/')
+      end
+    else
+      mv.gsub('youtu.be/', 'youtube.com/embed/')
+    end
+  end
 end
