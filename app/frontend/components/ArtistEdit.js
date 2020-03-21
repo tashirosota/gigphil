@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import axios from "axios";
 import swal from 'sweetalert';
 import ReactSelect from 'react-select'
+import ArtistSoundEdit from './ArtistSoundEdit'
 
 export default class ArtistEdit extends React.Component {
   constructor(props){
@@ -89,7 +90,7 @@ export default class ArtistEdit extends React.Component {
   }
 
   render () {
-    const { artist, tags, areas, uploadFileURL, validationMessages, saving } = this.state
+    const { artist, tags, areas, uploadFileURL, validationMessages, saving , isNew } = this.state
     return (
       <React.Fragment> 
         <Editor>
@@ -126,6 +127,9 @@ export default class ArtistEdit extends React.Component {
             })
           }
           <SaveButton onClick={this.save} disabled={saving}>保存する</SaveButton>
+          {
+            isNew ? '' : <ArtistSoundEdit artistId={artist.id} sounds={artist.sounds} />
+          }
         </Editor>  
       </React.Fragment>
     )

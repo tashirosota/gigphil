@@ -60,7 +60,14 @@ class RegisteredArtist < ApplicationRecord
       hp: hp,
       twitter: twitter,
       mv: mv,
-      tags: tags.map { |tag| { value: tag.id, label: tag.name } }
+      tags: tags.map { |tag| { value: tag.id, label: tag.name } },
+      sounds: sounds.map do |sound|
+        {
+          id: sound.id,
+          title: sound.title,
+          url: sound.url
+        }
+      end
     }
   end
 
