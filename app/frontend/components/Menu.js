@@ -35,7 +35,8 @@ export default class Menu extends React.Component {
         <Background style={{display: visiable ? 'flex' : 'none'}}>
           <CloseButton onClick={this.close}><IoIosClose/></CloseButton>
           <ItemArea>
-            <Item><a className="text-white" href="/indies_wiki">インディーズwiki(β版)</a></Item>
+          <Item><a className="text-white" href="/online_lives/home">配信ライブまとめ</a></Item>
+            <Item><a className="text-white" href="/indies_wiki">インディーズwiki</a></Item>
             {/* { current_user.id ? <Item><a className="text-white" href="/indies_wiki/favorites">お気に入り</a></Item> : '' } */}
             <Item><a className="text-white" href="/searcher">ライブ検索</a></Item>
             <Item><a className="text-white" href="/TT">タイムテーブルジェネレータ</a></Item>

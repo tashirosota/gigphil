@@ -1,6 +1,7 @@
 # == Route Map
 #
 #                                Prefix Verb   URI Pattern                                                                              Controller#Action
+#                                       GET    /sitemap.xml(.:format)                                                                   redirect(301, https://gigphil.s3-ap-northeast-1.amazonaws.com/sitemap.xml.gz)
 #                                  root GET    /                                                                                        indies_wiki/home#show
 #                              searcher GET    /searcher(.:format)                                                                      searcher#show
 #                                result GET    /result(.:format)                                                                        results#index
@@ -62,6 +63,16 @@
 #                 indies_wiki_favorites GET    /indies_wiki/favorites(.:format)                                                         indies_wiki/favorites#index
 #                                       POST   /indies_wiki/favorites(.:format)                                                         indies_wiki/favorites#create
 #                  indies_wiki_favorite DELETE /indies_wiki/favorites/:id(.:format)                                                     indies_wiki/favorites#destroy
+#                     online_lives_root GET    /online_lives(.:format)                                                                  online_lives#home
+#                     home_online_lives GET    /online_lives/home(.:format)                                                             online_lives#home
+#                          online_lives GET    /online_lives(.:format)                                                                  online_lives#index
+#                                       POST   /online_lives(.:format)                                                                  online_lives#create
+#                       new_online_life GET    /online_lives/new(.:format)                                                              online_lives#new
+#                      edit_online_life GET    /online_lives/:id/edit(.:format)                                                         online_lives#edit
+#                           online_life GET    /online_lives/:id(.:format)                                                              online_lives#show
+#                                       PATCH  /online_lives/:id(.:format)                                                              online_lives#update
+#                                       PUT    /online_lives/:id(.:format)                                                              online_lives#update
+#                                       DELETE /online_lives/:id(.:format)                                                              online_lives#destroy
 #                              api_user POST   /api/user(.:format)                                                                      api/users#create {:format=>:json}
 #                           api_session PUT    /api/session(.:format)                                                                   api/session#update {:format=>:json}
 #                        api_home_today GET    /api/home/today(.:format)                                                                api/home/today#index {:format=>:json}
@@ -126,6 +137,13 @@ Rails.application.routes.draw do
     get 'areas', to: 'areas#index'
     resources :tags
     resources :favorites, only: [:index, :create, :destroy]
+  end
+
+  # オンラインライブ
+  resources :online_lives do
+    collection do 
+      get :home
+    end
   end
 
   # API
