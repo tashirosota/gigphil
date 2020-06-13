@@ -37,7 +37,7 @@ class OnlineLivesController < ApplicationController
   end
 
   def search(broadcasts_date, word)
-    model = OnlineLive.where(broadcasts_at: Time.zone.now..)
+    model = OnlineLive
     if broadcasts_date.present?
       model = model.where("TO_CHAR(broadcasts_at + interval '9 hours','YYYY-MM-DD') = '#{broadcasts_date}'")
     end
