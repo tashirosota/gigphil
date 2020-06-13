@@ -11,6 +11,7 @@
 #  provider           :string
 #  uid                :string
 #  username           :string
+#  icon_url           :string
 #
 
 class User < ApplicationRecord
@@ -24,6 +25,7 @@ class User < ApplicationRecord
            foreign_key: 'registered_user_id',
            inverse_of: :user,
            dependent: :nullify
+  has_many :online_lives, class_name: 'OnlineLive', dependent: :destroy
 
   validates :access_token_hash, format: { with: /\A[0-9a-f]{64}\z/ }, uniqueness: true
   validates :refresh_token_hash, format: { with: /\A[0-9a-f]{64}\z/ }, uniqueness: true

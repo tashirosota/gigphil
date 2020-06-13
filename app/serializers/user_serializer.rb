@@ -11,6 +11,7 @@
 #  provider           :string
 #  uid                :string
 #  username           :string
+#  icon_url           :string
 #
 
 class UserSerializer < ApplicationSerializer

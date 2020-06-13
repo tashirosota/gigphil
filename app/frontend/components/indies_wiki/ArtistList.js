@@ -23,7 +23,6 @@ export default class ArtistList extends React.Component {
                 return <ArtiscCard key={index} artist={artist}/>
               })
           }
-
         </ArtistsContainer>
       </React.Fragment>
     )
@@ -37,7 +36,6 @@ const ArtistsContainer = styled.div`
   @media (min-width: 576px){
     justify-content: left;
   }
-  
 `
 
 const Title = styled.h1`

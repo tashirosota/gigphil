@@ -12,6 +12,7 @@
 #  description        :text
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
+#  mv                 :string
 #
 
 class RegisteredArtist < ApplicationRecord
