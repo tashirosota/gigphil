@@ -1,6 +1,8 @@
 import React from "react"
 import styled from 'styled-components'
 import axios from "axios";
+import { IoMdShare } from "react-icons/io";
+
 
 export default class LiveCard extends React.Component {
   constructor(props){
@@ -37,9 +39,13 @@ export default class LiveCard extends React.Component {
       <React.Fragment>  
         <Card>
           { live.is_free && <Free>無料</Free> }
+
           <Title>{live.title}</Title>
           <Description>{live.description}</Description>
-          <BroadcastsAt>{live.broadcasts_at}</BroadcastsAt>
+          <BroadcastsAt>
+            {live.broadcasts_at}
+            <SNSItem href={encodeURI(`https://twitter.com/intent/tweet?url=${location.origin + '/online_lives/' + live.id}&text=${live.title} | Gigphil`)} data-show-count="false"><IoMdShare/></SNSItem>
+          </BroadcastsAt>
           <ToDetail className='btn btn-light btn-lg' href={live.url}>詳しく</ToDetail>
           { current_user_id == live.user_id && <Delete type="button" className='btn btn-light btn-lg' onClick={this.delete}>削除</Delete> }
 
@@ -124,4 +130,9 @@ const Free = styled.div`
   border-radius: 5px;
   padding: 2px 5px;
 `
-
+const SNSItem = styled.a`
+  font-size: 30px;
+  margin: 0px 10px;
+  color: black;
+  padding: 0px
+`

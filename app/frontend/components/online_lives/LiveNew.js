@@ -12,7 +12,8 @@ export default class LiveNew extends React.Component {
         title: null,
         url: null,
         description: null,
-        broadcasts_at: null
+        broadcasts_at: null,
+        is_free: true
       },
       saving: false,
       validationMessages: []
@@ -25,7 +26,11 @@ export default class LiveNew extends React.Component {
 
   hundleChange(e){
     const { live } = this.state
-    live[e.target.name] = e.target.value
+    if(e.target.name == 'is_free'){
+      live.is_free = !live.is_free
+    } else {
+      live[e.target.name] = e.target.value
+    }
     
     this.setState({ live })
   }
@@ -33,6 +38,7 @@ export default class LiveNew extends React.Component {
   save(e){
     e.preventDefault();
     const { live } = this.state
+    if(!this.validation()) { return false }
     const config = {
       method: 'post',
       url: '/online_lives',
@@ -55,8 +61,8 @@ export default class LiveNew extends React.Component {
   validation(){
     const { live } = this.state
     const validationMessages = []
-    if(!live.name || live.name.length > 40) { validationMessages.push('タイトルは必須項目で、40文字以内です。')}
-    if(!live.description || live.nadescriptionme.length > 200) { validationMessages.push('概要は必須項目で、200文字以内です。')}
+    if(!live.title || live.title.length > 40) { validationMessages.push('タイトルは必須項目で、40文字以内です。')}
+    if(!live.description || live.description.length > 200) { validationMessages.push('概要は必須項目で、200文字以内です。')}
     if(!live.url) { validationMessages.push('URLは必須項目です。')}
     this.setState({validationMessages})
     return validationMessages.length === 0
@@ -67,11 +73,14 @@ export default class LiveNew extends React.Component {
     return (
       <React.Fragment>  
         <Card>
-          { live.is_free && <Free>無料</Free> }
           <Title name='title' type='text' className="form-control" placeholder='タイトル ※ 40文字以内' value={live.title || ''} onChange={ this.hundleChange }/>
           <Description name='description' className="form-control"  style={{height: 200}} placeholder='概要 ※ 200文字以内' value={live.description || ''} onChange={ this.hundleChange }/>
           <BroadcastsAt  type="datetime-local" name='broadcasts_at' className="form-control" value={live.broadcasts_at || ''} onChange={ this.hundleChange }/>
           <Url name='url' type='text' className="form-control" placeholder='配信URL' value={live.url || ''} onChange={ this.hundleChange }/>
+          <div className="form-check">
+            <input className="form-check-input" type="checkbox" name='is_free' checked={live.is_free} onChange={ this.hundleChange }/>
+            <label className="form-check-label">無料ライブ</label>
+          </div>
           {
             validationMessages.map((msg, index) => {
               return <ValidationMessage key={index}>{msg}</ValidationMessage>
@@ -132,20 +141,9 @@ const BroadcastsAt = styled.input`
   font-size: 1rem;
   font-weight: bold;
   margin-top: 5px;
-  white-space: pre-line;
   text-align: right;
 `
 
-const Free = styled.div`
-  width: 57px;
-  background-color: green;
-  color: white;
-  margin-left: auto;
-  font-size: 1rem;
-  font-weight: bold;
-  border-radius: 5px;
-  padding: 2px 5px;
-`
 const SaveButton = styled.button`
   width: 100%;
   background: #f35f04;

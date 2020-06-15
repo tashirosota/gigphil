@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
   def current_user
     @current_user ||= if Rails.env.development?
                         User.first
-                        nil
+                        # nil
                       else
                         User.find_by(id: session[:user_id])
                       end

@@ -1,0 +1,31 @@
+doctype html
+html
+  head
+    title = "#{@live[:title]} | Gigphil"
+    meta content=("text/html; charset=UTF-8") http-equiv="Content-Type"
+    meta[name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"]
+    meta name="google-site-verification" content="q-UK5zul2P7Wf5dmtg4YvaZAZXiriVdQMrZYTON5Ve0"
+    meta[name="#{@live[:title]}, 大塚Deepa,吉祥寺WARP,新宿Marble,ライブハウス,下北沢Three" content="keywords"]
+    meta[name='description' content="#{@live[:title]} | 配信ライブ情報 | #{@live[:description][0..15] + ' |'} ライブハウスを遊び場に！！Gigphilはライブハウス、バンド、インディーサウンドが好きな人達の為のWebプラットフォームです。"]
+    meta[name="twitter:card" content="summary"]
+    meta[name="twitter:site" content="@chao____"]
+    meta[property="og:url" content="https://gigphil.app/online_lives/#{@live[:id]}"]
+    meta[property="og:title" content="#{@live[:title]} | Gigphil - ライブハウス好きによる、ライブハウス好きのためのライブハウスアプリ！"]
+    meta[property="og:description" content="#{@live[:title]} | 配信ライブ情報 | #{@live[:description][0..15] + ' |'} ライブハウスを遊び場に！！Gigphilはライブハウス、バンド、インディーサウンドが好きな人達の為のWebプラットフォームです。"]
+    meta[property="og:image" content= URI.join(root_url, image_path('favicon/android-chrome-192x192.png'))]
+    link[rel='apple-touch-icon-precomposed' href="#{image_path('favicon/apple-touch-icon.png')}"]
+    link[rel="manifest" href="/manifest.json"]
+
+    = favicon_link_tag('favicon/favicon.ico')
+    = csrf_meta_tags
+    = csp_meta_tag
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+    = analytics_init if Rails.env.production?
+    = javascript_pack_tag 'application'
+  body
+    = react_component("Menu", current_user: user_hash)
+    .container-fluid
+      .top
+      = render 'share/flash'
+      = yield

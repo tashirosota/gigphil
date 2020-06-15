@@ -17,6 +17,7 @@ class OnlineLivesController < ApplicationController
   def show
     live = OnlineLive.find params[:id]
     @live = OnlineLiveSerializer.new(live).serializable_hash[:data][:attributes]
+    render layout: 'online_live'
   end
 
   def new; end
@@ -33,7 +34,7 @@ class OnlineLivesController < ApplicationController
   private
 
   def live_params
-    params[:live].permit(:title, :url, :description, :broadcasts_at)
+    params[:live].permit(:title, :url, :description, :broadcasts_at, :is_free)
   end
 
   def search(broadcasts_date, word)
