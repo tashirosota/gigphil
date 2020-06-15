@@ -75,6 +75,7 @@ export default class LiveNew extends React.Component {
         <Card>
           <Title name='title' type='text' className="form-control" placeholder='タイトル ※ 40文字以内' value={live.title || ''} onChange={ this.hundleChange }/>
           <Description name='description' className="form-control"  style={{height: 200}} placeholder='概要 ※ 200文字以内' value={live.description || ''} onChange={ this.hundleChange }/>
+          <div style={{textAlign: 'left'}}>配信日時</div>
           <BroadcastsAt  type="datetime-local" name='broadcasts_at' className="form-control" value={live.broadcasts_at || ''} onChange={ this.hundleChange }/>
           <Url name='url' type='text' className="form-control" placeholder='配信URL' value={live.url || ''} onChange={ this.hundleChange }/>
           <div className="form-check">
