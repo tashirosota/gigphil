@@ -29,6 +29,7 @@ gem 'carrierwave'
 gem 'mini_magick'
 gem 'fog-aws'
 gem 'sitemap_generator'
+gem 'aws-sdk-s3'
 
 gem 'dotenv-rails'
 
