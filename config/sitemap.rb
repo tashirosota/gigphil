@@ -17,4 +17,9 @@ SitemapGenerator::Sitemap.create do
   RegisteredArtist.find_each do |artist|
     add indies_wiki_artist_path(artist), :priority => 0.8, :lastmod => artist.updated_at, :changefreq => 'daily'
   end
+  now = Time.zone.now
+  10.times do |i|
+    add result_path({ "year(1i)" => (now + i.day).year, "month(2i)" => (now + i.day).month, "day(3i)" => (now + i.day).day, is_date_search: '0'} ), :priority => 0.9, :lastmod => Time.zone.now, :changefreq => 'daily'
+  end
+  add result_path({ "year(1i)" => now.year, "month(2i)" => now.month} ), :priority => 0.5, :lastmod => Time.zone.now, :changefreq => 'daily'
 end
