@@ -27,7 +27,7 @@ class Schedule::SearchCommand
   end
 
   def by_musicbar_id(model)
-    @musicbar_id ? model.where('music_bars.id = :id', id: @musicbar_id) : model
+    @musicbar_id ? model.where(music_bars: { id: @musicbar_id }) : model
   end
 
   def by_day(model)

@@ -1,7 +1,7 @@
 class IndiesWiki::FavoritesController < ApplicationController
   def index
     artists = current_user.favorite_artists.includes(:tags, :area).order(updated_at: :desc)
-    @artists = ArtistSummarySerializer.new(artists).serializable_hash[:data].map { |artist| artist[:attributes] }
+    @artists = ArtistSummarySerializer.new(artists).serializable_hash[:data].pluck(:attributes)
     @title = 'お気に入り一覧'
   end
 

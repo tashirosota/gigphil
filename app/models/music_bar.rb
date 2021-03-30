@@ -15,5 +15,5 @@ class MusicBar < ApplicationRecord
 
   validates :name, presence: true, uniqueness: true
   validates :place, presence: true
-  validates :hp, presence: true, format: /\A#{URI.regexp(%w(http https))}\z/
+  validates :hp, presence: true, format: /\A#{URI::DEFAULT_PARSER.make_regexp(%w(http https))}\z/
 end

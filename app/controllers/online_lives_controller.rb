@@ -3,7 +3,7 @@ class OnlineLivesController < ApplicationController
 
   def home
     lives = OnlineLive.where(broadcasts_at: Time.zone.now..).order(broadcasts_at: :asc).limit(20)
-    @lives = OnlineLiveSerializer.new(lives).serializable_hash[:data].map { |live| live[:attributes] }
+    @lives = OnlineLiveSerializer.new(lives).serializable_hash[:data].pluck(:attributes)
   end
 
   def index
@@ -11,7 +11,7 @@ class OnlineLivesController < ApplicationController
     word = params[:word]
     results = search(broadcasts_date, word)
     @title = "#{broadcasts_date} #{word}の検索結果"
-    @lives = OnlineLiveSerializer.new(results).serializable_hash[:data].map { |live| live[:attributes] }
+    @lives = OnlineLiveSerializer.new(results).serializable_hash[:data].pluck(:attributes)
   end
 
   def show
