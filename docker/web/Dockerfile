@@ -1,4 +1,4 @@
-FROM ruby:2.6.4
+FROM ruby:3.0.0
 
 RUN apt update \
 && apt install -y vim nodejs
