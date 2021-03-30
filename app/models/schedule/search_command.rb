@@ -32,17 +32,17 @@ class Schedule::SearchCommand
 
   def by_day(model)
     if @day
-      model.where("TO_CHAR(event_date,'YYYY/MM/DD') = '#{format_date}'")
+      model.where("TO_CHAR(event_date + INTERVAL '9 hour','YYYY/MM/DD') = '#{format_date}'")
     else
-      model.where("TO_CHAR(event_date,'YYYY/MM') = '#{format_month}'")
+      model.where("TO_CHAR(event_date + INTERVAL '9 hour','YYYY/MM') = '#{format_month}'")
     end
   end
 
   def format_date
-    Date.new(@year, @month, @day).strftime('%Y/%m/%d')
+    Time.zone.local(@year, @month, @day).strftime('%Y/%m/%d')
   end
 
   def format_month
-    Date.new(@year, @month).strftime('%Y/%m')
+    Time.zone.local(@year, @month).strftime('%Y/%m')
   end
 end

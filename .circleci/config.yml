@@ -4,7 +4,7 @@ jobs:
     # parallelism: 1
     working_directory: ~/app
     docker:
-      - image: circleci/ruby:2.6.4-node-browsers
+      - image: circleci/ruby:3.0.0-node-browsers
         environment:
           RAILS_ENV: test
           PGHOST: 127.0.0.1
@@ -17,10 +17,12 @@ jobs:
 
     steps:
       - checkout
-      # Which version of bundler?
       - run:
-          name: Which bundler?
-          command: bundle -v
+          name: 標準を削除
+          command: gem uninstall bundler
+      - run:
+          name: 指定してインストール
+          command: gem install bundler -v '2.2.11'
       # Restore bundle cache
       - restore_cache:
           keys:
