@@ -1,5 +1,5 @@
 class ArtistDetailSerializer < ApplicationSerializer
-  attributes :id, :name, :hp, :twitter, :description
+  attributes :id, :name, :hp, :twitter, :description, :mv_url
 
   attribute :area do |object|
     object.area.name
@@ -34,6 +34,4 @@ class ArtistDetailSerializer < ApplicationSerializer
     # false
     false
   end
-
-  attribute :mv_url, &:mv_url
 end
