@@ -27,9 +27,9 @@ class RegisteredArtist < ApplicationRecord
   has_one :forum, class_name: 'RegisteredArtist::Forum', dependent: :destroy
   belongs_to :user, class_name: 'User', foreign_key: 'registered_user_id', inverse_of: :registered_artists
   belongs_to :area
-  validates :hp, format: /\A#{URI.regexp(%w(http https))}\z/, allow_blank: true
-  validates :twitter, format: /\A#{URI.regexp(%w(http https))}\z/, allow_blank: true
-  validates :mv, format: /\A#{URI.regexp(%w(http https))}\z/, allow_blank: true
+  validates :hp, format: /\A#{URI::DEFAULT_PARSER.make_regexp(%w(http https))}\z/, allow_blank: true
+  validates :twitter, format: /\A#{URI::DEFAULT_PARSER.make_regexp(%w(http https))}\z/, allow_blank: true
+  validates :mv, format: /\A#{URI::DEFAULT_PARSER.make_regexp(%w(http https))}\z/, allow_blank: true
 
   def self.new_hash
     {

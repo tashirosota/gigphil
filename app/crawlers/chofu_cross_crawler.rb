@@ -24,7 +24,7 @@ class ChofuCrossCrawler < BaseCrawler
 
   private
 
-  def format(date:, doc:)
+  def format(date:, doc:) # rubocop:disable Metrics/AbcSize
     doc.css('.content-area article').each_with_object([]) do |li_element, events|
       title = li_element.css('.eo-event-title.entry-title').text.gsub(/[\r\n\t]/, '')
       next if title.blank? || title.include?('OFF') || title.include?('メンテナンス')

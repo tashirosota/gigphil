@@ -16,5 +16,5 @@ class OnlineLive < ApplicationRecord
   belongs_to :user
   validates :title, length: { maximum: 40 }
   validates :description, length: { maximum: 200 }
-  validates :url, presence: true, format: /\A#{URI.regexp(%w(http https))}\z/
+  validates :url, presence: true, format: /\A#{URI::DEFAULT_PARSER.make_regexp(%w(http https))}\z/
 end

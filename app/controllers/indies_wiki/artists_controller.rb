@@ -7,7 +7,7 @@ class IndiesWiki::ArtistsController < ApplicationController
       params[:selected_area],
       params[:tags]&.split(',')
     )
-    @artists = ArtistSummarySerializer.new(artists).serializable_hash[:data].map { |artist| artist[:attributes] }
+    @artists = ArtistSummarySerializer.new(artists).serializable_hash[:data].pluck(:attributes)
     @title = "#{params[:artist_name]} #{params[:selected_area]} #{params[:tags]&.split(',')&.join(' ')}"
   end
   # rubocop:enable Metrics/AbcSize
