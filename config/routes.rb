@@ -98,7 +98,7 @@
 #                  rails_direct_uploads POST   /rails/active_storage/direct_uploads(.:format)                                           active_storage/direct_uploads#create
 
 Rails.application.routes.draw do
-  get 'sitemap.xml', to: redirect('https://gigphil.s3-ap-northeast-1.amazonaws.com/sitemap.xml.gz')
+  get '/sitemap', to: redirect("https://s3-ap-northeast-1.amazonaws.com/#{ENV['S3_BUCKET_NAME']}/sitemap.xml.gz")
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   root 'indies_wiki/home#show'
   get 'searcher', to: 'searcher#show'
