@@ -14,7 +14,7 @@ export default class ArtistCard extends React.Component {
     return (
       <React.Fragment>  
         <Card>
-          <Icon  alt={artist.name} src={artist.icon}/>
+          <Icon alt={artist.name} src={artist.icon}/>
           <Name>{artist.name}</Name>
           <TagList>
             <Area>#{artist.area}</Area>

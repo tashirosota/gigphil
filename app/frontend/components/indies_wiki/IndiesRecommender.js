@@ -2,7 +2,6 @@ import React from "react"
 import styled from 'styled-components'
 import { IoIosAddCircleOutline } from "react-icons/io";
 
-
 export default class IndiesRecommender extends React.Component {
   constructor(props){
     super(props)
