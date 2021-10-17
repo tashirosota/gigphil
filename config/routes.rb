@@ -113,6 +113,7 @@ Rails.application.routes.draw do
   resources :session, only: %i(create destroy)
   delete '/sessions', to: 'sessions#destroy'
   get '/auth/twitter/callback', to: 'sessions#create'
+  post '/auth/twitter', to: 'sessions#create'
 
   # タイムテーブル機能
   resources :time_tables, param: :uuid do
