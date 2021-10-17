@@ -30,7 +30,7 @@ gem 'mini_magick'
 gem 'fog-aws'
 gem 'sitemap_generator'
 gem 'aws-sdk-s3'
-gem 'omniauth-rails_csrf_protection'
+gem 'omniauth', '< 2.0.0'
 
 gem 'dotenv-rails'
 
