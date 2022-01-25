@@ -71,6 +71,9 @@ Style/DoubleNegation:
 Style/Lambda:
   Enabled: false
 
+Style/OpenStructUse:
+  Enabled: false
+
 Metrics/LineLength:
   Max: 120
 
