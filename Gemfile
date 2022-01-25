@@ -7,6 +7,7 @@ gem 'active_model_serializers'
 gem 'aws-sdk-s3'
 gem 'bootsnap', require: false
 gem 'bootstrap', '~> 4.3.1'
+gem 'net-pop'
 gem 'carrierwave'
 gem 'enumerize'
 gem 'fast_jsonapi'
