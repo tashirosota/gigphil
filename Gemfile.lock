@@ -208,6 +208,10 @@ GEM
     minitest (5.15.0)
     msgpack (1.4.4)
     multi_json (1.15.0)
+    net-imap (0.2.3)
+      digest
+      net-protocol
+      strscan
     net-pop (0.1.1)
       digest
       net-protocol
@@ -345,6 +349,7 @@ GEM
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
     ssrf_filter (1.0.7)
+    strscan (3.0.1)
     temple (0.8.2)
     thor (1.2.1)
     tilt (2.0.10)
@@ -397,6 +402,7 @@ DEPENDENCIES
   listen (>= 3.0.5, < 3.3)
   matrix
   mini_magick
+  net-imap
   net-pop
   net-smtp
   omniauth (< 2.0.0)
