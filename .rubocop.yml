@@ -3,7 +3,7 @@ inherit_from: .rubocop_todo.yml
 require:
   - rubocop-rails
 AllCops:
-  TargetRubyVersion: 2.6
+  TargetRubyVersion: 3.1
   Exclude:
     - 'public/**/*'
     - 'tmp/**/*'
@@ -69,6 +69,9 @@ Style/DoubleNegation:
   Enabled: false
 
 Style/Lambda:
+  Enabled: false
+
+Style/OpenStructUse:
   Enabled: false
 
 Metrics/LineLength:

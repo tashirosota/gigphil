@@ -10,7 +10,7 @@ class KichijojiPlanetkCrawler < BaseCrawler
     @term.times do |i|
       request_url = @bar.hp + CALENDAR_PATH + i.to_s
       save_crawling_result(url: request_url, parser: nokogiri) do |doc|
-        format(doc: doc)
+        format(doc:)
       end
     end
   end
@@ -31,10 +31,10 @@ class KichijojiPlanetkCrawler < BaseCrawler
       info = descriptions[2..].map(&:text).join
       @month = dates[0]
       event = OpenStruct.new(
-        title: title,
+        title:,
         date: Date.new(current_year_str.to_i, dates[0], dates[1]),
-        act: act,
-        info: info
+        act:,
+        info:
       )
       events << event
     end

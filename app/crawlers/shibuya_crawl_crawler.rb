@@ -10,7 +10,7 @@ class ShibuyaCrawlCrawler < BaseCrawler
       set_month_instanse(i)
       request_url = @bar.hp + CALENDAR_PATH + current_year_str + @month
       save_crawling_result(url: request_url, parser: nokogiri) do |doc|
-        format(doc: doc)
+        format(doc:)
       end
     end
   end

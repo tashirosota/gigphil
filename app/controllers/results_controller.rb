@@ -13,9 +13,9 @@ class ResultsController < ApplicationController
   def set_instances
     @musicbar_id = params[:musicbar_id].present? ? params[:musicbar_id].to_i : nil
     @musicbar_name = params[:musicbar_id].present? ? MusicBar.find(params[:musicbar_id]).name : nil
-    @year = params[:"year(1i)"].to_i
-    @month = params[:"month(2i)"].to_i
-    @day = params[:is_date_search] == '0' ? params[:"day(3i)"].to_i : nil
+    @year = params[:'year(1i)'].to_i
+    @month = params[:'month(2i)'].to_i
+    @day = params[:is_date_search] == '0' ? params[:'day(3i)'].to_i : nil
     @word = params[:word].presence
   end
   # rubocop:enable Metrics/AbcSize

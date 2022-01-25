@@ -30,7 +30,7 @@ class Schedule < ApplicationRecord
 
   scope :tomorrow, -> do
     Schedule.includes(:music_bar, :artists)
-            .where(event_date: (Time.zone.now + 1.day).all_day)
+            .where(event_date: 1.day.from_now.all_day)
             .order(music_bar_id: :asc)
   end
 

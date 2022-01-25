@@ -14,7 +14,7 @@ class ShimokitazawaHalfCrawler < BaseCrawler
         save_crawling_result(url: request_url, parser: nokogiri) do |doc|
           format(
             date: Date.new(current_year_str.to_i, @month.to_i, day.to_i),
-            doc: doc
+            doc:
           )
         end
       end
@@ -31,11 +31,11 @@ class ShimokitazawaHalfCrawler < BaseCrawler
 
       info, artists_str = li_element.css('.eo-event-content').text.split(/ACT/).map(&:strip)
       event = OpenStruct.new(
-        title: title,
-        date: date,
+        title:,
+        date:,
         # basementbarはアーティスト名入力してないケースが多すぎる フライヤー表示も考えないとイケナイ
         act: (artists_str&.split(/ /) || []) + [artists_str],
-        info: info
+        info:
       )
       events << event
     end

@@ -58,7 +58,7 @@ class TimeTable < ApplicationRecord
 
     # uuid がユニークでなかったら新しい乱数を生成する。3回連続で被ったらエラーを出す（確率的にあり得ないと思うが）。
     count = 0
-    until self.class.find_by(uuid: uuid).blank?
+    until self.class.find_by(uuid:).blank?
       count += 1
       raise Uuidable::NotUniqueError if count <= RETRY_COUNT
 

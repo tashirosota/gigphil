@@ -10,7 +10,7 @@ class OtsukaDeepaCrawler < BaseCrawler
     @term.times do |i|
       set_month_instanse(i)
       save_crawling_result(url: request_url, parser: nokogiri) do |doc|
-        format(doc: doc)
+        format(doc:)
       end
     end
   end

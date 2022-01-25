@@ -28,13 +28,13 @@ export default class Search extends React.Component {
   fetchAreas() {
     const config = {
       method: 'get',
-      url: 'https://gigphil-go.herokuapp.com/areas'
+      url: '/indies_wiki/areas'
     }
 
     axios(config)
         .then(res => {
           console.log
-          this.setState({ area_names: res.data })
+          this.setState({ area_names: res.data.area_names })
         }, (res) => {
           console.log('error')
           console.log(res)
