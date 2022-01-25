@@ -300,7 +300,7 @@ GEM
       tilt
     regexp_parser (2.2.0)
     rexml (3.2.5)
-    rollbar (3.1.2)
+    rollbar (3.3.0)
     rubocop (1.25.0)
       parallel (~> 1.10)
       parser (>= 3.1.0.0)
