@@ -6,7 +6,7 @@ ruby '3.1.0'
 gem 'active_model_serializers'
 gem 'aws-sdk-s3'
 gem 'bootsnap', require: false
-gem 'bootstrap', '~> 4.3.1'
+gem 'bootstrap', '~> 5.1.3'
 gem 'net-pop', require: false
 gem 'net-imap', require: false
 gem 'carrierwave'
