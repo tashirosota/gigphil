@@ -9,7 +9,7 @@ class ShibuyaCrestCrawler < BaseCrawler
     @term.times do |i|
       set_month_instanse(i)
       save_crawling_result(url: nil, parser: post_and_nokogiri) do |doc|
-        format(doc: doc)
+        format(doc:)
       end
     end
   end

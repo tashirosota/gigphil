@@ -9,7 +9,7 @@ class ShimokitazawaEraCrawler < BaseCrawler
       set_month_instanse(i)
       request_url = @bar.hp + '/' + current_year_str + '/' + @month + '/?cat=20'
       save_crawling_result(url: request_url, parser: nokogiri) do |doc|
-        format(doc: doc)
+        format(doc:)
       end
     end
   end
@@ -24,7 +24,7 @@ class ShimokitazawaEraCrawler < BaseCrawler
       next unless act_element = li_element.css('.schedule-announce p').first
 
       event = OpenStruct.new(
-        title: title,
+        title:,
         date: Date.new(current_year_str.to_i, @month.to_i, li_element.css('.date').text.match(/\d+/).to_s.to_i),
         act: act_element.text
                         .gsub(/【ONE MAN】|【TWO MAN】|　…and more!!/, '')

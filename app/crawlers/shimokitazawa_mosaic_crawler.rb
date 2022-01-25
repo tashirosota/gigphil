@@ -16,7 +16,7 @@ class ShimokitazawaMosaicCrawler < BaseCrawler
                       @bar.hp + + '/' + current_year_str + @month + '.html'
                     end
       save_crawling_result(url: request_url, parser: nokogiri) do |doc|
-        format(doc: doc)
+        format(doc:)
       end
     end
   end
@@ -35,8 +35,8 @@ class ShimokitazawaMosaicCrawler < BaseCrawler
                events.last.date
              end
       event = OpenStruct.new(
-        title: title,
-        date: date,
+        title:,
+        date:,
         act: li_element.css('.live_menu strong').text.split(' / '),
         info: li_element.css('.live_menu').text.gsub(li_element.css('.live_menu strong').text, '')
       )

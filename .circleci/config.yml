@@ -4,7 +4,7 @@ jobs:
     # parallelism: 1
     working_directory: ~/app
     docker:
-      - image: circleci/ruby:3.0.0-node-browsers
+      - image: cimg/ruby:3.1.0-browsers
         environment:
           RAILS_ENV: test
           PGHOST: 127.0.0.1
@@ -17,27 +17,18 @@ jobs:
 
     steps:
       - checkout
-      - run:
-          name: 標準を削除
-          command: gem uninstall bundler
-      - run:
-          name: 指定してインストール
-          command: gem install bundler -v '2.2.11'
       # Restore bundle cache
       - restore_cache:
           keys:
-            - rails-gigphil-bundle-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock" }}
+            - rails-gigphil-bundle-{{ checksum "Gemfile.lock" }}
             - rails-gigphil-bundle-
       # Bundle Install
       - run: bundle check || bundle install --jobs 4 --retry 3
-      # yarn.lock install
-      - run: yarn install
       # Store bundle cache
       - save_cache:
-          key: rails-gigphil-bundle-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock" }}
+          key: rails-gigphil-bundle-{{ checksum "Gemfile.lock" }}
           paths:
             - vendor/bundle
-            - node_modules
       # Wait for DB
       - run: dockerize -wait tcp://localhost:5432 -timeout 1m
       # Database setup
