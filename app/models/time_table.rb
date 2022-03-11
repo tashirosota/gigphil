@@ -69,11 +69,11 @@ class TimeTable < ApplicationRecord
   # rubocop:disable Metrics/MethodLength
   def to_model
     {
-      uuid: uuid,
+      uuid:,
       eventDate: event_date.strftime('%Y-%m-%d'),
-      title: title,
-      place: place,
-      memo: memo,
+      title:,
+      place:,
+      memo:,
       meetingTime: meeting_time.strftime('%H:%M'),
       openTime: open_time.strftime('%H:%M'),
       startTime: start_time.strftime('%H:%M'),
