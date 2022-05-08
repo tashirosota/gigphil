@@ -18,8 +18,8 @@ export default class TimeTable extends React.Component {
     this.state = 
     {
       timeTable: this.props.timeTable,
-      playTimes: [15, 20, 25, 30, 35, 40, 45, 60, 100, 120],
-      settingTimes: [5, 10, 15, 20],
+      playTimes: [10, 15, 20, 25, 30, 35, 40, 45, 60, 100, 120],
+      settingTimes: [0, 5, 10, 15, 20],
       savable: this.props.savable,
       shareable: this.props.shareable,
       editable: this.props.edit_disabled,
