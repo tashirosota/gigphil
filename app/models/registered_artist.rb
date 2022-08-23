@@ -50,17 +50,17 @@ class RegisteredArtist < ApplicationRecord
 
   def edit_hash
     {
-      id: id,
-      name: name,
-      description: description,
+      id:,
+      name:,
+      description:,
       icon: icon.url,
       area: {
         id: area.id,
         name: area.name
       },
-      hp: hp,
-      twitter: twitter,
-      mv: mv,
+      hp:,
+      twitter:,
+      mv:,
       tags: tags.map { |tag| { value: tag.id, label: tag.name } }
     }
   end
