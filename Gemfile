@@ -20,7 +20,7 @@ gem 'kaminari'
 gem 'mini_magick'
 gem 'net-smtp', require: false
 gem 'matrix', require: false
-gem 'omniauth', '< 2.0.0'
+gem 'omniauth', '< 3.0.0'
 gem 'omniauth-twitter'
 gem 'pg'
 gem 'prawn'
