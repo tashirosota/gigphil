@@ -233,9 +233,10 @@ GEM
     nokogiri (1.13.1-x86_64-linux)
       racc (~> 1.4)
     oauth (0.5.8)
-    omniauth (1.9.1)
+    omniauth (2.1.1)
       hashie (>= 3.4.6)
-      rack (>= 1.6.2, < 3)
+      rack (>= 2.2.3)
+      rack-protection
     omniauth-oauth (1.2.0)
       oauth
       omniauth (>= 1.0, < 3)
@@ -260,7 +261,9 @@ GEM
     puma (5.6.0)
       nio4r (~> 2.0)
     racc (1.6.0)
-    rack (2.2.3)
+    rack (2.2.6.2)
+    rack-protection (3.0.5)
+      rack
     rack-proxy (0.7.2)
       rack
     rack-test (1.1.0)
@@ -410,7 +413,7 @@ DEPENDENCIES
   net-imap
   net-pop
   net-smtp
-  omniauth (< 2.0.0)
+  omniauth (< 3.0.0)
   omniauth-twitter
   pg
   prawn
